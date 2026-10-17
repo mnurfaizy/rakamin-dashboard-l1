@@ -175,6 +175,15 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 - Hari 1 Senin 14 Sep 2026 (29/29 mengisi), Hari 2 Selasa 15 Sep 2026 (26/29). Tutor Nia, Asisten Tutor Dias untuk kedua hari. 29 peserta.
 - Kode: `programs/bsi-bpi-sdp-a10/` (turunan template BSI Batch 2 & 3). `CONFIG.unit` mengatur nama unit (Batch/Hari), `sameTeam` menampilkan satu tim pengajar di Rangkuman, `samePeople` membuat tile partisipasi Rangkuman menghitung pengisian (55 dari 58 = 29 peserta × 2 hari), bukan orang.
 
+### Project 4: BSI Business Process Improvement Mastery (kondisi C, 2 hari)
+
+- Sheet dashboard (anonim): `[Dashboard L1] BSI - Business Process Improvement Mastery` (ID `12aPts5J-P9VcwU7M8orwKkYeQvF6G7mawEd38Zr_JXs`), disalin dari `[All Data] BSI - Business Process Improvement Mastery (Responses)` (ID sumber `1XjgW0Mpgf7rnAtyXqlO7eLpVdjG5KzK2I5UzVKBI40Y`) tanpa nama, email, dan skor. Kolom unit = `Hari`, ID responden `H1-n` / `H2-n`. Belum dibagikan publik (dashboard memakai "Data bawaan" sampai user membagikan "Anyone with the link: Viewer").
+- Hari 1 Senin 7 Sep 2026 (25 jawaban), Hari 2 Selasa 8 Sep 2026 (24 jawaban). Tutor Firman, Asisten Tutor Dias untuk kedua hari. **30 peserta** (konfirmasi user; tab Data Peserta di sumber masih 33 karena belum diperbarui), jadi Rangkuman 49 dari 60 pengisian.
+- Form sama dengan Angkatan 10 (11 aspek, NPS, 4 pertanyaan terbuka), sehingga seluruh pipeline data disalin dari `programs/bsi-bpi-sdp-a10/`. Angka divalidasi sama persis dengan tab `02. L1 Analysis` klien (rata-rata per aspek dan NPS 68% / 67% per hari).
+- Brand: sama dengan program BSI lain (logo Danantara, BSI, Rakamin, latar kota). Slug situs `bsi-bpi-mastery`.
+- Suara Mayoritas: Hari 1 tiga tema (materi 10/25, penyampaian 8/25, interaktif 8/25), Hari 2 satu tema (materi 9/24), Rangkuman dua tema (materi 19/49, penyampaian 15/49). Tema "Penyampaian" di Rangkuman lolos ambang 30% dengan selisih tipis (15 dari 49 = 30,6%).
+- `data/build-sheet-data.js` kini menerima `kunci` eksplisit pada tema Rangkuman (menimpa kata kunci otomatis yang bisa tercemar tema lain). Bila hanya satu kutipan Suara Mayoritas, kartu dipusatkan dan hurufnya dibesarkan (semua template BSI).
+
 ## Aturan tampilan warna peringatan (17 Okt 2026)
 
 - **Jangan tampilkan keterangan** seperti "oranye bila skor < 4,0 atau NPS < 60%" atau legend "Oranye = perlu perhatian" di dashboard. Warna peringatan cukup muncul pada angkanya.

@@ -14,6 +14,7 @@ Sumber kebenaran ada di repo, jangan menulis ulang dari nol:
 | Sesi tunggal (satu hari, satu form) | `programs/goto-pm-workshop-b1/` |
 | Beberapa unit selesai + Rangkuman (batch) | `programs/bsi-bpi-sdp-b2-b3/` |
 | Beberapa unit selesai + Rangkuman (hari, tim sama) | `programs/bsi-bpi-sdp-a10/` (turunan template di atas; `CONFIG.unit`, `sameTeam`, `samePeople`) |
+| Dua hari, form sama dengan A10 (hanya ganti data dan tema) | `programs/bsi-bpi-mastery/` (salinan A10: ganti `responses.js`, `themes.js`, tanggal/talent di `build-sheet-data.js`, `CONFIG`) |
 | Standar produk dan catatan tiap project | `docs/KONTEKS-DASHBOARD.md` |
 | Cara build, struktur, deploy | `README.md` |
 

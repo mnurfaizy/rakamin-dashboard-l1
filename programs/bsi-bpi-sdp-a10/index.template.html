@@ -137,6 +137,10 @@ section { margin-top: 36px; }
 .callout .meta .tema { font-weight: 700; color: #fff; }
 .callout .meta .share { background: rgba(255, 255, 255, .92); color: var(--teal-deep); border-radius: 999px; padding: 2px 10px; font-weight: 900; }
 .callout .meta .bt { border: 1px solid rgba(255, 255, 255, .5); border-radius: 999px; padding: 1px 9px; font-weight: 700; }
+.callouts.one { grid-template-columns: minmax(0, 800px); justify-content: center; }
+.callouts.one blockquote { font-size: clamp(22px, 3vw, 30px); text-align: center; }
+.callouts.one .meta { justify-content: center; margin-top: 0; }
+.callouts.one .callout { padding-top: 34px; }
 .voice-band .foot { position: relative; margin: 18px 0 0; font-size: 13px; color: rgba(255, 255, 255, .8); }
 
 /* ---------- Ringkasan ---------- */
@@ -761,7 +765,7 @@ if (typeof module !== 'undefined') module.exports = Core;
     if (!quotes.length) { box.innerHTML = `${stars}<p class="foot" style="margin:0">Kutipan mayoritas dirangkum setelah jawaban terkumpul.</p>`; return; }
     const split = t => { const m = String(t).match(/^(.*?)\s*\(([^)]*\d[^)]*)\)\s*$/); return m ? [m[1], m[2]] : [t, '']; };
     box.style.setProperty('--cols', quotes.length);
-    box.innerHTML = `${stars}<span class="watermark" aria-hidden="true">“</span><div class="callouts">${quotes.map(q => {
+    box.innerHTML = `${stars}<span class="watermark" aria-hidden="true">“</span><div class="callouts${quotes.length === 1 ? ' one' : ''}">${quotes.map(q => {
       const [tema, share] = split(q.tema); const b = (q.id.match(/^[A-Z]+(\d)/) || [])[1];
       return `<figure class="callout" style="margin:0"><span class="badge-ico">${ICON.quote}</span><blockquote>${esc(q.text)}</blockquote>
         <figcaption class="meta">${b && state.view === 'all' ? `<span class="bt">${UNIT.name} ${b}</span>` : ''}<span class="tema">${esc(tema)}</span>${share ? `<span class="share num">${esc(share)}</span>` : ''}</figcaption></figure>`;
