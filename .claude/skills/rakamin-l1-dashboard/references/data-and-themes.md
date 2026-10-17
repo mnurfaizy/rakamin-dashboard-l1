@@ -8,6 +8,8 @@
 - Waspadai: baris rata-rata di bawah data, kolom ganda dengan header sama, jawaban tanpa isi ("-", "n/a"), skala NPS 1–10 versus 0–10, nilai "Skor" form yang tidak relevan.
 - **Sheet operasional memuat data pribadi** (nama, email, NIP, jabatan, unit, skor post test). Tidak boleh dihubungkan ke dashboard dan tidak boleh masuk repo.
 
+**Tanyakan bila belum jelas** (pernah menjadi penghalang): cara menentukan hari tiap respons bila satu form dipakai beberapa hari (biasanya lewat tanggal Timestamp; periksa respons terlambat, format dd/mm vs mm/dd, dan zona waktu), apakah form sudah ditutup bila jumlah jawaban kurang dari jumlah peserta, dan header persis tiap pertanyaan.
+
 ## 2. Sheet dashboard anonim
 
 Buat di **folder Drive yang sama** dengan sumbernya. Cara yang berhasil: `create_file` dengan `contentMimeType: text/csv`, `parentId` folder sumber, dan `textContent` CSV; Drive mengubahnya menjadi Google Sheet asli. Lalu:
@@ -43,7 +45,8 @@ Gunakan `programs/bsi-bpi-sdp-a10/data/*` sebagai contoh paling lengkap (panel P
 ### Memilih Suara Mayoritas
 
 - Hanya tema **Diapresiasi** dengan jumlah ≥30% responden pada tampilan itu, dan yang membahas talent, materi, atau jalannya sesi. Tema tempat, makanan, atau panitia/Tim Rakamin dilewati walau besar.
-- Satu kutipan per tema, paling mewakili dan paling ringkas yang masih utuh maknanya. Maksimal 3. Jumlahnya mengikuti tema yang lolos, bahkan bila hanya 1.
+- Satu kutipan per tema, paling mewakili dan paling ringkas yang masih utuh maknanya. Maksimal 3. Jumlahnya mengikuti tema yang lolos, bahkan bila hanya 1. Bila lebih dari 3 tema lolos, ambil 3 dengan jumlah terbanyak (seri: ID responden terkecil).
+- Hati-hati pada tampilan dengan responden sedikit: 30% dari 18 orang berarti minimal 6 orang (5 orang = 27,8% tidak lolos).
 - Pada tampilan yang tidak punya tema lolos, jangan memaksa; tampilkan keadaan kosong yang sopan.
 - Label tema memuat proporsi, mis. `Kelas interaktif (9 dari 26 responden)`. Dashboard memisahkan teks dalam kurung menjadi lencana.
 
