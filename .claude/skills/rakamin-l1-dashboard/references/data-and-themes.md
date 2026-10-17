@@ -34,11 +34,11 @@ Pindai sebelum commit atau berbagi: email, nomor 10 digit berawalan `21` (NIP), 
 Tujuan: mengubah jawaban terbuka menjadi tema yang bisa diklik, dengan jumlah yang bisa diverifikasi.
 
 Prosedur:
-1. Baca semua jawaban per pertanyaan terbuka. Kelompokkan menjadi tema yang bermakna (bukan per kata kunci). Satu responden boleh masuk beberapa tema. Jawaban kosong atau tak bermakna ("-", "sudah baik" tanpa isi) tidak perlu masuk tema.
+1. Baca semua jawaban per pertanyaan terbuka. Kelompokkan menjadi tema yang bermakna (bukan per kata kunci). Satu responden boleh masuk beberapa tema. Jawaban kosong atau tak bermakna ("-", "sudah baik", "belum ada", "semuanya", "memuaskan" tanpa isi) **tidak boleh** dijadikan tema, termasuk tema kumpulan seperti "Sudah baik, belum ada saran"; jawaban itu tetap terlihat di tabel jawaban.
 2. Tiap tema: label singkat berbahasa Indonesia, daftar nomor responden, 1–3 **kutipan persis** dari jawaban, dan kata kunci untuk highlight. Kutipan harus substring jawaban asli, termasuk tanda kutip melengkung dan salah ketik.
 3. Panel: `Diapresiasi` (dari pertanyaan hal yang berjalan baik atau dipertahankan), `Saran perbaikan`, `Ingin diperdalam` (hanya bila ada pertanyaannya), `Paling diingat` (bila ada pertanyaannya).
 4. Tulis koding di berkas data program (`data/themes.js`, nomor responden per batch atau hari) dan jawaban mentah anonim di `data/responses.js`. `data/build-sheet-data.js` memvalidasi dan menulis `sheet-data.json` (tabel feedback, info, insight) yang diunggah ke sheet dashboard.
-5. Skrip validasi harus lulus tanpa masalah: jumlah per tema cocok dengan ID, kutipan persis ada di jawaban, setiap baris Rangkuman juga dikodekan pada panel yang sama di unitnya, kutipan Suara Mayoritas berasal dari tema yang lolos ambang.
+5. Skrip validasi harus lulus tanpa masalah: jumlah per tema cocok dengan ID, kutipan persis ada di jawaban, setiap baris Rangkuman juga dikodekan pada panel yang sama di unitnya, kutipan Suara Mayoritas berasal dari tema mayoritas (≥30%, atau tema terbanyak bila tidak ada yang mencapai 30%), dan tidak ada kutipan pada tema yang bukan mayoritas.
 
 Gunakan `programs/bsi-bpi-sdp-a10/data/*` sebagai contoh paling lengkap (panel Paling diingat, Rangkuman, Suara Mayoritas).
 
@@ -47,7 +47,8 @@ Gunakan `programs/bsi-bpi-sdp-a10/data/*` sebagai contoh paling lengkap (panel P
 - Hanya tema **Diapresiasi** dengan jumlah ≥30% responden pada tampilan itu, dan yang membahas talent, materi, atau jalannya sesi. Tema tempat, makanan, atau panitia/Tim Rakamin dilewati walau besar.
 - Satu kutipan per tema, paling mewakili dan paling ringkas yang masih utuh maknanya. Maksimal 3. Jumlahnya mengikuti tema yang lolos, bahkan bila hanya 1. Bila lebih dari 3 tema lolos, ambil 3 dengan jumlah terbanyak (seri: ID responden terkecil).
 - Hati-hati pada tampilan dengan responden sedikit: 30% dari 18 orang berarti minimal 6 orang (5 orang = 27,8% tidak lolos).
-- Pada tampilan yang tidak punya tema lolos, jangan memaksa; tampilkan keadaan kosong yang sopan.
+- 30% adalah pedoman, bukan batas kaku: bila tidak ada tema yang mencapainya, pakai tema Diapresiasi yang paling banyak disuarakan (seri ikut). Skrip `build-sheet-data.js` memakai fungsi `majority()` untuk aturan ini.
+- Keadaan kosong hanya untuk tampilan yang belum punya jawaban atau belum melewati gerbang 50% peserta.
 - Label tema memuat proporsi, mis. `Kelas interaktif (9 dari 26 responden)`. Dashboard memisahkan teks dalam kurung menjadi lencana.
 
 ## 4. Verifikasi angka

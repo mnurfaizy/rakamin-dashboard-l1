@@ -8,7 +8,7 @@ Baca file ini saat membangun atau mengubah dashboard. Aturan singkat yang sering
 |---|---|---|---|
 | **A. Series, berjalan** | Day/unit terakhir yang sudah ada datanya | Day 1 … N (yang belum ada data nonaktif) | "Quotes of the Day" (tampil setelah ≥50% peserta mengisi; sebelum itu status "sedang dikumpulkan") |
 | **B. Sesi tunggal** | Sesi itu | Tidak ada (atau pemilih batch bila program punya beberapa batch, batch belum berjalan tampil "Belum dimulai" dengan jadwal, talent, agenda) | "Suara Mayoritas" |
-| **C. Series, selesai** | **Rangkuman** | Rangkuman, lalu tiap unit (Batch/Hari) | "Suara Mayoritas" |
+| **C. Series, selesai** | **Rangkuman** | Rangkuman, lalu tiap unit (Batch/Hari) | Rangkuman: "Suara Mayoritas". View per hari pada series harian: "Quotes of the Day" dengan gerbang ≥50% yang sama seperti kondisi A |
 
 Di kondisi C setiap unit tetap bisa dibuka dan tampil seperti kondisi A.
 
@@ -20,7 +20,7 @@ Di kondisi C setiap unit tetap bisa dibuka dan tampil seperti kondisi A.
 4. **Suara Mayoritas / Quotes of the Day**.
 5. **Ringkasan**: partisipasi, kepuasan keseluruhan, skor per kelompok aspek, NPS (persen, bila ada). Δ vs sesi sebelumnya hanya di kondisi A.
 6. **Evaluasi per Aspek**: kode aspek (M1…), skor, satu bar yang mewakili skor pada skala 1–5, tag Tertinggi/Terendah hanya bila nilainya unik. Pada Rangkuman ditambah skor per unit. Tanpa rata-rata kelompok di judul kelompok dan tanpa teks "% skor".
-7. **Perbandingan** (khusus Rangkuman): unit berdampingan beserta tim pengajarnya, nilai tertinggi ditandai dengan warna (pil tint dan bar penuh, yang lain dipudarkan), satu kalimat catatan faktual.
+7. **Perbandingan** (khusus Rangkuman). Sampai 4 unit: kolom berdampingan; lebih dari 4 unit (series harian): tabel satu baris per hari (hari + tanggal, topik, tutor + asisten, responden, kepuasan keseluruhan, NPS) yang bisa diklik, ditambah grafik tren harian di Insight Sesi. Bila tabel ini sudah memuat tim pengajar, kartu tim di Insight Sesi Rangkuman dihilangkan. Unit berdampingan beserta tim pengajarnya, nilai tertinggi ditandai dengan warna (pil tint dan bar penuh, yang lain dipudarkan), satu kalimat catatan faktual.
 8. **Topik Paling Diingat** (bila form punya pertanyaannya): ranking bar, klik untuk memfilter tabel.
 9. **Suara Peserta**: panel tema (Diapresiasi, Saran perbaikan, Ingin diperdalam bila ada). Klik tema memfilter tabel jawaban.
 10. **Jawaban Peserta**: tabel anonim, pencarian, highlight, kolom unit pada Rangkuman, scroll dalam kartu.
@@ -36,7 +36,8 @@ Dashboard membaca sheet dashboard anonim lewat endpoint gviz CSV; bila tidak ter
 - **NPS**: %promotor (9–10) − %detraktor (0–6), ditampilkan sebagai persen. Sembunyikan bila tidak ada pertanyaan NPS.
 - **Bar aspek**: lebar = (skor − 1) / 4, jadi skor 4,81 hampir penuh. Aturan lama "% skor 4–5 / % skor 5" dihapus atas permintaan user karena bar tidak mencerminkan skor.
 - **Partisipasi**: jumlah jawaban dibanding jumlah peserta yang diberikan user. Bila peserta yang sama mengisi tiap hari (`samePeople`), Rangkuman menghitung pengisian: jawaban dibanding peserta × hari.
-- **Ambang Suara Mayoritas**: tema Diapresiasi ≥30% responden pada tampilan itu. Pada Rangkuman, 30% dihitung terhadap seluruh jawaban gabungan.
+- **Ambang Suara Mayoritas / Quotes of the Day**: tema Diapresiasi ≥30% responden pada tampilan itu (pada Rangkuman terhadap seluruh jawaban gabungan). 30% hanya pedoman: bila tidak ada yang mencapainya, pakai tema yang paling banyak disuarakan (seri ikut). Jangan menulis keterangan ambang di bawah judul.
+- **Gerbang Quotes of the Day**: view per hari baru menampilkan kutipan setelah jawaban ≥50% dari jumlah peserta (`quoteMinShare`), juga pada series yang sudah selesai.
 
 ## Pemetaan pertanyaan
 
@@ -50,4 +51,7 @@ Form berbeda antar program. Jangan memaksa M1–M9 IKDD. Petakan setiap pertanya
 - Distribusi skor per nilai (sulit dibaca, memakan tempat).
 - Rata-rata kelompok di judul kelompok pada Evaluasi per Aspek, teks "% skor 5" di tiap baris aspek, dan panah ▲ pada Perbandingan (diganti warna). Diterapkan di template BSI (17 Okt 2026); template GoTo masih bentuk lama.
 - Switcher atau detail yang bisa dibuka untuk tim pengajar pada Rangkuman.
+- Tulisan "Tema Diapresiasi yang disuarakan minimal 30% responden" di bawah judul kutipan.
+- Tema tanpa isi ("Sudah baik, belum ada saran", "Sudah jelas, belum ada", "Semuanya") di panel Suara Peserta.
+- Kartu tim pengajar di Insight Sesi Rangkuman bila tabel Perbandingan sudah memuat tutor dan asisten.
 - Tab, section, atau angka terkait pre-test, post-test, dan kehadiran.

@@ -39,6 +39,14 @@ Pengaturan (dibuat user di dashboard Render, tidak bisa dibuat dari sini):
 
 Setiap push ke `main` men-deploy ulang. Perubahan data di Google Sheet tampil setelah refresh tanpa deploy.
 
+### Memindahkan dashboard lama dari Netlify
+
+1. Ambil halaman yang sedang live (`curl` ke alamat Netlify) dan simpan sebagai `programs/<program>/index.template.html`. Buang **hanya** yang disisipkan Netlify: komentar "This site is hosted on Netlify" dan skrip `/.netlify/scripts/hud`. Jangan ubah isi lain agar perilakunya sama persis.
+2. `build.js` cukup menyalin berkas itu ke `dist/index.html`; daftarkan di `scripts/build-site.js` dengan langkah `node build.js`.
+3. Di pratinjau lokal pembacaan sheet terblokir CORS, jadi halaman bisa tampil "Data contoh". Setelah deploy, buka alamat Render dan pastikan label sumber berubah menjadi **"Google Sheet"**; kalau tetap "Data contoh", sheet belum terbaca dari alamat baru.
+4. Baru setelah alamat Render terbukti jalan: bagikan link baru dan minta user menghapus situs Netlify lama.
+5. Dashboard yang sedang berjalan dipindah apa adanya; pembaruan ke aturan terbaru dikerjakan terpisah bila user meminta.
+
 ### Jebakan yang pernah terjadi
 
 - **Dibuat sebagai Web Service**: build sukses lalu gagal dengan "yaml start: command not found" (status 127). Web Service menjalankan Start Command; Static Site tidak. Jenis layanan tidak bisa diubah: hapus, buat ulang sebagai Static Site.
