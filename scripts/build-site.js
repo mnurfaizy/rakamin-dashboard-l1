@@ -1,5 +1,5 @@
 // Builds every program and assembles ONE static site in site/, one sub-path per program:
-//   site/goto-pm/  site/bsi-b2-b3/  site/bsi-a10/
+//   site/goto-pm/  site/bsi-bpi-sdp-batch-2-3/  site/bsi-bpi-sdp-angkatan-10/
 // Used by a single Render static site (Build Command: node scripts/build-site.js, Publish Directory: site).
 // To add a program: append it to PROGRAMS below.
 const { execSync } = require('child_process');
@@ -9,8 +9,8 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const PROGRAMS = [
   { dir: 'goto-pm-workshop-b1', slug: 'goto-pm', steps: ['node build.js'] },
-  { dir: 'bsi-bpi-sdp-b2-b3', slug: 'bsi-b2-b3', steps: ['node data/build-sheet-data.js', 'node build.js'] },
-  { dir: 'bsi-bpi-sdp-a10', slug: 'bsi-a10', steps: ['node data/build-sheet-data.js', 'node build.js'] },
+  { dir: 'bsi-bpi-sdp-b2-b3', slug: 'bsi-bpi-sdp-batch-2-3', steps: ['node data/build-sheet-data.js', 'node build.js'] },
+  { dir: 'bsi-bpi-sdp-a10', slug: 'bsi-bpi-sdp-angkatan-10', steps: ['node data/build-sheet-data.js', 'node build.js'] },
 ];
 
 const site = path.join(root, 'site');

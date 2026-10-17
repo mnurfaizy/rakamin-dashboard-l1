@@ -41,8 +41,8 @@ Semua program disajikan oleh **satu** situs statis, masing-masing di sub-path se
 | Program | Sub-path | Tampilan |
 |---|---|---|
 | `goto-pm-workshop-b1` | `/goto-pm/` | Sesi tunggal, dropdown Batch 1 / Batch 2 (Batch 2 belum berjalan) |
-| `bsi-bpi-sdp-b2-b3` | `/bsi-b2-b3/` | Rangkuman, Batch 2, Batch 3 |
-| `bsi-bpi-sdp-a10` | `/bsi-a10/` | Rangkuman, Hari 1, Hari 2 |
+| `bsi-bpi-sdp-b2-b3` | `/bsi-bpi-sdp-batch-2-3/` | Rangkuman, Batch 2, Batch 3 |
+| `bsi-bpi-sdp-a10` | `/bsi-bpi-sdp-angkatan-10/` | Rangkuman, Hari 1, Hari 2 |
 
 Halaman akar (`/`) sengaja kosong dan `robots.txt` melarang pengindeksan, supaya tiap klien hanya tahu link miliknya sendiri. Bagikan link per sub-path, bukan alamat akar.
 
