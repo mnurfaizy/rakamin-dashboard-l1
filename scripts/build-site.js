@@ -1,5 +1,5 @@
 // Builds every program and assembles ONE static site in site/, one sub-path per program:
-//   site/goto-pm/  site/bsi-bpi-sdp-batch-2-3/  site/bsi-bpi-sdp-angkatan-10/  site/bsi-bpi-mastery/  site/ikdd-sms-batch-1/
+//   site/goto-pm/  site/bsi-bpi-sdp-batch-2-3/  site/bsi-bpi-sdp-angkatan-10/  site/bsi-bpi-mastery/  site/ikdd-sms-batch-1/  site/ikdd-sms-batch-2/
 // Used by a single Render static site (Build Command: node scripts/build-site.js, Publish Directory: site).
 // To add a program: append it to PROGRAMS below.
 const { execSync } = require('child_process');
@@ -13,6 +13,7 @@ const PROGRAMS = [
   { dir: 'bsi-bpi-sdp-a10', slug: 'bsi-bpi-sdp-angkatan-10', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   { dir: 'bsi-bpi-mastery', slug: 'bsi-bpi-mastery', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   { dir: 'ikdd-sms-b1', slug: 'ikdd-sms-batch-1', steps: ['node data/build-sheet-data.js', 'node build.js'] },
+  { dir: 'ikdd-sms-b2', slug: 'ikdd-sms-batch-2', steps: ['node build.js'] },
 ];
 
 const site = path.join(root, 'site');

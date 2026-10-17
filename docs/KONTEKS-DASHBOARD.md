@@ -194,6 +194,11 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 - Keputusan yang sama berlaku di template BSI (17 Okt 2026): tulisan "minimal 30%" dihapus dan tema paling banyak dipakai bila tidak ada yang mencapai 30%. Rangkuman: "Materi bermanfaat" 58/171 dan "Kelas seru dan interaktif" 57/171.
 - Sheet dashboard anonim belum dibuat; dashboard memakai snapshot tertanam. `CONFIG.defaultSheetId` masih `__SHEET_ID__` (ganti di `build.js` setelah sheet dibuat).
 
+### Project 6: IKDD SMS Batch 2 (kondisi A, berjalan) — migrasi Netlify ke Render
+
+- Dipindahkan **apa adanya** dari `ikdd-batch2-insight.netlify.app` ke `programs/ikdd-sms-b2/` (satu berkas HTML mandiri, aset tertanam, data dibaca langsung dari `[Daily Dashboard] IKDD - Social Media Specialist Bootcamp Batch 2`, ID `1ASi1XhjGn7wb-JKlzkFuQmVJ3YHQZpsoPax_1x8o2wY`). Hanya komentar dan skrip tambahan Netlify yang dibuang. Alamat baru: `/ikdd-sms-batch-2/`.
+- Karena dashboard ini sedang berjalan, tampilannya belum mengikuti aturan terbaru (masih ada keterangan oranye "rata-rata − 1 SD", NPS format +100, kartu Sorotan/Insight Sesi bentuk lama). Pembaruan dilakukan terpisah bila user meminta.
+
 ### Revisi Evaluasi per Aspek dan Perbandingan (17 Okt 2026, template BSI)
 
 - Kritik user: terlalu banyak angka (rata-rata kelompok sudah ada di Ringkasan), bar tidak mencerminkan skor (4,81 tampak setengah), kolom Perbandingan miring karena panah ▲ mengubah lebar kolom, dan panah kecil sulit dipetakan.
