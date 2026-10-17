@@ -46,6 +46,7 @@ Semua program disajikan oleh **satu** situs statis, masing-masing di sub-path se
 | `bsi-bpi-mastery` | `/bsi-bpi-mastery/` | Rangkuman, Hari 1, Hari 2 |
 | `ikdd-sms-b1` | `/ikdd-sms-batch-1/` | Rangkuman Day 1–10, Day 1 … Day 10 (dropdown) |
 | `ikdd-sms-b2` | `/ikdd-sms-batch-2/` | Daily (Day 1–10, berjalan), dimigrasi apa adanya dari Netlify |
+| `goto-driver-kids` | `/gojek-magang-driver-kids/` | Rangkuman, Day 2, Day 3 (Magang di Kantor Gojek, Driver's Kids) |
 
 Halaman akar (`/`) sengaja kosong dan `robots.txt` melarang pengindeksan, supaya tiap klien hanya tahu link miliknya sendiri. Bagikan link per sub-path, bukan alamat akar.
 
@@ -61,6 +62,7 @@ npm run build:bsi-a10
 npm run build:bsi-mastery
 npm run build:ikdd-b1
 npm run build:ikdd-b2
+npm run build:gojek-dk
 ```
 
 Buka `site/<sub-path>/index.html` langsung di browser untuk pratinjau. Dari `file://`, pembacaan Google Sheet terblokir CORS, jadi halaman memakai data bawaan. Itu normal.

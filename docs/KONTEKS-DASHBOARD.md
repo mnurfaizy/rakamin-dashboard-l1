@@ -200,6 +200,15 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 - Dipindahkan **apa adanya** dari `ikdd-batch2-insight.netlify.app` ke `programs/ikdd-sms-b2/` (satu berkas HTML mandiri, aset tertanam, data dibaca langsung dari `[Daily Dashboard] IKDD - Social Media Specialist Bootcamp Batch 2`, ID `1ASi1XhjGn7wb-JKlzkFuQmVJ3YHQZpsoPax_1x8o2wY`). Hanya komentar dan skrip tambahan Netlify yang dibuang. Alamat baru: `/ikdd-sms-batch-2/`.
 - Karena dashboard ini sedang berjalan, tampilannya belum mengikuti aturan terbaru (masih ada keterangan oranye "rata-rata − 1 SD", NPS format +100, kartu Sorotan/Insight Sesi bentuk lama). Pembaruan dilakukan terpisah bila user meminta.
 
+### Project 7: GoTo Driver's Kids, Magang di Kantor Gojek (kondisi C, Day 2–3)
+
+- Dimigrasi dari `feedback-magang-kantor-gojek.netlify.app` (data tertanam, tanpa sheet) ke `programs/goto-driver-kids/`, dibangun ulang di mesin template multi-unit dengan aturan terbaru. Alamat: `/gojek-magang-driver-kids/`.
+- Sumber data: `[All Data Evaluation] GoTo - Driver's Kids Job Acceleration Program` (ID `1bCbaNcfSifpUr_NuvMXHiGZrmE8X-3lxKn1uToLX6b4`), tab `04. L1 (Feedback) Result` (memuat nama; jangan dihubungkan ke dashboard). Sheet pertama yang dikirim user (`13WVJ...`) ternyata data BSI Mastery, bukan Gojek. Dashboard sheet anonim belum dibuat; dashboard memakai snapshot tertanam.
+- Day 2 "Think Like A Professional" (Selasa, 29 Sep 2026) dan Day 3 "Make Your Thinking Visible" (Rabu, 30 Sep 2026), masing-masing 26 jawaban. **27 peserta** (keputusan user). Tutor Mas Caesar, Asisten Tutor Mba Fitri (dari dashboard Netlify dan konfirmasi user).
+- Form: 13 pernyataan (lingkungan, materi, kesiapan & penerapan, trainer, asisten tutor, kepuasan), NPS, 2 pertanyaan terbuka (paling bermanfaat, saran). Tanpa "paling diingat" dan "ingin diperdalam", jadi section Topik Paling Diingat dan panel Ingin diperdalam tidak ada. Angka per hari sama persis dengan tab `05. L1 (Feedback) Analysis` klien; tab itu memberi label ganda yang keliru pada kelompok Overall (memakai ulang dua baris trainer), dashboard memakai item 12 dan 13 yang benar.
+- Tampilan dipertahankan dari dashboard Netlify atas permintaan user: bar merek (putih kiri: Yayasan GoTo Merah Putih + Rakamin; hitam kanan: Gojek + GoFood), badge stiker "Magang di Kantor Gojek", hero gradien lime, Poppins, hijau Gojek, kontrol tampilan pil hitam. Bentuk kutipan dari design master: bubble A (terang) dan B (brand) untuk dua kutipan, C Spotlight untuk satu atau tiga kutipan.
+- Template: `CONFIG.unit.word` (kata benda untuk kalimat), `RECALL = null` untuk form tanpa pertanyaan topik diingat, jumlah panel dan tile mengikuti data.
+
 ### Revisi Evaluasi per Aspek dan Perbandingan (17 Okt 2026, template BSI)
 
 - Kritik user: terlalu banyak angka (rata-rata kelompok sudah ada di Ringkasan), bar tidak mencerminkan skor (4,81 tampak setengah), kolom Perbandingan miring karena panah ▲ mengubah lebar kolom, dan panah kecil sulit dipetakan.

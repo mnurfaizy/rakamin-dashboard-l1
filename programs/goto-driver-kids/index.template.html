@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Insight L1 · Magang di Kantor Gojek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Look carried over from the Netlify "Magang di Kantor Gojek" dashboard: Poppins, Gojek green + lime, black brand bar, sticker badge. */
+:root {
+  color-scheme: light;
+  --bg: #f9fafc;
+  --surface: #ffffff;
+  --surface-2: #f4faf4;
+  --line: #e2e8f0;
+  --line-strong: #d3dee3;
+  --teal-deep: #008a0f;
+  --teal: #00aa13;
+  --teal-bright: #76dc32;
+  --teal-tint: #e6f6e8;
+  --gold: #76dc32;
+  --gold-soft: #eff9e4;
+  --gold-ink: #3d6b12;
+  --ink: #0f172a;
+  --ink-2: #334155;
+  --ink-3: #64748b;
+  --warn: #e05300;
+  --good: #00aa13;
+  --u1: #76dc32;            /* accents for the 1st..4th unit (day or batch) */
+  --u2: #00a367;
+  --u3: #0f172a;
+  --u4: #64748b;
+  --shadow: 0 1px 2px rgba(15, 23, 42, .05), 0 10px 28px rgba(15, 23, 42, .07);
+  --radius: 14px;
+
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+html { overflow-x: clip; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+/* Soft teal and gold glow from the deck's content slides, fixed to the bottom of the viewport. */
+body::before { content: ""; position: fixed; inset: auto 0 0 0; height: 45vh; z-index: -1; pointer-events: none;
+  background: radial-gradient(60% 90% at 0% 100%, rgba(0, 170, 19, .10), transparent 70%), radial-gradient(60% 90% at 100% 100%, rgba(118, 220, 50, .14), transparent 70%); }
+button, input, select { font: inherit; color: inherit; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+.muted { color: var(--ink-3); }
+.num { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+/* ---------- Hero ---------- */
+.brandbar { display: flex; align-items: stretch; min-height: 44px; }
+.brandbar .l { background: #fff; display: flex; align-items: center; gap: 14px; padding: 8px 16px; flex: 0 0 auto; }
+.brandbar .r { background: #000; flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 16px; padding: 8px 16px; }
+.brandbar img { display: block; height: 22px; width: auto; }
+.brandbar .l img.rk { height: 16px; } .brandbar .r img { height: 20px; }
+.brandbar .sep { width: 1px; height: 18px; background: #3a3a3a; }
+.hero { padding-bottom: 92px; background: linear-gradient(180deg, #76dc32 0%, #91e35a 35%, #bdee9c 70%, var(--bg) 100%); }
+.hero-top { display: flex; gap: 20px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; padding-top: 26px; }
+.hero-body { max-width: 780px; }
+.badge img { height: 62px; width: auto; display: block; }
+.hero h1 { font-size: clamp(24px, 3.8vw, 40px); line-height: 1.12; margin: 14px 0 8px; font-weight: 400; text-transform: uppercase; color: var(--ink); letter-spacing: -.01em; }
+.hero h1 b { font-weight: 800; }
+.hero .sub { margin: 0; font-size: 15px; color: var(--ink-2); }
+.hero .view-chip { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; background: rgba(255, 255, 255, .88); border: 1px solid rgba(15, 23, 42, .08); color: var(--ink); font-weight: 500; padding: 5px 14px; border-radius: 999px; font-size: 13px; }
+.switch { display: inline-flex; background: #000; border-radius: 999px; padding: 4px; gap: 2px; }
+.switch button { border: 0; background: transparent; border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 12.5px; color: #fff; cursor: pointer; white-space: nowrap; transition: background .15s; }
+.switch button:hover:not([aria-pressed="true"]) { background: #222; }
+.switch button[aria-pressed="true"] { background: var(--teal); color: #fff; }
+.switch button small { font-weight: 400; opacity: .8; margin-left: 4px; }
+.spark { display: inline-block; flex: none; }
+
+/* ---------- Session strip (identity & talent) ---------- */
+.strip { position: relative; z-index: 3; margin-top: -64px; }
+.strip-card { background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; }
+.strip-card.batch { grid-template-columns: repeat(2, minmax(0, 1.2fr)) repeat(3, minmax(0, 1fr)); }
+.strip-card.multi { grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); }
+.strip-card.multi .teams { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; align-items: stretch; }
+.strip-card.multi .facts { display: grid; gap: 12px; align-content: center; border-left: 1px solid var(--line); padding-left: 14px; }
+.strip-card.multi .facts .fact { border-left: 0; padding-left: 4px; }
+.ut1 { background: var(--gold-soft); color: var(--gold-ink); } .ut2 { background: var(--teal-tint); color: var(--teal-deep); }
+.ut3 { background: #dbe9e8; color: #004a47; } .ut4 { background: #e6ebf1; color: #334155; }
+.who { display: flex; gap: 12px; align-items: center; min-width: 0; padding: 6px 4px; }
+.avatar { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-weight: 900; font-size: 16px; }
+.avatar.tutor { background: var(--teal); color: #fff; }
+.avatar.astor { background: var(--gold); color: #0f172a; }
+.who .role { font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); }
+.who .role.astor { color: var(--gold-ink); }
+.who .name { font-weight: 900; font-size: 17px; color: var(--teal-deep); overflow-wrap: anywhere; }
+.fact { display: flex; gap: 10px; align-items: center; min-width: 0; padding: 6px 4px 6px 14px; border-left: 1px solid var(--line); }
+.fact .ico { flex: none; width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--teal-tint); color: var(--teal-deep); }
+.fact .lbl { font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.fact .val { font-weight: 700; color: var(--ink); }
+.team { display: flex; flex-direction: column; justify-content: center; gap: 10px; min-width: 0; padding: 12px 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px; }
+.team .tb { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+.team .tb i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.team .people { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.team .p { display: flex; align-items: center; gap: 10px; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 8px 12px 8px 8px; }
+.team .p .avatar { width: 36px; height: 36px; font-size: 13px; }
+.team .p .pt { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.team .p b { color: var(--teal-deep); font-size: 15px; overflow-wrap: anywhere; }
+.team .p .pt span { font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); } .team .p .pt .as { color: var(--gold-ink); }
+
+/* ---------- Sections ---------- */
+section { margin-top: 36px; }
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.sec-title { display: flex; align-items: center; gap: 12px; }
+.sec-title .no { flex: none; width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: var(--teal-deep); color: #fff; font-weight: 900; font-size: 14px; position: relative; }
+.sec-title .no::after { content: ""; position: absolute; right: -5px; top: -5px; width: 12px; height: 12px; background: var(--gold); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.sec-title h2 { font-size: 22px; margin: 0; color: var(--ink); font-weight: 500; text-transform: uppercase; letter-spacing: .01em; }
+.sec-head .note { font-size: 13px; color: var(--ink-2); }
+.card { background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); box-shadow: var(--shadow); }
+.card-pad { padding: 20px; }
+.card-title { font-size: 12px; font-weight: 900; color: var(--teal); text-transform: uppercase; letter-spacing: .1em; margin: 0 0 14px; }
+.empty { color: var(--ink-3); font-size: 14px; padding: 8px 0; }
+
+/* ---------- Suara Mayoritas: speech bubbles (master shapes A light, B brand, C spotlight) ---------- */
+.quotes { padding: 32px 20px 26px; background: linear-gradient(160deg, #e6f6e8, #fff 55%, #eff9e4); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.qwall { display: flex; flex-direction: column; align-items: center; gap: 22px; max-width: 980px; margin: 0 auto; }
+.qrow { display: flex; justify-content: center; align-items: flex-start; gap: 28px; width: 100%; }
+.qrow.pair > .q:first-child { transform: rotate(-1.4deg); }
+.qrow.pair > .q:last-child { transform: rotate(1.2deg); margin-top: 24px; }
+.q { display: flex; flex-direction: column; gap: 8px; max-width: 460px; flex: 1 1 0; margin: 0; }
+.q.left { align-items: flex-start; } .q.right { align-items: flex-end; } .q.center { align-items: center; max-width: 680px; }
+.bubble { position: relative; margin: 0; padding: 18px 22px; border-radius: 22px; font-size: 18px; line-height: 1.5; font-weight: 500; box-shadow: 0 10px 26px rgba(15, 23, 42, .12); }
+.bubble::after { content: ""; position: absolute; bottom: -9px; width: 20px; height: 20px; background: inherit; }
+.q.left .bubble { background: #fff; color: var(--ink); border-bottom-left-radius: 6px; }
+.q.left .bubble::after { left: 0; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.q.right .bubble { background: var(--teal); color: #fff; border-bottom-right-radius: 6px; }
+.q.right .bubble::after { right: 0; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.q.center .bubble { background: var(--ink); color: #fff; font-size: clamp(19px, 2.4vw, 25px); font-weight: 600; padding: 26px 34px; text-align: center; border-radius: 26px; }
+.q.center .bubble::after { left: calc(50% - 10px); bottom: -10px; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.q.center .bubble::before { content: "\201C"; position: absolute; top: -26px; left: 22px; font: 800 72px/1 Georgia, serif; color: var(--teal-bright); }
+.q-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); padding: 4px 6px 0; }
+.q.right .q-meta { justify-content: flex-end; } .q.center .q-meta { justify-content: center; }
+.q-meta .tema { font-weight: 600; color: var(--ink); }
+.q-meta .share { background: var(--ink); color: #fff; border-radius: 999px; padding: 1px 9px; font-weight: 600; font-size: 12px; }
+.q-meta .dy { border: 1px solid var(--line-strong); background: #fff; border-radius: 999px; padding: 0 8px; font-weight: 600; font-size: 12px; color: var(--ink); }
+.q-foot { text-align: center; margin: 22px 0 0; font-size: 13px; color: var(--ink-3); }
+@media (max-width: 860px) { .qrow { flex-direction: column; align-items: stretch; gap: 18px; } .qrow.pair > .q { transform: none !important; margin-top: 0 !important; max-width: 90%; } .qrow.pair > .q.right { align-self: flex-end; } .q.center { max-width: 100%; } }
+
+/* ---------- Ringkasan ---------- */
+.summary { display: grid; grid-template-columns: minmax(200px, 1.3fr) repeat(var(--nt, 6), minmax(0, 1fr)); gap: 12px; }
+.tile { padding: 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.tile .k { font-size: 13px; color: var(--ink-2); font-weight: 700; line-height: 1.3; min-height: 34px; }
+.tile .v { font-size: 30px; font-weight: 900; line-height: 1.1; color: var(--teal-deep); }
+.tile .v small { font-size: 14px; font-weight: 700; color: var(--ink-3); }
+.tile .d { font-size: 12px; color: var(--ink-3); }
+.tile.below .v { color: var(--warn); }
+.tile.part { background: linear-gradient(140deg, var(--teal-deep), var(--teal)); border-color: var(--teal-deep); color: #fff; }
+.tile.part .k, .tile.part .d { color: #cdeeec; }
+.tile.part .v { color: #fff; } .tile.part .v small { color: #cdeeec; }
+.tile.part .bar { background: rgba(255, 255, 255, .25); }
+.tile.part .bar > i { background: var(--gold); }
+.bar { position: relative; height: 8px; border-radius: 999px; background: var(--teal-tint); margin-top: 8px; overflow: hidden; }
+.bar > i { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--teal); }
+
+/* ---------- Evaluasi per aspek ---------- */
+.aspek-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; }
+.aspek-col { min-width: 0; }
+.aspek-group + .aspek-group { margin-top: 14px; }
+.aspek-group h4 { margin: 0 0 2px; font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; display: flex; justify-content: space-between; }
+.aspek-row { display: grid; grid-template-columns: 38px 1fr auto; gap: 3px 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+.aspek-group h4 + .aspek-row { border-top: 0; }
+.code { font-size: 12px; font-weight: 900; color: var(--teal-deep); background: var(--teal-tint); border-radius: 6px; text-align: center; padding: 2px 0; }
+.aspek-row .stmt { font-size: 14px; }
+.aspek-row .score { font-weight: 900; font-size: 17px; color: var(--teal-deep); }
+.aspek-row .score small { font-weight: 400; font-size: 12px; color: var(--ink-3); }
+.aspek-row.below .score, .aspek-row.below .stmt { color: var(--warn); }
+.aspek-row .meter { grid-column: 2 / -1; display: flex; align-items: center; }
+.aspek-row .meter .bar { flex: 1; height: 6px; margin: 0; }
+.aspek-row .split { grid-column: 2 / -1; display: flex; gap: 12px; font-size: 12px; color: var(--ink-2); }
+.aspek-row .split i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; }
+.tag { display: inline-block; margin-left: 8px; font-size: 11px; font-weight: 900; border-radius: 999px; padding: 1px 8px; vertical-align: 1px; }
+.tag.top { background: var(--teal-tint); color: var(--teal-deep); }
+.tag.low { background: var(--gold-soft); color: var(--gold-ink); }
+
+/* ---------- Perbandingan batch ---------- */
+.compare-head { display: grid; grid-template-columns: minmax(150px, .9fr) repeat(var(--n, 2), minmax(0, 1fr)); gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); align-items: end; }
+.compare-head .bh { display: flex; flex-direction: column; gap: 8px; }
+.compare-head .bh .t { display: flex; align-items: center; gap: 8px; font-weight: 900; color: var(--teal-deep); font-size: 17px; }
+.compare-head .bh .t i { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+.compare-head .bh .s { font-size: 13px; color: var(--ink-2); }
+.cmp-row { display: grid; grid-template-columns: minmax(150px, .9fr) repeat(var(--n, 2), minmax(0, 1fr)); gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); align-items: center; }
+.cmp-row:last-child { border-bottom: 0; }
+.cmp-row .m { font-weight: 700; font-size: 14px; }
+.cmp-cell { display: grid; grid-template-columns: minmax(0, 1fr) 62px; align-items: center; gap: 10px; }
+.cmp-cell .bar { flex: 1; margin: 0; height: 10px; }
+.cmp-cell .val { justify-self: end; font-weight: 700; color: var(--ink-3); padding: 3px 9px; border-radius: 9px; }
+.cmp-row.spread .cmp-cell:not(.lead) .bar i { opacity: .35; }
+.cmp-cell.lead .val, .cmp-row:not(.spread) .cmp-cell .val { font-weight: 900; color: var(--teal-deep); background: var(--teal-tint); }
+@media (max-width: 560px) { .many .bh .s { display: none; } .many .bh .t { font-size: 14px; gap: 0; } .many .bh .t i { display: none; } .many .cmp-cell .val { padding: 3px 6px; } }
+.compare-note { margin: 14px 0 0; font-size: 13px; color: var(--ink-2); }
+
+/* ---------- Topik paling diingat ---------- */
+.recall { display: grid; gap: 8px; }
+.recall-row { width: 100%; display: grid; grid-template-columns: 26px minmax(160px, 1.2fr) 2fr 60px; gap: 12px; align-items: center; text-align: left; background: transparent; border: 1px solid transparent; border-radius: 12px; padding: 8px 10px; cursor: pointer; transition: background .15s, border-color .15s; }
+.recall-row:hover { background: var(--surface-2); border-color: var(--line); }
+.recall-row[aria-pressed="true"] { background: var(--teal-tint); border-color: var(--teal); }
+.recall-row .rk { font-weight: 900; color: var(--ink-3); font-size: 13px; }
+.recall-row .nm { font-weight: 700; color: var(--ink); }
+.recall-row .track { position: relative; height: 22px; border-radius: 8px; background: var(--surface-2); overflow: hidden; }
+.recall-row .track i { position: absolute; inset: 0 auto 0 0; border-radius: 8px; background: linear-gradient(90deg, var(--teal), var(--teal-bright)); }
+.recall-row:first-child .track i { background: linear-gradient(90deg, var(--gold), #f9c46b); }
+.recall-row .ct { font-weight: 900; color: var(--teal-deep); text-align: right; }
+.recall-row .ct small { color: var(--ink-3); font-weight: 400; }
+
+/* ---------- Suara Peserta ---------- */
+.voices { display: grid; grid-template-columns: repeat(var(--np, 3), minmax(0, 1fr)); gap: 12px; }
+.voice h3 { font-size: 16px; margin: 0 0 4px; display: flex; align-items: center; gap: 8px; color: var(--teal-deep); font-weight: 900; }
+.voice h3 .dot { width: 10px; height: 10px; border-radius: 50%; }
+.voice .hint { font-size: 12px; color: var(--ink-3); margin: 0 0 4px; }
+.theme-chip { width: 100%; text-align: left; display: flex; justify-content: space-between; gap: 10px; align-items: center; border: 1px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 10px 12px; cursor: pointer; margin-top: 8px; transition: border-color .15s, background .15s; }
+.theme-chip:hover { border-color: var(--teal); }
+.theme-chip[aria-pressed="true"] { border-color: var(--teal-deep); background: var(--teal-deep); color: #fff; }
+.theme-chip[aria-pressed="true"] .cnt { background: var(--gold); color: #0f172a; border-color: var(--gold); }
+.theme-chip .cnt { flex: none; font-size: 12px; font-weight: 900; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px; padding: 1px 9px; }
+.theme-chip .go { flex: none; font-size: 12px; opacity: .6; }
+
+/* ---------- Jawaban Peserta ---------- */
+.codes { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 6px 18px; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 13px; background: var(--surface-2); border-radius: var(--radius) var(--radius) 0 0; }
+.codes div { display: flex; gap: 8px; align-items: baseline; }
+.codes .code { flex: none; width: 40px; }
+.toolbar { display: flex; gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.search { position: relative; flex: 1 1 260px; }
+.search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-3); }
+.input { width: 100%; border: 1px solid var(--line-strong); background: var(--surface-2); border-radius: 10px; padding: 9px 12px 9px 36px; }
+.input.plain { padding-left: 12px; }
+.filter-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--teal-deep); color: #fff; border-radius: 999px; padding: 5px 6px 5px 12px; font-size: 13px; }
+.filter-pill button { border: 0; background: rgba(255, 255, 255, .2); color: #fff; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; line-height: 1; }
+.table-scroll { overflow: auto; max-width: 100%; max-height: 560px; border-radius: 0 0 var(--radius) var(--radius); }
+.table-scroll thead th { position: sticky; top: 0; z-index: 1; box-shadow: inset 0 -1px 0 var(--line); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+th { background: var(--surface-2); font-size: 12px; color: var(--teal-deep); font-weight: 900; white-space: nowrap; }
+td.s, th.s { text-align: center; width: 38px; }
+td.s.low { color: var(--warn); font-weight: 900; }
+td.txt { min-width: 200px; }
+td.txt.focus { background: rgba(3, 149, 159, .06); }
+.bt-tag { display: inline-block; font-size: 11px; font-weight: 900; border-radius: 6px; padding: 1px 6px; }
+tbody.flash tr { animation: flash 1s ease; }
+@keyframes flash { from { background: var(--gold-soft); } to { background: transparent; } }
+mark { background: #ffe1a6; color: inherit; border-radius: 3px; padding: 0 1px; }
+
+/* ---------- Footer + Kelola data ---------- */
+footer { margin: 40px 0 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+footer .left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; padding: 10px 18px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--teal-deep); font-weight: 700; cursor: pointer; text-decoration: none; white-space: nowrap; }
+.btn:hover { border-color: var(--teal); }
+.btn.primary { background: var(--teal-deep); border-color: var(--teal-deep); color: #fff; }
+.btn.primary:hover { background: var(--teal); border-color: var(--teal); }
+.btn.ghost { background: transparent; }
+.source-pill { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-strong); }
+.source-pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+.source-pill.live i { background: var(--good); }
+dialog { border: 0; padding: 0; border-radius: 18px; width: min(540px, calc(100vw - 32px)); background: var(--surface); color: var(--ink); box-shadow: 0 20px 60px rgba(0, 60, 58, .3); }
+dialog::backdrop { background: rgba(0, 60, 58, .45); }
+.dlg-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.dlg-head h3 { margin: 0; font-size: 17px; color: var(--teal-deep); }
+.dlg-body { padding: 4px 20px 20px; }
+.dlg-sec { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.dlg-sec:last-child { border-bottom: 0; }
+.dlg-sec h4 { margin: 0 0 4px; font-size: 15px; color: var(--teal-deep); }
+.dlg-sec p { margin: 0 0 10px; font-size: 13px; color: var(--ink-2); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row .input { flex: 1 1 220px; }
+.status { font-size: 13px; margin-top: 8px; }
+.status.ok { color: var(--good); } .status.err { color: var(--warn); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+  .summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .summary .part { grid-column: 1 / -1; }
+  .strip-card.batch { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .strip-card.batch .fact { border-left: 0; border-top: 1px solid var(--line); padding-left: 4px; padding-top: 12px; }
+  .strip-card.batch > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .strip-card.multi { grid-template-columns: 1fr; }
+  .strip-card.multi .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); border-left: 0; border-top: 1px solid var(--line); padding: 12px 0 0; }
+}
+@media (max-width: 860px) {
+  .hero-top { padding-top: 18px; } .badge img { height: 50px; }
+  .aspek-grid { grid-template-columns: 1fr; }
+  .voices { grid-template-columns: 1fr; }
+  .compare-head, .cmp-row { grid-template-columns: minmax(110px, .8fr) repeat(var(--n, 2), minmax(0, 1fr)); gap: 10px; }
+  .cmp-cell .bar { display: none; }
+  .cmp-cell { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .strip-card.batch, .strip-card.multi { grid-template-columns: 1fr; }
+  .strip-card.multi .facts { grid-template-columns: 1fr; }
+  .switch { width: 100%; } .switch button { flex: 1; padding: 8px 6px; font-size: 13px; } .switch button small { display: none; }
+  .recall-row { grid-template-columns: 20px 1fr 48px; } .recall-row .track { grid-column: 2 / -1; grid-row: 2; height: 10px; }
+}
+</style>
+</head>
+<body>
+
+<header class="brandbar" aria-label="Penyelenggara program">
+  <div class="l"><img src="__ASSET_YAYASAN__" alt="Yayasan GoTo Merah Putih"><img class="rk" src="__ASSET_RAKAMIN__" alt="Rakamin"></div>
+  <div class="r"><img src="__ASSET_GOJEK__" alt="Gojek"><span class="sep"></span><img src="__ASSET_GOFOOD__" alt="GoFood"></div>
+</header>
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div class="hero-body">
+        <div class="badge"><img src="__ASSET_BADGE__" alt="Magang di Kantor Gojek"></div>
+        <h1 id="heroTitle">Insight Feedback <b>Peserta</b><br>Program Magang di Kantor Gojek</h1>
+        <p class="sub" id="heroSub">–</p>
+        <span class="view-chip" id="viewChip"></span>
+      </div>
+      <div class="switch" role="group" aria-label="Pilih tampilan" id="viewSwitch"></div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="strip" id="strip"></div>
+
+  <section aria-labelledby="qTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="qTitle">Suara Mayoritas</h2></div><span class="note" id="qNote"></span></div>
+    <div class="quotes" id="quotesBox"></div>
+  </section>
+
+  <section aria-labelledby="sTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="sTitle">Ringkasan</h2></div><span class="note" id="targetNote"></span></div>
+    <div class="summary" id="summary"></div>
+  </section>
+
+  <section aria-labelledby="eTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="eTitle">Evaluasi per Aspek</h2></div><span class="note" id="aspekNote"></span></div>
+    <div class="card card-pad"><div class="aspek-grid" id="aspek"></div></div>
+  </section>
+
+  <section aria-labelledby="cTitle" id="compareSection">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="cTitle">Perbandingan</h2></div><span class="note" id="cNote"></span></div>
+    <div class="card card-pad" id="compare"></div>
+  </section>
+
+  <section aria-labelledby="vTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="vTitle">Suara Peserta</h2></div><span class="note">Klik tema untuk melihat jawaban peserta yang terkait</span></div>
+    <div class="voices" id="voices"></div>
+  </section>
+
+  <section aria-labelledby="aTitle" id="answersSection">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="aTitle">Jawaban Peserta</h2></div><span class="note">Komentar ditampilkan apa adanya, nama peserta tidak ditampilkan</span></div>
+    <div class="card">
+      <div class="codes" id="codes"></div>
+      <div class="toolbar">
+        <div class="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input id="searchInput" class="input" type="search" placeholder="Cari kata kunci, misalnya: root cause, slide, tempat duduk" aria-label="Cari komentar">
+        </div>
+        <span class="filter-pill" id="themeFilter" hidden><span></span><button type="button" aria-label="Hapus filter tema">×</button></span>
+        <span class="muted" id="searchCount" style="font-size:13px"></span>
+      </div>
+      <div class="table-scroll"><table id="answers"></table></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="left">
+      <button class="btn primary" id="openManage" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"></path></svg>
+        Kelola data
+      </button>
+      <div>Sumber: Feedback Peserta Day 2 &amp; 3 · Learning Quality Rakamin · <span id="sourcePill" class="source-pill"><i></i><span></span></span></div>
+    </div>
+  </footer>
+</main>
+
+<dialog id="manage" aria-labelledby="mTitle">
+  <div class="dlg-head">
+    <h3 id="mTitle">Kelola data dashboard</h3>
+    <button class="btn ghost" type="button" id="closeManage" aria-label="Tutup">Tutup</button>
+  </div>
+  <div class="dlg-body">
+    <div class="dlg-sec">
+      <h4>1. Hubungkan Google Sheet</h4>
+      <p>Tempel link sheet dashboard (bukan sheet operasional yang memuat nama dan email). Sheet harus dibagikan "Anyone with the link: Viewer". Tab yang dibaca: 00. Feedback Peserta, Info Sesi, dan Insight by Claude.</p>
+      <div class="row">
+        <input id="sheetInput" class="input plain" type="url" placeholder="https://docs.google.com/spreadsheets/d/...">
+        <button class="btn primary" type="button" id="connectBtn">Hubungkan</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" type="button" id="reloadBtn">Muat ulang data</button>
+        <a class="btn" id="openSheetBtn" href="#" target="_blank" rel="noopener">Buka sheet</a>
+      </div>
+      <div class="status" id="sheetStatus" role="status"></div>
+    </div>
+    <div class="dlg-sec">
+      <h4>2. Bagikan</h4>
+      <p>Salin link dashboard untuk tampilan yang sedang dibuka.</p>
+      <button class="btn primary" type="button" id="copyLinkBtn">Salin link</button>
+      <div class="status" id="copyStatus" role="status"></div>
+    </div>
+    <div class="dlg-sec">
+      <h4>3. Reset</h4>
+      <p>Lupakan sheet yang tersimpan di browser ini dan kembali ke data bawaan.</p>
+      <button class="btn" type="button" id="resetBtn">Kembali ke data bawaan</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+
+/* Snapshot of the dashboard sheet, embedded at build time from data/sheet-data.json. */
+const SNAPSHOT = __SNAPSHOT__;
+</script>
+<script>
+/* ======================================================================
+   Core: pure data logic (no DOM). Kondisi C: program 2 hari selesai + Rangkuman.
+   ====================================================================== */
+const Core = (() => {
+  const CONFIG = {
+    sheetId: '__SHEET_ID__',  // [Dashboard L1] GoTo - Driver's Kids Job Acceleration Program (belum dibuat)
+    tabs: { feedback: '00. Feedback Peserta', info: 'Info Sesi', insight: 'Insight by Claude' },
+    docTitle: 'Magang di Kantor Gojek',   // suffix of the browser tab title
+    storageKey: 'goto-dkj',              // localStorage key prefix, unique per program
+    // Units of the program (days or batches), in order. Any number of units (2, 3, 4 ...).
+    batches: ['2', '3'],
+    // name/short label the unit; header = first column of the feedback tab (lower case).
+    unit: { name: 'Day', short: 'D', header: 'day', word: 'hari' },   // word = lower-case noun used inside sentences
+    sameTeam: true,            // one tutor and assistant for every unit; false = a team card per unit
+    samePeople: true,          // the same participants answer every unit (Rangkuman counts fills, not people)
+    format: 'Driver Kids · 2 hari',
+    unitIsSession: false,      // true: every unit is its own one-day workshop (hero and strip then say `format` for each unit)
+    programDate: '29–30 September 2026',
+    compareTitle: '',          // optional override of the comparison heading
+    compareContext: 'Kedua hari diikuti peserta yang sama dengan sesi berbeda: Day 2 "Think Like A Professional" dan Day 3 "Make Your Thinking Visible".',
+    compareShift: true,        // add "the aspect group that moved most" to the comparison note
+    noteFullUnits: false,      // add "<unit> juga diisi oleh seluruh peserta" when exactly one unit is fully answered
+    flagFloor: 4.0,
+    npsFloor: 60,
+    maxQuotes: 3,
+  };
+
+  const ITEMS = [
+    { code: 'M1', group: 'lingkungan', label: 'Lingkungan belajar mendukung proses belajar', match: 'mendukung proses belajar' },
+    { code: 'M2', group: 'lingkungan', label: 'Lingkungan mendorong saya aktif terlibat', match: 'untuk aktif terlibat' },
+    { code: 'M3', group: 'lingkungan', label: 'Puas dengan perangkat dukungan (support tools)', match: 'perangkat dukungan' },
+    { code: 'M4', group: 'materi', label: 'Materi terstruktur dengan baik', match: 'terstruktur dengan baik' },
+    { code: 'M5', group: 'materi', label: 'Materi relevan dengan peran dan kebutuhan', match: 'relevan dengan peran' },
+    { code: 'M6', group: 'penerapan', label: 'Siap untuk tahap selanjutnya / magang', match: 'mempersiapkan diri' },
+    { code: 'M7', group: 'penerapan', label: 'Yakin menerapkan saat magang / bekerja', match: 'yakin dapat menerapkan' },
+    { code: 'M8', group: 'penerapan', label: 'Menerapkan atau membagikan ke rekan lain', match: 'membagikan apa yang' },
+    { code: 'M9', group: 'trainer', label: 'Penyampaian trainer jelas dan mudah dipahami', match: 'penyampaian trainer' },
+    { code: 'M10', group: 'trainer', label: 'Trainer menyampaikan dengan cara yang menarik', match: 'cara yang menarik' },
+    { code: 'M11', group: 'astor', label: 'Asisten Tutor membantu saat dibutuhkan', match: 'asisten tutor membantu' },
+    { code: 'M12', group: 'overall', label: 'Training sesuai dengan harapan', match: 'sesuai dengan harapan' },
+    { code: 'M13', group: 'overall', label: 'Puas secara keseluruhan dengan sesi', match: 'secara keseluruhan' },
+  ];
+  const GROUPS = [
+    { key: 'overall', label: 'Kepuasan Keseluruhan', tile: 'Kepuasan keseluruhan' },
+    { key: 'lingkungan', label: 'Lingkungan Belajar', tile: 'Lingkungan belajar' },
+    { key: 'materi', label: 'Materi & Relevansi', tile: 'Materi & relevansi' },
+    { key: 'penerapan', label: 'Kesiapan & Penerapan', tile: 'Kesiapan & penerapan' },
+    { key: 'trainer', label: 'Trainer', tile: 'Trainer' },
+    { key: 'astor', label: 'Asisten Tutor', tile: 'Asisten Tutor' },
+  ];
+  // Two balanced columns for the aspect card.
+  const ASPEK_COLUMNS = [['lingkungan', 'materi', 'overall'], ['penerapan', 'trainer', 'astor']];
+  const TEXTS = [
+    { key: 'baik', label: 'Paling bermanfaat', match: 'paling bermanfaat' },
+    { key: 'saran', label: 'Saran perbaikan', match: 'perubahan atau perbaikan' },
+  ];
+  const NPS_MATCH = 'merekomendasikan';
+  const PANELS = [
+    { key: 'diapresiasi', label: 'Diapresiasi', hint: 'Dari "bagian paling bermanfaat"', field: 'baik', color: 'var(--teal)' },
+    { key: 'saran perbaikan', label: 'Saran perbaikan', hint: 'Dari "perubahan atau perbaikan"', field: 'saran', color: 'var(--gold)' },
+  ];
+  const RECALL = null;   // this form has no "most remembered topic" question, so that section is dropped
+  const panelField = panel => [...PANELS, ...(RECALL ? [RECALL] : [])].find(p => p.key === String(panel).toLowerCase())?.field;
+
+  function parseCSV(text) {
+    const rows = []; let row = []; let field = ''; let q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && text[i + 1] === '\n') i++;
+        row.push(field); rows.push(row); row = []; field = '';
+      } else field += c;
+    }
+    if (field !== '' || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(v => String(v).trim() !== ''));
+  }
+
+  function parseSheetId(input) {
+    const s = String(input || '').trim();
+    const m = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+    if (m) return m[1];
+    return /^[a-zA-Z0-9_-]{20,}$/.test(s) ? s : null;
+  }
+
+  /** Integer scores only, so summary rows with averages (4.93 ...) are never read as answers. */
+  function toScore(v, min, max) {
+    const s = String(v ?? '').trim();
+    if (!/^\d+$/.test(s)) return null;
+    const n = Number(s);
+    return n >= min && n <= max ? n : null;
+  }
+  const batchOf = v => String(v ?? '').replace(/\D/g, '');
+  const lowerHead = table => table[0].map(h => String(h).toLowerCase().replace(/\s+/g, ' ').trim());
+
+  function isFeedbackTable(table) {
+    if (!table || !table.length) return false;
+    const head = lowerHead(table);
+    return head[0] === CONFIG.unit.header && ITEMS.filter(it => head.some(h => h.includes(it.match))).length >= 6;
+  }
+
+  function normalizeFeedback(table) {
+    if (!isFeedbackTable(table)) return [];
+    const head = lowerHead(table);
+    const find = key => head.findIndex(h => h.includes(key));
+    const itemIdx = ITEMS.map(it => find(it.match));
+    const textIdx = TEXTS.map(t => find(t.match));
+    const npsIdx = find(NPS_MATCH); const idIdx = find('responden'); const dateIdx = find('tanggal');
+    const out = [];
+    for (const r of table.slice(1)) {
+      const batch = batchOf(r[0]);
+      if (!CONFIG.batches.includes(batch)) continue;
+      const scores = itemIdx.map(i => (i >= 0 ? toScore(r[i], 1, 5) : null));
+      if (scores.every(s => s == null)) continue;
+      out.push({
+        batch, id: idIdx >= 0 ? String(r[idIdx]).trim() : '', date: dateIdx >= 0 ? String(r[dateIdx]).trim() : '',
+        scores, nps: npsIdx >= 0 ? toScore(r[npsIdx], 0, 10) : null,
+        texts: Object.fromEntries(TEXTS.map((t, k) => [t.key, textIdx[k] >= 0 ? String(r[textIdx[k]] ?? '').trim() : ''])),
+      });
+    }
+    return out;
+  }
+
+  function rowsByHeader(table, required) {
+    if (!table || !table.length) return null;
+    const head = lowerHead(table);
+    if (!required.every(r => head.includes(r))) return null;
+    return table.slice(1).map(r => Object.fromEntries(head.map((h, i) => [h, String(r[i] ?? '').trim()])));
+  }
+
+  function normalizeInfo(table) {
+    const out = {};
+    for (const r of rowsByHeader(table, [CONFIG.unit.header, 'tutor']) || []) {
+      const b = batchOf(r[CONFIG.unit.header]); if (!b) continue;
+      const total = parseInt(r['jumlah peserta'], 10);
+      out[b] = { date: r.tanggal || '', tutor: r.tutor || '', astor: r['asisten tutor'] || '', topik: r.topik || '', total: Number.isFinite(total) && total > 0 ? total : null };
+    }
+    return out;
+  }
+
+  const splitList = s => String(s || '').split('|').map(x => x.trim()).filter(Boolean);
+  /** View key for an insight row: "2", "3", or "all" for Rangkuman. */
+  const viewOf = v => (/rangkuman|semua|all/i.test(String(v)) ? 'all' : batchOf(v));
+
+  function normalizeInsight(table) {
+    const insight = []; const quotes = [];
+    for (const r of rowsByHeader(table, [CONFIG.unit.header, 'panel', 'tema']) || []) {
+      const view = viewOf(r[CONFIG.unit.header]); if (!view || !r.panel) continue;
+      if (/mayoritas|quote/i.test(r.panel)) { if (r.kutipan) quotes.push({ view, text: r.kutipan, tema: r.tema, id: r.responden }); continue; }
+      const ids = splitList(r.responden);
+      insight.push({ view, panel: r.panel, tema: r.tema, jumlah: parseInt(r.jumlah, 10) || ids.length, ids, field: panelField(r.panel), kataKunci: splitList(r['kata kunci']) });
+    }
+    return { insight, quotes };
+  }
+
+  const isFlagged = s => s != null && s < CONFIG.flagFloor;
+  const mean = arr => { const v = arr.filter(x => x != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+  const shareAtLeast = (arr, min) => { const v = arr.filter(x => x != null); return v.length ? v.filter(x => x >= min).length / v.length : null; };
+  function npsStats(values) {
+    const v = values.filter(x => x != null);
+    if (!v.length) return null;
+    const pro = v.filter(x => x >= 9).length; const det = v.filter(x => x <= 6).length;
+    return { score: Math.round(((pro - det) / v.length) * 100), pro, pas: v.length - pro - det, det };
+  }
+
+  /** Means over every answer in scope (a batch, or both batches for Rangkuman). */
+  function stats(responses) {
+    if (!responses.length) return null;
+    const col = i => responses.map(r => r.scores[i]);
+    const items = ITEMS.map((_, i) => mean(col(i)));
+    const itemShare = ITEMS.map((_, i) => shareAtLeast(col(i), 4));
+    const itemTop = ITEMS.map((_, i) => shareAtLeast(col(i), 5));
+    const groupCols = key => ITEMS.flatMap((it, i) => (it.group === key ? col(i) : []));
+    const groups = Object.fromEntries(GROUPS.map(g => [g.key, mean(groupCols(g.key))]));
+    const groupShare = Object.fromEntries(GROUPS.map(g => [g.key, shareAtLeast(groupCols(g.key), 4)]));
+    const groupTop = Object.fromEntries(GROUPS.map(g => [g.key, shareAtLeast(groupCols(g.key), 5)]));
+    return { n: responses.length, items, itemShare, itemTop, groups, groupShare, groupTop, nps: npsStats(responses.map(r => r.nps)) };
+  }
+
+  const fmt = (v, d = 2) => (v == null ? '–' : v.toLocaleString('id-ID', { minimumFractionDigits: d, maximumFractionDigits: d }));
+  const pct = v => (v == null ? '–' : `${Math.round(v * 100)}%`);
+  const normText = s => String(s || '').toLowerCase();
+
+  return { CONFIG, ITEMS, GROUPS, ASPEK_COLUMNS, TEXTS, PANELS, RECALL, parseCSV, parseSheetId, isFeedbackTable, normalizeFeedback, normalizeInfo, normalizeInsight, stats, isFlagged, fmt, pct, normText };
+})();
+if (typeof module !== 'undefined') module.exports = Core;
+</script>
+
+<script>
+(() => {
+  const { CONFIG, ITEMS, GROUPS, ASPEK_COLUMNS, TEXTS, PANELS, RECALL } = Core;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } },
+    del(k) { try { localStorage.removeItem(k); } catch { /* storage unavailable */ } },
+  };
+  const KEY_SHEET = `${CONFIG.storageKey}.sheetId`;
+  const SPARK = (size = 14, color = 'currentColor') => `<svg class="spark" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true"><path fill="${color}" d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z"/></svg>`;
+  const ICON = {
+    date: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>',
+    format: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>',
+    people: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2 20a7 7 0 0 1 14 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7M22 20a7 7 0 0 0-4-6.3"></path></svg>',
+    quote: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 7H6a3 3 0 0 0-3 3v4a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3v2a5 5 0 0 0 5-5zM21 7h-4a3 3 0 0 0-3 3v4a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3v2a5 5 0 0 0 5-5z"/></svg>',
+  };
+  const UNIT = CONFIG.unit;
+  const VIEWS = [{ key: 'all', label: 'Rangkuman', sub: CONFIG.batches.map(b => UNIT.short + b).join(' + ') }, ...CONFIG.batches.map(b => ({ key: b, label: `${UNIT.name} ${b}`, sub: '' }))];
+  const batchColor = b => `var(--u${Math.min(CONFIG.batches.indexOf(b), 3) + 1})`;
+  const unitIdx = b => Math.min(CONFIG.batches.indexOf(b), 3) + 1;
+  const unitCls = b => `ut${unitIdx(b)}`;
+  const N = CONFIG.batches.length;
+  const unitLow = UNIT.word || UNIT.name.toLowerCase();
+  const allWord = N === 2 ? 'kedua' : 'semua';
+  const joinList = a => (a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} & ${a[a.length - 1]}`);
+  const unitNames = () => CONFIG.batches.map(b => `${UNIT.name} ${b}`);
+  /* Whether the form has an NPS question at all; without it every NPS element is dropped, not shown as a dash. */
+  const hasNps = () => state.data.responses.some(r => r.nps != null);
+
+  /* When almost everyone scores 4-5 (>= 95% on every aspect), '% skor 4-5' is ~100% everywhere and says nothing;
+     the program then switches to '% skor 5' so the bars still separate the aspects. */
+  const shareMode = () => { const s = Core.stats(state.data.responses); return s && s.itemShare.every(x => x == null || x >= 0.95) ? 'top' : 'share'; };
+  const shareLabel = () => (shareMode() === 'top' ? 'skor 5' : 'skor 4–5');
+  const DEFAULT_SHEET = CONFIG.sheetId.startsWith('__') ? null : CONFIG.sheetId;   // no dashboard sheet yet: snapshot only
+  const state = { data: null, source: 'snapshot', sheetId: DEFAULT_SHEET, view: 'all', search: '', theme: null };
+
+  /* ---------------- Loading ---------------- */
+  async function fetchTab(id, name) {
+    const res = await fetch(`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(name)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    if (/^\s*</.test(text)) throw new Error('Sheet belum dibagikan publik');
+    return Core.parseCSV(text);
+  }
+  async function loadFromSheet(id) {
+    const [feedback, info, insight] = await Promise.all([fetchTab(id, CONFIG.tabs.feedback), fetchTab(id, CONFIG.tabs.info).catch(() => null), fetchTab(id, CONFIG.tabs.insight).catch(() => null)]);
+    const d = buildData({ feedback, info, insight });
+    if (!d.responses.length) throw new Error('Tab feedback kosong atau header berubah');
+    return d;
+  }
+  function buildData(raw) {
+    const { insight, quotes } = Core.normalizeInsight(raw.insight);
+    return { responses: Core.normalizeFeedback(raw.feedback), info: Core.normalizeInfo(raw.info), insight, quotes };
+  }
+
+  async function init() {
+    const params = new URLSearchParams(location.search);
+    const v = params.get('view');
+    state.view = VIEWS.some(x => x.key === v) ? v : 'all';
+    state.sheetId = Core.parseSheetId(params.get('sheet')) || store.get(KEY_SHEET) || DEFAULT_SHEET;
+    state.data = buildData(SNAPSHOT); state.source = 'snapshot';
+    render();
+    // Live data replaces the snapshot when the sheet is readable.
+    if (!state.sheetId) return;
+    try { state.data = await loadFromSheet(state.sheetId); state.source = 'sheet'; render(); }
+    catch (e) { console.info('Memakai data bawaan:', e.message); }
+  }
+
+  /* ---------------- Scope helpers ---------------- */
+  const inView = r => state.view === 'all' || r.batch === state.view;
+  const responses = () => state.data.responses.filter(inView);
+  const infoFor = b => state.data.info[b] || {};
+  const totalFor = view => (view === 'all' ? CONFIG.batches.reduce((a, b) => a + (infoFor(b).total || 0), 0) : infoFor(view).total || 0);
+  const dateOf = view => (view === 'all' && CONFIG.programDate ? CONFIG.programDate : view === 'all' ? [...new Set(CONFIG.batches.map(b => infoFor(b).date).filter(Boolean))].join(' & ') : infoFor(view).date) || '';
+  const themes = () => state.data.insight.filter(t => t.view === state.view);
+  const initials = name => String(name).split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
+
+  /* ---------------- Rendering ---------------- */
+  function renderSwitch() {
+    $('viewSwitch').innerHTML = VIEWS.map(v => `<button type="button" data-view="${v.key}" aria-pressed="${v.key === state.view}">${v.label}${v.sub ? `<small>${v.sub}</small>` : ''}</button>`).join('');
+    $('viewSwitch').querySelectorAll('button').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+  }
+
+  function render() {
+    const s = Core.stats(responses());
+    const all = state.view === 'all';
+    const total = totalFor(state.view);
+    renderSwitch();
+    const people = CONFIG.samePeople && all ? infoFor(CONFIG.batches[0]).total : total;
+    const where = all || CONFIG.unitIsSession ? CONFIG.format : (infoFor(state.view).topik || `${UNIT.name} ${state.view} dari ${CONFIG.batches.length}`);
+    $('heroSub').textContent = CONFIG.unitIsSession
+      ? `${dateOf(state.view)} · ${where} · ${s ? `${s.n} dari ${total} peserta mengisi feedback` : 'Belum ada jawaban'}`
+      : `${dateOf(state.view)} · ${where} · ${people} peserta · ${s ? `${s.n} jawaban feedback` : 'Belum ada jawaban'}`;
+    $('viewChip').innerHTML = `${SPARK(14, 'var(--gold)')} ${all ? `Rangkuman ${joinList(unitNames())}` : `${UNIT.name} ${state.view} · ${esc(infoFor(state.view).topik || infoFor(state.view).tutor || 'Tutor belum diisi')}`}`;
+    document.title = `${all ? 'Rangkuman' : `${UNIT.name} ${state.view}`} · Insight L1 ${CONFIG.docTitle}`;
+    $('targetNote').textContent = `Rata-rata dari ${s?.n || 0} jawaban${all ? ` gabungan ${allWord} ${unitLow}` : ''}`;
+    $('aspekNote').textContent = `Bar = skor pada skala 1–5${all ? ` · rincian per ${unitLow} di bawah tiap aspek` : ''}`;
+    $('compareSection').hidden = !all;
+    $('cTitle').textContent = CONFIG.compareTitle || `Perbandingan ${joinList(unitNames())}`;
+    $('cNote').textContent = '';
+    // Section numbers follow what is visible in this view.
+    let no = 0; document.querySelectorAll('main section').forEach(sec => { if (!sec.hidden) sec.querySelector('.no').textContent = String(++no).padStart(2, '0'); });
+
+    renderStrip(s);
+    renderQuotes(s);
+    renderSummary(s, total);
+    renderAspek(s);
+    if (all) renderCompare();
+    renderVoices();
+    renderCodes();
+    renderAnswers();
+    renderSource();
+  }
+
+  function renderStrip(s) {
+    const fact = (icon, lbl, val) => `<div class="fact"><span class="ico">${ICON[icon]}</span><div style="min-width:0"><div class="lbl">${lbl}</div><div class="val">${val}</div></div></div>`;
+    const who = (role, cls, name) => `<div class="who"><div class="avatar ${cls}" aria-hidden="true">${name ? esc(initials(name)) : '–'}</div><div style="min-width:0"><div class="role ${cls}">${role}</div><div class="name">${name ? esc(name) : '<span class="muted">Belum diisi</span>'}</div></div></div>`;
+    const resp = `${s?.n || 0} <span class="muted">dari ${totalFor(state.view)}</span>`;
+    if (state.view !== 'all') {
+      const i = infoFor(state.view);
+      $('strip').innerHTML = `<div class="strip-card batch">${who('Tutor', 'tutor', i.tutor)}${who('Asisten Tutor', 'astor', i.astor)}${fact('date', 'Tanggal', esc(i.date || '–'))}${fact('format', i.topik ? 'Sesi' : 'Format', i.topik ? esc(i.topik) : CONFIG.unitIsSession ? esc(CONFIG.format) : `${UNIT.name} ${state.view} dari ${CONFIG.batches.length}`)}${fact('people', 'Responden', resp)}</div>`;
+      return;
+    }
+    if (CONFIG.sameTeam) {
+      const i = infoFor(CONFIG.batches[0]);
+      $('strip').innerHTML = `<div class="strip-card batch">${who('Tutor', 'tutor', i.tutor)}${who('Asisten Tutor', 'astor', i.astor)}${fact('date', 'Tanggal', esc(dateOf('all')))}${fact('format', 'Format', esc(CONFIG.format))}${fact('people', 'Pengisian', `${s?.n || 0} <span class="muted">dari ${totalFor('all')}</span>`)}</div>`;
+      return;
+    }
+    const team = b => { const i = infoFor(b); const n = state.data.responses.filter(r => r.batch === b).length;
+      return `<div class="team"><div class="tb ${unitCls(b)}" style="background:none"><i style="background:${batchColor(b)}"></i>${UNIT.name} ${b} · ${n}/${i.total || '–'} responden</div>
+        <div class="people"><span class="p"><span class="avatar tutor">${esc(initials(i.tutor || '?'))}</span><span class="pt"><b>${esc(i.tutor || 'Belum diisi')}</b><span>Tutor</span></span></span>
+        <span class="p"><span class="avatar astor">${esc(initials(i.astor || '?'))}</span><span class="pt"><b>${esc(i.astor || 'Belum diisi')}</b><span class="as">Asisten Tutor</span></span></span></div></div>`; };
+    $('strip').innerHTML = `<div class="strip-card multi"><div class="teams">${CONFIG.batches.map(team).join('')}</div><div class="facts">${fact('date', 'Tanggal', esc(dateOf('all')))}${fact('people', CONFIG.samePeople ? 'Pengisian' : 'Responden', resp)}</div></div>`;
+  }
+
+  /* Majority voice as speech bubbles: 1 quote = spotlight, 2 = light + brand, 3 = pair above a spotlight. */
+  function renderQuotes(s) {
+    const quotes = state.data.quotes.filter(q => q.view === state.view).slice(0, CONFIG.maxQuotes);
+    const box = $('quotesBox');
+    $('qNote').textContent = '';
+    if (!quotes.length) { box.innerHTML = '<p class="q-foot" style="margin:0">Kutipan mayoritas dirangkum setelah jawaban terkumpul.</p>'; return; }
+    const split = t => { const m = String(t).match(/^(.*?)\s*\(([^)]*\d[^)]*)\)\s*$/); return m ? [m[1], m[2]] : [t, '']; };
+    const layout = n => (n === 1 ? [[{ i: 0, side: 'center' }]] : n === 2 ? [[{ i: 0, side: 'left' }, { i: 1, side: 'right' }]] : [[{ i: 1, side: 'left' }, { i: 2, side: 'right' }], [{ i: 0, side: 'center' }]]);
+    const bubble = (q, side) => {
+      const [tema, share] = split(q.tema); const b = (q.id.match(/^[A-Z]+(\d)/) || [])[1];
+      return `<figure class="q ${side}"><blockquote class="bubble">${esc(q.text)}</blockquote>
+        <figcaption class="q-meta">${b && state.view === 'all' ? `<span class="dy">${UNIT.name} ${b}</span>` : ''}<span class="tema">${esc(tema)}</span>${share ? `<span class="share num">${esc(share)}</span>` : ''}</figcaption></figure>`;
+    };
+    box.innerHTML = `<div class="qwall">${layout(quotes.length).map(row => `<div class="qrow ${row.length === 2 ? 'pair' : ''}">${row.map(c => bubble(quotes[c.i], c.side)).join('')}</div>`).join('')}</div><p class="q-foot">Kutipan diambil apa adanya dari jawaban peserta. Satu kutipan paling mewakili per tema.</p>`;
+  }
+
+  function tile({ k, v, unit = '', d = '', below, cls = '' }) {
+    return `<div class="card tile ${cls} ${below ? 'below' : ''}"><span class="k">${k}</span><span class="v num">${v}${unit ? ` <small>${unit}</small>` : ''}</span><span class="d num">${d || '&nbsp;'}</span></div>`;
+  }
+  function renderSummary(s, total) {
+    const n = s?.n || 0; const p = total ? Math.round((n / total) * 100) : 0;
+    const twice = CONFIG.samePeople && state.view === 'all';
+    const part = `<div class="card tile part"><span class="k">${twice ? 'Pengisian feedback' : 'Peserta yang mengisi'}</span><span class="v num">${n} <small>dari ${total} ${twice ? `(${infoFor(CONFIG.batches[0]).total} peserta × ${N} ${unitLow})` : 'peserta'}</small></span>
+      <div class="bar"><i style="width:${Math.min(100, p)}%"></i></div><span class="d num">${p}% partisipasi</span></div>`;
+    const tiles = GROUPS.map(g => { const v = s?.groups[g.key] ?? null; return tile({ k: g.tile, v: Core.fmt(v), unit: '/ 5', d: s ? `${Core.pct((shareMode() === 'top' ? s.groupTop : s.groupShare)[g.key])} ${shareLabel()}` : '', below: Core.isFlagged(v) }); }).join('');
+    const nps = s?.nps;
+    const npsTile = nps ? tile({ k: 'NPS', v: `${nps.score}%`, cls: 'nps', below: nps.score < CONFIG.npsFloor, d: `${nps.pro} promotor · ${nps.pas} pasif · ${nps.det} detraktor` }) : '';
+    $('summary').style.setProperty('--nt', GROUPS.length + (nps ? 1 : 0));
+    $('summary').innerHTML = part + tiles + npsTile;
+  }
+
+  function renderAspek(s) {
+    if (!s) { $('aspek').innerHTML = '<div class="empty">Belum ada jawaban.</div>'; return; }
+    const vals = s.items.filter(v => v != null);
+    const max = Math.max(...vals), min = Math.min(...vals);
+    const maxCount = vals.filter(v => v === max).length, minCount = vals.filter(v => v === min).length;
+    const perBatch = state.view === 'all' ? Object.fromEntries(CONFIG.batches.map(b => [b, Core.stats(state.data.responses.filter(r => r.batch === b))])) : null;
+    const row = (it, i) => {
+      const v = s.items[i]; const fill = v == null ? 0 : Math.max(0, (v - 1) / 4);   // bar = score on the 1-5 scale
+      const tag = v === max && maxCount === 1 ? '<span class="tag top">Tertinggi</span>' : v === min && minCount === 1 ? '<span class="tag low">Terendah</span>' : '';
+      const split = perBatch ? `<div class="split">${CONFIG.batches.map(b => `<span><i style="background:${batchColor(b)}"></i>${UNIT.short}${b} <b class="num">${Core.fmt(perBatch[b]?.items[i])}</b></span>`).join('')}</div>` : '';
+      return `<div class="aspek-row ${Core.isFlagged(v) ? 'below' : ''}"><span class="code">${it.code}</span><span class="stmt">${esc(it.label)}${tag}</span><span class="score num">${Core.fmt(v)} <small>/ 5</small></span>
+        <div class="meter"><div class="bar"><i style="width:${Math.round(fill * 100)}%"></i></div></div>${split}</div>`;
+    };
+    $('aspek').innerHTML = ASPEK_COLUMNS.map(col => `<div class="aspek-col">${col.map(key => {
+      const g = GROUPS.find(x => x.key === key);
+      const rows = ITEMS.map((it, i) => ({ it, i })).filter(x => x.it.group === key).map(x => row(x.it, x.i)).join('');
+      return `<div class="aspek-group"><h4>${g.label}</h4>${rows}</div>`;
+    }).join('')}</div>`).join('');
+  }
+
+  /* Rangkuman only: both batches side by side with their teaching team. */
+  function renderCompare() {
+    const per = Object.fromEntries(CONFIG.batches.map(b => [b, Core.stats(state.data.responses.filter(r => r.batch === b))]));
+    const head = `<div class="compare-head"><div class="card-title" style="margin:0">Aspek</div>${CONFIG.batches.map(b => { const i = infoFor(b); const n = per[b]?.n || 0;
+      const who = CONFIG.sameTeam ? '' : `Tutor <b>${esc(i.tutor || '–')}</b> · Asisten <b>${esc(i.astor || '–')}</b><br>`;
+      return `<div class="bh"><span class="t"><i style="background:${batchColor(b)}"></i>${UNIT.name} ${b}</span><span class="s">${who}${n} dari ${i.total || '–'} peserta mengisi</span></div>`; }).join('')}</div>`;
+    const metric = (label, get, fmt, scale) => {
+      const v = CONFIG.batches.map(b => get(per[b], b));
+      const known = v.filter(x => x != null);
+      const top = known.length ? Math.max(...known) : null;
+      const spread = known.length > 1 && new Set(known.map(x => x.toFixed(2))).size > 1;   // no winner highlight when every unit is equal
+      return `<div class="cmp-row ${spread ? 'spread' : ''}"><span class="m">${label}</span>${v.map((x, k) => `<div class="cmp-cell ${spread && x != null && x.toFixed(2) === top.toFixed(2) ? 'lead' : ''}"><div class="bar"><i style="width:${x == null ? 0 : Math.round(scale(x) * 100)}%;background:${batchColor(CONFIG.batches[k])}"></i></div><span class="val num">${fmt(x)}</span></div>`).join('')}</div>`;
+    };
+    const score = x => (x == null ? 0 : Math.max(0, (x - 1) / 4));
+    const rows = GROUPS.map(g => metric(g.tile, s => s?.groups[g.key] ?? null, v => Core.fmt(v), score)).join('')
+      + (hasNps() ? metric('NPS', s => s?.nps?.score ?? null, v => (v == null ? '–' : `${v}%`), x => Math.max(0, x) / 100) : '')
+      + metric('Partisipasi', (s, b) => (s && infoFor(b).total ? Math.round((s.n / infoFor(b).total) * 100) : null), v => (v == null ? '–' : `${v}%`), x => x / 100);
+    const [first, last] = [CONFIG.batches[0], CONFIG.batches[N - 1]];
+    const overall = CONFIG.batches.map(u => ({ u, v: per[u]?.groups.overall })).filter(x => x.v != null);
+    let diff = '';
+    if (overall.length > 1) {
+      const hi = overall.reduce((p, q) => (q.v > p.v ? q : p)); const lo = overall.reduce((p, q) => (q.v < p.v ? q : p));
+      const d = hi.v - lo.v;
+      if (d < 0.1) diff = `Kepuasan keseluruhan ${allWord} ${unitLow} praktis setara (selisih ${Core.fmt(d)} poin)`;
+      else if (N === 2) diff = `Kepuasan keseluruhan ${UNIT.name} ${hi.u} lebih tinggi ${Core.fmt(d)} poin`;
+      else diff = `Kepuasan keseluruhan tertinggi pada ${UNIT.name} ${hi.u} (${Core.fmt(hi.v)}) dan terendah pada ${UNIT.name} ${lo.u} (${Core.fmt(lo.v)}), selisih ${Core.fmt(d)} poin`;
+    }
+    // The aspect group that moved most between the first and last unit, worth calling out.
+    const shift = CONFIG.compareShift ? GROUPS.filter(g => g.key !== 'overall').map(g => ({ label: g.tile, from: per[first]?.groups[g.key], to: per[last]?.groups[g.key] }))
+      .filter(x => x.from != null && x.to != null).sort((p, q) => Math.abs(q.to - q.from) - Math.abs(p.to - p.from))[0] : null;
+    const full = CONFIG.batches.filter(u => per[u] && infoFor(u).total && per[u].n >= infoFor(u).total);
+    const parts = [CONFIG.compareContext, diff && `${diff}.`,
+      shift && `Perubahan terbesar ada di ${shift.label.toLowerCase()}: ${Core.fmt(shift.from)} di ${UNIT.name} ${first} menjadi ${Core.fmt(shift.to)} di ${UNIT.name} ${last}.`,
+      CONFIG.noteFullUnits && full.length === 1 && N > 1 && `${UNIT.name} ${full[0]} juga diisi oleh seluruh peserta, sehingga skornya mewakili kelas secara penuh.`].filter(Boolean);
+    $('compare').style.setProperty('--n', N);
+    $('compare').classList.toggle('many', N > 2);
+    $('compare').innerHTML = head + rows + `<p class="compare-note">${parts.join(' ')}</p>`;
+  }
+
+  function renderVoices() {
+    const rows = themes();
+    $('voices').style.setProperty('--np', PANELS.length);
+    $('voices').innerHTML = PANELS.map(p => {
+      const items = rows.map((it, i) => ({ it, i })).filter(({ it }) => it.panel.toLowerCase() === p.key).sort((a, b) => b.it.jumlah - a.it.jumlah);
+      const body = items.length ? items.map(({ it, i }) => `<button class="theme-chip" type="button" data-theme="${i}" aria-pressed="${state.theme === i}" aria-controls="answers"><span>${esc(it.tema)}</span><span style="display:flex;gap:8px;align-items:center"><span class="cnt num">${it.jumlah}</span><span class="go" aria-hidden="true">↓</span></span></button>`).join('')
+        : '<div class="empty">Belum ada tema.</div>';
+      return `<div class="card card-pad voice"><h3><span class="dot" style="background:${p.color}"></span>${p.label}</h3><p class="hint">${p.hint}</p>${body}</div>`;
+    }).join('');
+    $('voices').querySelectorAll('.theme-chip').forEach(b => b.addEventListener('click', () => toggleTheme(Number(b.dataset.theme))));
+  }
+
+  function toggleTheme(i) {
+    state.theme = state.theme === i ? null : i;
+    document.querySelectorAll('[data-theme]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.theme) === state.theme)));
+    renderAnswers(true);
+    if (state.theme != null) $('answersSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderCodes() {
+    $('codes').innerHTML = ITEMS.map(it => `<div><span class="code">${it.code}</span><span>${esc(it.label)}</span></div>`).join('')
+      + (hasNps() ? '<div><span class="code">NPS</span><span>Kemungkinan merekomendasikan training (1 sampai 10)</span></div>' : '');
+  }
+
+  const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  function highlight(text, terms) {
+    const safe = esc(text);
+    const words = terms.filter(t => t && t.length >= 2).map(esc).sort((a, b) => b.length - a.length);
+    if (!words.length || !safe) return safe;
+    return safe.replace(new RegExp(`(${words.map(reEsc).join('|')})`, 'giu'), '<mark>$1</mark>');
+  }
+
+  function renderAnswers(flash = false) {
+    const q = state.search.trim().toLowerCase();
+    const theme = state.theme != null ? themes()[state.theme] : null;
+    const all = responses();
+    let rows = all;
+    if (theme) rows = rows.filter(r => theme.ids.includes(r.id));
+    if (q) rows = rows.filter(r => TEXTS.some(t => r.texts[t.key].toLowerCase().includes(q)));
+    const pill = $('themeFilter'); pill.hidden = !theme;
+    if (theme) pill.querySelector('span').textContent = `${theme.panel}: ${theme.tema}`;
+    $('searchCount').textContent = (q || theme) ? `${rows.length} dari ${all.length} jawaban` : `${all.length} jawaban`;
+    const showBatch = state.view === 'all';
+    const npsOn = hasNps();
+    const head = `<thead><tr><th class="s">#</th>${showBatch ? `<th>${UNIT.name}</th>` : ''}${ITEMS.map(it => `<th class="s" title="${esc(it.label)}">${it.code}</th>`).join('')}${npsOn ? '<th class="s" title="Net Promoter Score">NPS</th>' : ''}${TEXTS.map(t => `<th>${t.label}</th>`).join('')}</tr></thead>`;
+    const body = rows.length ? rows.map(r => {
+      const cell = t => { const focus = theme && theme.field === t.key; const terms = [q, ...(focus ? theme.kataKunci : [])];
+        return `<td class="txt ${focus ? 'focus' : ''}">${highlight(r.texts[t.key], terms) || '<span class="muted">–</span>'}</td>`; };
+      return `<tr><td class="s muted num">${esc(r.id.replace(/^[A-Z]+\d-/, ''))}</td>${showBatch ? `<td><span class="bt-tag ${unitCls(r.batch)}">${UNIT.short}${r.batch}</span></td>` : ''}${r.scores.map(s => `<td class="s num ${s != null && s <= 3 ? 'low' : ''}">${s ?? '–'}</td>`).join('')}${npsOn ? `<td class="s num ${r.nps != null && r.nps <= 6 ? 'low' : ''}">${r.nps ?? '–'}</td>` : ''}${TEXTS.map(cell).join('')}</tr>`;
+    }).join('') : `<tr><td colspan="${ITEMS.length + TEXTS.length + (showBatch ? 1 : 0) + (npsOn ? 2 : 1)}" class="empty" style="text-align:center;padding:20px">Tidak ada jawaban yang cocok.</td></tr>`;
+    $('answers').innerHTML = head + `<tbody class="${flash ? 'flash' : ''}">${body}</tbody>`;
+  }
+
+  function renderSource() {
+    const pill = $('sourcePill');
+    pill.className = `source-pill ${state.source === 'sheet' ? 'live' : ''}`;
+    pill.querySelector('span').textContent = state.source === 'sheet' ? 'Google Sheet' : 'Data bawaan (17 Okt 2026)';
+  }
+
+  function setView(v) {
+    state.view = v; state.theme = null; state.search = ''; $('searchInput').value = '';
+    render();
+    const params = new URLSearchParams(location.search); params.set('view', v);
+    try { history.replaceState(null, '', `${location.pathname}?${params}`); } catch { /* file preview */ }
+  }
+
+  /* ---------------- Kelola data ---------------- */
+  const status = (id, msg, ok) => { const el = $(id); el.textContent = msg; el.className = `status ${ok ? 'ok' : 'err'}`; };
+  const sheetUrl = id => (id ? `https://docs.google.com/spreadsheets/d/${id}/edit` : '');
+  function openManage() {
+    $('sheetInput').value = sheetUrl(state.sheetId); $('openSheetBtn').href = sheetUrl(state.sheetId);
+    ['sheetStatus', 'copyStatus'].forEach(id => { $(id).textContent = ''; });
+    $('manage').showModal();
+  }
+  async function connect(input) {
+    const id = Core.parseSheetId(input);
+    if (!id) { status('sheetStatus', 'Link sheet tidak dikenali.', false); return; }
+    status('sheetStatus', 'Memuat data...', true);
+    try {
+      const d = await loadFromSheet(id);
+      Object.assign(state, { data: d, source: 'sheet', sheetId: id, theme: null }); store.set(KEY_SHEET, id); render();
+      status('sheetStatus', `Terhubung. ${d.responses.length} jawaban dimuat.`, true);
+    } catch (e) { status('sheetStatus', `Gagal memuat: ${e.message}. Pastikan sheet dibagikan "Anyone with the link: Viewer".`, false); }
+  }
+  async function copyLink() {
+    const url = `${location.origin}${location.pathname}?view=${state.view}`;
+    try { await navigator.clipboard.writeText(url); status('copyStatus', 'Link tersalin.', true); } catch { status('copyStatus', url, true); }
+  }
+  function reset() {
+    store.del(KEY_SHEET); Object.assign(state, { data: buildData(SNAPSHOT), source: 'snapshot', sheetId: DEFAULT_SHEET, theme: null });
+    render(); $('manage').close();
+  }
+
+  $('searchInput').addEventListener('input', e => { state.search = e.target.value; renderAnswers(); });
+  $('themeFilter').querySelector('button').addEventListener('click', () => toggleTheme(state.theme));
+  $('openManage').addEventListener('click', openManage);
+  $('closeManage').addEventListener('click', () => $('manage').close());
+  $('connectBtn').addEventListener('click', () => connect($('sheetInput').value));
+  $('reloadBtn').addEventListener('click', () => connect(state.sheetId));
+  $('copyLinkBtn').addEventListener('click', copyLink);
+  $('resetBtn').addEventListener('click', reset);
+  init();
+})();
+</script>
+</body>
+</html>
