@@ -705,9 +705,12 @@ const SNAPSHOT = __SNAPSHOT__;
   function renderQuotes(s) {
     const box = $('quotesBox');
     const quotes = state.data.quotes.filter(q => q.view === state.view).slice(0, CONFIG.maxQuotes);
+    // Day views read like the live daily dashboard (Quotes of the Day); Rangkuman keeps Suara Mayoritas.
+    const daily = state.view !== 'all';
+    $('qTitle').textContent = daily ? 'Quotes of the Day' : 'Suara Mayoritas';
     $('qNote').textContent = `Tema Diapresiasi yang disuarakan minimal ${Math.round(CONFIG.majorityShare * 100)}% responden`;
     if (!quotes.length) {
-      box.innerHTML = `<div class="q-empty"><b>Belum ada suara mayoritas</b>${s ? `Tidak ada tema apresiasi yang disuarakan oleh ${Math.round(CONFIG.majorityShare * 100)}% atau lebih dari ${s.n} peserta yang mengisi ${state.view === 'all' ? 'feedback' : 'hari ini'}. Lihat Suara Peserta di bawah untuk tema yang muncul.` : 'Belum ada jawaban.'}</div>`;
+      box.innerHTML = `<div class="q-empty"><b>${daily ? 'Belum ada quotes hari ini' : 'Belum ada suara mayoritas'}</b>${s ? `Tidak ada tema apresiasi yang disuarakan oleh ${Math.round(CONFIG.majorityShare * 100)}% atau lebih dari ${s.n} peserta yang mengisi ${state.view === 'all' ? 'feedback' : 'hari ini'}. Lihat Suara Peserta di bawah untuk tema yang muncul.` : 'Belum ada jawaban.'}</div>`;
       return;
     }
     const split = t => { const m = String(t).match(/^(.*?)\s*\(([^)]*\d[^)]*)\)\s*$/); return m ? [m[1], m[2]] : [t, '']; };
