@@ -164,7 +164,6 @@ section { margin-top: 36px; }
 .aspek-col { min-width: 0; }
 .aspek-group + .aspek-group { margin-top: 14px; }
 .aspek-group h4 { margin: 0 0 2px; font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; display: flex; justify-content: space-between; }
-.aspek-group h4 span { color: var(--teal-deep); }
 .aspek-row { display: grid; grid-template-columns: 38px 1fr auto; gap: 3px 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
 .aspek-group h4 + .aspek-row { border-top: 0; }
 .code { font-size: 12px; font-weight: 900; color: var(--teal-deep); background: var(--teal-tint); border-radius: 6px; text-align: center; padding: 2px 0; }
@@ -172,9 +171,8 @@ section { margin-top: 36px; }
 .aspek-row .score { font-weight: 900; font-size: 17px; color: var(--teal-deep); }
 .aspek-row .score small { font-weight: 400; font-size: 12px; color: var(--ink-3); }
 .aspek-row.below .score, .aspek-row.below .stmt { color: var(--warn); }
-.aspek-row .meter { grid-column: 2 / -1; display: flex; align-items: center; gap: 10px; }
+.aspek-row .meter { grid-column: 2 / -1; display: flex; align-items: center; }
 .aspek-row .meter .bar { flex: 1; height: 6px; margin: 0; }
-.aspek-row .share { flex: none; width: 84px; text-align: right; font-size: 12px; color: var(--ink-3); }
 .aspek-row .split { grid-column: 2 / -1; display: flex; gap: 12px; font-size: 12px; color: var(--ink-2); }
 .aspek-row .split i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; }
 .tag { display: inline-block; margin-left: 8px; font-size: 11px; font-weight: 900; border-radius: 999px; padding: 1px 8px; vertical-align: 1px; }
@@ -190,11 +188,12 @@ section { margin-top: 36px; }
 .cmp-row { display: grid; grid-template-columns: minmax(150px, .9fr) repeat(var(--n, 2), minmax(0, 1fr)); gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); align-items: center; }
 .cmp-row:last-child { border-bottom: 0; }
 .cmp-row .m { font-weight: 700; font-size: 14px; }
-.cmp-cell { display: flex; align-items: center; gap: 10px; }
+.cmp-cell { display: grid; grid-template-columns: minmax(0, 1fr) 62px; align-items: center; gap: 10px; }
 .cmp-cell .bar { flex: 1; margin: 0; height: 10px; }
-.cmp-cell .val { width: 52px; text-align: right; font-weight: 900; color: var(--teal-deep); }
-.cmp-cell.lead .val::after { content: "▲"; font-size: 9px; color: var(--teal); margin-left: 3px; vertical-align: 2px; }
-@media (max-width: 560px) { .many .bh .s { display: none; } .many .bh .t { font-size: 14px; gap: 0; } .many .bh .t i { display: none; } .many .cmp-cell .val { width: auto; } }
+.cmp-cell .val { justify-self: end; font-weight: 700; color: var(--ink-3); padding: 3px 9px; border-radius: 9px; }
+.cmp-row.spread .cmp-cell:not(.lead) .bar i { opacity: .35; }
+.cmp-cell.lead .val, .cmp-row:not(.spread) .cmp-cell .val { font-weight: 900; color: var(--teal-deep); background: var(--teal-tint); }
+@media (max-width: 560px) { .many .bh .s { display: none; } .many .bh .t { font-size: 14px; gap: 0; } .many .bh .t i { display: none; } .many .cmp-cell .val { padding: 3px 6px; } }
 .compare-note { margin: 14px 0 0; font-size: 13px; color: var(--ink-2); }
 
 /* ---------- Topik paling diingat ---------- */
@@ -289,7 +288,7 @@ dialog::backdrop { background: rgba(0, 60, 58, .45); }
   .callouts { grid-template-columns: 1fr !important; }
   .compare-head, .cmp-row { grid-template-columns: minmax(110px, .8fr) repeat(var(--n, 2), minmax(0, 1fr)); gap: 10px; }
   .cmp-cell .bar { display: none; }
-  .cmp-cell { justify-content: flex-end; }
+  .cmp-cell { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
   .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -716,10 +715,10 @@ if (typeof module !== 'undefined') module.exports = Core;
     $('viewChip').innerHTML = `${SPARK(14, 'var(--gold)')} ${all ? `Rangkuman ${joinList(unitNames())}` : `${UNIT.name} ${state.view} · ${esc(infoFor(state.view).tutor || 'Tutor belum diisi')}`}`;
     document.title = `${all ? 'Rangkuman' : `${UNIT.name} ${state.view}`} · Insight L1 ${CONFIG.docTitle}`;
     $('targetNote').textContent = `Rata-rata dari ${s?.n || 0} jawaban${all ? ` gabungan ${allWord} ${unitLow}` : ''}`;
-    $('aspekNote').textContent = `${all ? `Skor gabungan, rincian per ${unitLow} di bawah tiap aspek · ` : ''}Bar = peserta yang memberi ${shareLabel()}${shareMode() === 'top' ? ' (hampir semua peserta memberi 4–5)' : ''}`;
+    $('aspekNote').textContent = `Bar = skor pada skala 1–5${all ? ` · rincian per ${unitLow} di bawah tiap aspek` : ''}`;
     $('compareSection').hidden = !all;
     $('cTitle').textContent = CONFIG.compareTitle || `Perbandingan ${joinList(unitNames())}`;
-    $('cNote').textContent = `▲ = ${unitLow} dengan skor lebih tinggi`;
+    $('cNote').textContent = '';
     // Section numbers follow what is visible in this view.
     let no = 0; document.querySelectorAll('main section').forEach(sec => { if (!sec.hidden) sec.querySelector('.no').textContent = String(++no).padStart(2, '0'); });
 
@@ -793,16 +792,16 @@ if (typeof module !== 'undefined') module.exports = Core;
     const maxCount = vals.filter(v => v === max).length, minCount = vals.filter(v => v === min).length;
     const perBatch = state.view === 'all' ? Object.fromEntries(CONFIG.batches.map(b => [b, Core.stats(state.data.responses.filter(r => r.batch === b))])) : null;
     const row = (it, i) => {
-      const v = s.items[i]; const share = (shareMode() === 'top' ? s.itemTop : s.itemShare)[i];
+      const v = s.items[i]; const fill = v == null ? 0 : Math.max(0, (v - 1) / 4);   // bar = score on the 1-5 scale
       const tag = v === max && maxCount === 1 ? '<span class="tag top">Tertinggi</span>' : v === min && minCount === 1 ? '<span class="tag low">Terendah</span>' : '';
       const split = perBatch ? `<div class="split">${CONFIG.batches.map(b => `<span><i style="background:${batchColor(b)}"></i>${UNIT.short}${b} <b class="num">${Core.fmt(perBatch[b]?.items[i])}</b></span>`).join('')}</div>` : '';
       return `<div class="aspek-row ${Core.isFlagged(v) ? 'below' : ''}"><span class="code">${it.code}</span><span class="stmt">${esc(it.label)}${tag}</span><span class="score num">${Core.fmt(v)} <small>/ 5</small></span>
-        <div class="meter"><div class="bar"><i style="width:${Math.round((share || 0) * 100)}%"></i></div><span class="share num">${Core.pct(share)} ${shareLabel()}</span></div>${split}</div>`;
+        <div class="meter"><div class="bar"><i style="width:${Math.round(fill * 100)}%"></i></div></div>${split}</div>`;
     };
     $('aspek').innerHTML = ASPEK_COLUMNS.map(col => `<div class="aspek-col">${col.map(key => {
       const g = GROUPS.find(x => x.key === key);
       const rows = ITEMS.map((it, i) => ({ it, i })).filter(x => x.it.group === key).map(x => row(x.it, x.i)).join('');
-      return `<div class="aspek-group"><h4>${g.label}<span class="num">${Core.fmt(s.groups[key])}</span></h4>${rows}</div>`;
+      return `<div class="aspek-group"><h4>${g.label}</h4>${rows}</div>`;
     }).join('')}</div>`).join('');
   }
 
@@ -816,8 +815,8 @@ if (typeof module !== 'undefined') module.exports = Core;
       const v = CONFIG.batches.map(b => get(per[b], b));
       const known = v.filter(x => x != null);
       const top = known.length ? Math.max(...known) : null;
-      const spread = known.length > 1 && new Set(known.map(x => x.toFixed(2))).size > 1;   // no arrow when every unit is equal
-      return `<div class="cmp-row"><span class="m">${label}</span>${v.map((x, k) => `<div class="cmp-cell ${spread && x != null && x.toFixed(2) === top.toFixed(2) ? 'lead' : ''}"><div class="bar"><i style="width:${x == null ? 0 : Math.round(scale(x) * 100)}%;background:${batchColor(CONFIG.batches[k])}"></i></div><span class="val num">${fmt(x)}</span></div>`).join('')}</div>`;
+      const spread = known.length > 1 && new Set(known.map(x => x.toFixed(2))).size > 1;   // no winner highlight when every unit is equal
+      return `<div class="cmp-row ${spread ? 'spread' : ''}"><span class="m">${label}</span>${v.map((x, k) => `<div class="cmp-cell ${spread && x != null && x.toFixed(2) === top.toFixed(2) ? 'lead' : ''}"><div class="bar"><i style="width:${x == null ? 0 : Math.round(scale(x) * 100)}%;background:${batchColor(CONFIG.batches[k])}"></i></div><span class="val num">${fmt(x)}</span></div>`).join('')}</div>`;
     };
     const score = x => (x == null ? 0 : Math.max(0, (x - 1) / 4));
     const rows = GROUPS.map(g => metric(g.tile, s => s?.groups[g.key] ?? null, v => Core.fmt(v), score)).join('')

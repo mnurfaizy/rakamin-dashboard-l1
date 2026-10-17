@@ -184,6 +184,12 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 - Suara Mayoritas: Hari 1 tiga tema (materi 10/25, penyampaian 8/25, interaktif 8/25), Hari 2 satu tema (materi 9/24), Rangkuman dua tema (materi 19/49, penyampaian 15/49). Tema "Penyampaian" di Rangkuman lolos ambang 30% dengan selisih tipis (15 dari 49 = 30,6%).
 - `data/build-sheet-data.js` kini menerima `kunci` eksplisit pada tema Rangkuman (menimpa kata kunci otomatis yang bisa tercemar tema lain). Bila hanya satu kutipan Suara Mayoritas, kartu dipusatkan dan hurufnya dibesarkan (semua template BSI).
 
+### Revisi Evaluasi per Aspek dan Perbandingan (17 Okt 2026, template BSI)
+
+- Kritik user: terlalu banyak angka (rata-rata kelompok sudah ada di Ringkasan), bar tidak mencerminkan skor (4,81 tampak setengah), kolom Perbandingan miring karena panah ▲ mengubah lebar kolom, dan panah kecil sulit dipetakan.
+- Perbaikan: bar = skor pada skala 1–5; hapus rata-rata kelompok dan teks "% skor"; Perbandingan memakai kolom nilai berlebar tetap, nilai tertinggi memakai pil tint dan bar penuh, yang lain dipudarkan, tanpa panah dan tanpa keterangan.
+- Berlaku di `bsi-bpi-sdp-b2-b3`, `bsi-bpi-sdp-a10`, `bsi-bpi-mastery`. `goto-pm-workshop-b1` belum diubah.
+
 ## Aturan tampilan warna peringatan (17 Okt 2026)
 
 - **Jangan tampilkan keterangan** seperti "oranye bila skor < 4,0 atau NPS < 60%" atau legend "Oranye = perlu perhatian" di dashboard. Warna peringatan cukup muncul pada angkanya.
