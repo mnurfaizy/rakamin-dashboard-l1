@@ -18,7 +18,9 @@ Konteks produk (kondisi A/B/C, section standar, aturan perhitungan, warna pering
 └── programs/
     ├── goto-pm-workshop-b1/     # GoTo · Project Management Workshop Batch 1 (sesi tunggal)
     ├── bsi-bpi-sdp-b2-b3/       # BSI · Business Process Improvement for SDP, Batch 2 & 3 + Rangkuman
-    └── bsi-bpi-sdp-a10/         # BSI · Business Process Improvement SDP Angkatan 10 (2 hari) + Rangkuman
+    ├── bsi-bpi-sdp-a10/         # BSI · Business Process Improvement SDP Angkatan 10 (2 hari) + Rangkuman
+    ├── ...                      # program lain (lihat tabel di bawah)
+    └── insight-hub/             # L1 Insight Hub: halaman internal yang menautkan semua program
 ```
 
 Isi setiap folder program:
@@ -47,8 +49,16 @@ Semua program disajikan oleh **satu** situs statis, masing-masing di sub-path se
 | `ikdd-sms-b1` | `/ikdd-sms-batch-1/` | Rangkuman Day 1–10, Day 1 … Day 10 (dropdown) |
 | `ikdd-sms-b2` | `/ikdd-sms-batch-2/` | Daily (Day 1–10, berjalan), dimigrasi apa adanya dari Netlify |
 | `goto-driver-kids` | `/gojek-magang-driver-kids/` | Rangkuman, Day 2, Day 3 (Magang di Kantor Gojek, Driver's Kids) |
+| `insight-hub` | `/insight-hub/` | **L1 Insight Hub** (internal): satu halaman yang menautkan semua program, per klien |
 
-Halaman akar (`/`) sengaja kosong dan `robots.txt` melarang pengindeksan, supaya tiap klien hanya tahu link miliknya sendiri. Bagikan link per sub-path, bukan alamat akar.
+Halaman akar (`/`) sengaja kosong dan `robots.txt` melarang pengindeksan, supaya tiap klien hanya tahu link miliknya sendiri. Bagikan link per sub-path, bukan alamat akar. `/insight-hub/` memuat semua klien sekaligus, jadi hanya untuk tim internal: jangan dibagikan ke klien.
+
+### L1 Insight Hub (`programs/insight-hub/`)
+
+- `data/programs.js`: daftar klien dan program (nama lengkap, warna kartu, tanggal, status `selesai` / `berjalan` / `segera`, jumlah jawaban, skor kepuasan keseluruhan, NPS, satu kutipan Suara Mayoritas). Angka disalin dari tampilan Rangkuman tiap dashboard; perbarui saat dashboard program berubah.
+- Program `berjalan` dengan `live` membaca ulang sheet dashboard-nya saat halaman dibuka (jumlah jawaban, kepuasan, hari terakhir), jadi kartunya ikut bertambah tanpa build ulang. Hanya agregat yang dihitung, tidak ada jawaban atau nama yang ditampilkan.
+- `photos/`: satu foto per program + tiga foto hero, diambil dari folder dokumentasi Drive (thumbnail 720 px). Program tanpa foto menampilkan "Foto dokumentasi menyusul".
+- Menambah program: tambah entri di `programs` (dan klien baru di `clients` bila perlu), simpan fotonya di `photos/<nama>.jpg`, lalu `npm run build:hub`.
 
 ## Build lokal
 
@@ -63,6 +73,7 @@ npm run build:bsi-mastery
 npm run build:ikdd-b1
 npm run build:ikdd-b2
 npm run build:gojek-dk
+npm run build:hub
 ```
 
 Buka `site/<sub-path>/index.html` langsung di browser untuk pratinjau. Dari `file://`, pembacaan Google Sheet terblokir CORS, jadi halaman memakai data bawaan. Itu normal.

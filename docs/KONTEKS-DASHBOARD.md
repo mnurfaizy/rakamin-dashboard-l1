@@ -220,3 +220,13 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 
 - **Jangan tampilkan keterangan** seperti "oranye bila skor < 4,0 atau NPS < 60%" atau legend "Oranye = perlu perhatian" di dashboard. Warna peringatan cukup muncul pada angkanya.
 - Angka NPS memakai warna normal (teal/hijau sesuai brand). Warna peringatan hanya dipakai bila NPS < 60% atau skor < 4,0. Jangan memberi warna aksen (emas/oranye) pada NPS secara default karena terbaca seperti peringatan.
+
+## L1 Insight Hub (18 Okt 2026)
+
+- Halaman internal yang menyatukan semua dashboard program dalam satu pintu: `programs/insight-hub/`, alamat `/insight-hub/`. Desain dari design system user (`Design System of Integrated Dashboard in HTML/`): Fraunces + Rubik, sage dengan aksen oranye/pink/lavender, mode White dan Sage (tombol di kanan atas), kartu klien berbentuk tiket (stub + perforasi + kartu program), kartu program berwarna per program dengan foto dokumentasi, section gelap "Suara terbaru, lintas program".
+- Akar situs (`/`) tetap kosong. Hub memuat semua klien, jadi hanya untuk tim Learning Quality.
+- Isi: 3 klien (GoTo, BSI, Dompet Dhuafa), 7 program + GoTo PM Batch 2 sebagai kartu "Segera hadir" (3 Nov 2026). Angka per kartu = jumlah jawaban dan skor Kepuasan keseluruhan dari Rangkuman/sesi dashboard masing-masing (per 18 Okt 2026). Agregat klien dan hero = rata-rata dibobot jumlah jawaban (4,51 dari 454 jawaban).
+- Nama lengkap program (dari user) dipakai sebagai `title`/`aria-label` kartu dan untuk pencarian; judul kartu memakai nama pendek.
+- IKDD SMS Batch 2 (`berjalan`) membaca sheet live saat halaman dibuka; snapshot: Day 1–3, 55 jawaban, kepuasan 4,22.
+- Foto dari folder dokumentasi Drive yang diberikan user. BSI BPI SDP Angkatan 10 belum punya folder dokumentasi, jadi kartunya menampilkan "Foto dokumentasi menyusul".
+- Kutipan: satu Suara Mayoritas per program (kutipan teratas di dashboard-nya, persis). Tiga terbaru tampil, tombol "Lihat semua kutipan" membuka semuanya.
