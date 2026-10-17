@@ -1,6 +1,6 @@
 // Koding tema oleh Claude dari jawaban terbuka (responses.js). Nomor = urutan responden per hari (1-based).
 // field: baik (kesan sesi) | saran (bagian yang perlu diperbaiki) | dalami (konten yang perlu diperdalam).
-// quote: [nomor, teks persis] untuk Suara Mayoritas (hanya tema Diapresiasi >= 30% responden hari itu).
+// quote: [nomor, teks persis] untuk Quotes of the Day / Suara Mayoritas (tema Diapresiasi >= 30% responden; bila tidak ada, tema yang paling banyak disuarakan).
 module.exports = {
   1: {
     baik: [
@@ -95,8 +95,10 @@ module.exports = {
   },
   5: {
     baik: [
-      { tema: 'Materi Meta Ads dan growth mindset bermanfaat', rows: [1, 3, 6, 11], kunci: ['meta ads', 'bermanfaat', 'menarik', 'growth mindset'] },
-      { tema: 'Kelas seru dan interaktif', rows: [4, 7, 9, 16], kunci: ['seru', 'interaktif'] },
+      { tema: 'Materi Meta Ads dan growth mindset bermanfaat', rows: [1, 3, 6, 11], kunci: ['meta ads', 'bermanfaat', 'menarik', 'growth mindset'],
+        quote: [1, 'materi sangat bermanfaat terutama sekarang keahlian menguasai meta ads sangat dibutuhkan'] },
+      { tema: 'Kelas seru dan interaktif', rows: [4, 7, 9, 16], kunci: ['seru', 'interaktif'],
+        quote: [7, 'Seru interaktif'] },
       { tema: 'Tutor membantu memahami materi', rows: [10, 13], kunci: ['tutornya', 'totor'] },
       { tema: 'Sesi berjalan cukup baik', rows: [8, 15, 17], kunci: ['bagus', 'cukup baik', 'baik'] },
     ],
@@ -182,7 +184,8 @@ module.exports = {
   },
   9: {
     baik: [
-      { tema: 'Sesi AI menarik dan menambah wawasan', rows: [2, 4, 5, 7, 17], kunci: ['ai', 'menarik', 'kak panji', 'tools ai'] },
+      { tema: 'Sesi AI menarik dan menambah wawasan', rows: [2, 4, 5, 7, 17], kunci: ['ai', 'menarik', 'kak panji', 'tools ai'],
+        quote: [5, 'Menambah informasi baru terkait berbagai model AI dan keunggulan/kegunaan dari masing-masing tools AI yang ada'] },
       { tema: 'Tutor menjelaskan detail dan sabar', rows: [9, 10], kunci: ['detail', 'sabar'] },
       { tema: 'Sesi bermanfaat dan memuaskan', rows: [1, 8, 13, 15], kunci: ['bermanfaat', 'puas', 'mantap', 'sesuai'] },
     ],

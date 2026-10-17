@@ -32,6 +32,14 @@ for (const d of DAYS) R[d].forEach((r, i) => feedback.push([String(d), INFO[d][0
 
 const answer = (d, n, f) => { const r = R[d][n - 1]; if (!r) errors.push(`D${d} #${n} tidak ada`); return r ? r[FIELD[f]] : ''; };
 const insight = [['Day', 'Panel', 'Tema', 'Jumlah', 'Responden', 'Kutipan', 'Kata Kunci']];
+// Majority voice: Diapresiasi themes voiced by >= 30% of respondents; when none reaches that,
+// the most-voiced theme(s) of the view (ties included). The 30% is a guide, not a hard cut (user decision).
+function majority(themes, n) {
+  const strong = themes.filter(t => t.count / n >= 0.3);
+  if (strong.length) return strong;
+  const top = Math.max(...themes.map(t => t.count));
+  return themes.filter(t => t.count === top);
+}
 const clean = s => String(s).replace(/\s+/g, ' ').trim();
 
 function quoteRow(label, n, theme, d, num, text) {
@@ -51,13 +59,13 @@ for (const d of DAYS) {
       insight.push([String(d), PANEL[f], t.tema, t.count, t.rows.map(x => id(d, x)).join('|'), kutipan, t.kunci.join('|')]);
     }
   }
-  // Suara Mayoritas: Diapresiasi themes voiced by at least 30% of that day's respondents.
-  T[d].baik.filter(t => t.count / n >= 0.3).forEach(t => {
+  const chosen = majority(T[d].baik, n);
+  chosen.forEach(t => {
     if (!t.quote) { errors.push(`Tema mayoritas tanpa kutipan: D${d} ${t.tema}`); return; }
     if (!t.rows.includes(t.quote[0])) errors.push(`Kutipan bukan dari tema: D${d} ${t.tema}`);
     insight.push(quoteRow(String(d), n, t, d, t.quote[0], t.quote[1]));
   });
-  T[d].baik.filter(t => t.quote && t.count / n < 0.3).forEach(t => errors.push(`Kutipan untuk tema di bawah 30%: D${d} ${t.tema}`));
+  T[d].baik.filter(t => t.quote && !chosen.includes(t)).forEach(t => errors.push(`Kutipan untuk tema yang bukan mayoritas: D${d} ${t.tema}`));
 }
 
 const nAll = DAYS.reduce((s, d) => s + R[d].length, 0);
@@ -75,13 +83,14 @@ for (const [f, themes] of Object.entries(T.rangkuman)) {
     insight.push(['Rangkuman', PANEL[f], t.tema, t.count, ids.join('|'), kutipan, t.kunci.join('|')]);
   }
 }
-T.rangkuman.baik.filter(t => t.count / nAll >= 0.3).forEach(t => {
+const chosenAll = majority(T.rangkuman.baik, nAll);
+chosenAll.forEach(t => {
   if (!t.quote) { errors.push(`Rangkuman mayoritas tanpa kutipan: ${t.tema}`); return; }
   const [d, num, text] = t.quote;
   if (!t.from[d]?.includes(num)) errors.push(`Kutipan Rangkuman bukan dari tema: ${t.tema}`);
   insight.push(quoteRow('Rangkuman', nAll, t, d, num, text));
 });
-T.rangkuman.baik.filter(t => t.quote && t.count / nAll < 0.3).forEach(t => errors.push(`Kutipan Rangkuman untuk tema di bawah 30%: ${t.tema}`));
+T.rangkuman.baik.filter(t => t.quote && !chosenAll.includes(t)).forEach(t => errors.push(`Kutipan Rangkuman untuk tema yang bukan mayoritas: ${t.tema}`));
 
 const info = [['Day', 'Tanggal', 'Tutor', 'Asisten Tutor', 'Topik', 'Jumlah Peserta'], ...DAYS.map(d => [String(d), ...INFO[d], String(PESERTA)])];
 

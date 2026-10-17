@@ -296,7 +296,7 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
   </div>
 
   <section aria-labelledby="qTitle">
-    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="qTitle">Suara Mayoritas</h2></div><span class="note" id="qNote"></span></div>
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="qTitle">Suara Mayoritas</h2></div></div>
     <div class="card quotes" id="quotesBox"></div>
   </section>
 
@@ -397,7 +397,6 @@ const Core = (() => {
     defaultTotalPeserta: 19,
     flagFloor: 4.0,              // skor di bawah ini diberi warna peringatan
     npsFloor: 60,                // NPS (persen) di bawah ini diberi warna peringatan
-    majorityShare: 0.3,
     maxQuotes: 3,
     snapshotLabel: 'Data bawaan (17 Okt 2026)',
   };
@@ -708,9 +707,8 @@ const SNAPSHOT = __SNAPSHOT__;
     // Day views read like the live daily dashboard (Quotes of the Day); Rangkuman keeps Suara Mayoritas.
     const daily = state.view !== 'all';
     $('qTitle').textContent = daily ? 'Quotes of the Day' : 'Suara Mayoritas';
-    $('qNote').textContent = `Tema Diapresiasi yang disuarakan minimal ${Math.round(CONFIG.majorityShare * 100)}% responden`;
     if (!quotes.length) {
-      box.innerHTML = `<div class="q-empty"><b>${daily ? 'Belum ada quotes hari ini' : 'Belum ada suara mayoritas'}</b>${s ? `Tidak ada tema apresiasi yang disuarakan oleh ${Math.round(CONFIG.majorityShare * 100)}% atau lebih dari ${s.n} peserta yang mengisi ${state.view === 'all' ? 'feedback' : 'hari ini'}. Lihat Suara Peserta di bawah untuk tema yang muncul.` : 'Belum ada jawaban.'}</div>`;
+      box.innerHTML = `<div class="q-empty"><b>${daily ? 'Belum ada quotes hari ini' : 'Belum ada suara mayoritas'}</b>${s ? 'Kutipan dirangkum setelah jawaban terkumpul. Lihat Suara Peserta di bawah untuk tema yang muncul.' : 'Belum ada jawaban.'}</div>`;
       return;
     }
     const split = t => { const m = String(t).match(/^(.*?)\s*\(([^)]*\d[^)]*)\)\s*$/); return m ? [m[1], m[2]] : [t, '']; };
