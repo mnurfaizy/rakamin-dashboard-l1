@@ -184,6 +184,15 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 - Suara Mayoritas: Hari 1 tiga tema (materi 10/25, penyampaian 8/25, interaktif 8/25), Hari 2 satu tema (materi 9/24), Rangkuman dua tema (materi 19/49, penyampaian 15/49). Tema "Penyampaian" di Rangkuman lolos ambang 30% dengan selisih tipis (15 dari 49 = 30,6%).
 - `data/build-sheet-data.js` kini menerima `kunci` eksplisit pada tema Rangkuman (menimpa kata kunci otomatis yang bisa tercemar tema lain). Bila hanya satu kutipan Suara Mayoritas, kartu dipusatkan dan hurufnya dibesarkan (semua template BSI).
 
+### Project 5: IKDD Social Media Specialist Batch 1 (kondisi C, Day 1–10)
+
+- Sumber: `[Daily Dashboard] IKDD - Social Media Specialist Bootcamp` (ID `1LINpsXtblNFERmi93Zp1b685tAIN5dQdHZlKOw078IQ`), tab `00. Daily Feedback Peserta` (memuat nama; jangan dihubungkan ke dashboard). Hanya Day 1–10 yang dipakai (Day 18 diabaikan atas permintaan user). Silabus: tab `[New] of Syllabus Social Media Sp - Batch 1` di `[Syllabus & Schedule] IKDD - Social Media Specialist`.
+- 19 peserta (keputusan user). Day 1 berisi 20 jawaban, jadi partisipasi Day 1 tampil 105%. Total 171 jawaban dari 190 pengisian (19 × 10). Angka per hari sama persis dengan tab `03. Summary` klien.
+- Tutor per hari dari silabus; Day 9 (kosong di Summary) = Tim Mybest (online) dan Panji, Day 10 = Arfilanda. Asisten tutor Fitri, kecuali Day 5 Prita.
+- Desain: salinan dashboard IKDD Batch 2 (`ikdd-batch2-insight.netlify.app`, keputusan user "salin persis Batch 2"): Rubik, navy/biru/kuning, gelembung chat, dropdown hari di kanan atas, grafik tren harian. Ditambah view Rangkuman (default), tabel Perbandingan per Hari, kartu tim pengajar dengan rentang hari, dan aturan terbaru (NPS persen, peringatan hanya < 4,0 / NPS < 60%, tanpa legend, Suara Mayoritas >= 30%, tema dirujuk ID `D{day}-{n}`).
+- Suara Mayoritas: Day 5 dan Day 9 tidak punya tema apresiasi >= 30%, jadi tampil keadaan kosong. Rangkuman: "Materi bermanfaat" 58/171 dan "Kelas seru dan interaktif" 57/171.
+- Sheet dashboard anonim belum dibuat; dashboard memakai snapshot tertanam. `CONFIG.defaultSheetId` masih `__SHEET_ID__` (ganti di `build.js` setelah sheet dibuat).
+
 ### Revisi Evaluasi per Aspek dan Perbandingan (17 Okt 2026, template BSI)
 
 - Kritik user: terlalu banyak angka (rata-rata kelompok sudah ada di Ringkasan), bar tidak mencerminkan skor (4,81 tampak setengah), kolom Perbandingan miring karena panah ▲ mengubah lebar kolom, dan panah kecil sulit dipetakan.

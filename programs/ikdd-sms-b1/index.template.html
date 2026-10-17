@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Rangkuman · Insight L1 IKDD SMS Batch 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Design follows the IKDD SMS Batch 2 daily dashboard (deck "Onboarding Tutor & Asisten Tutor - IKDD SMS"). */
+:root {
+  color-scheme: light;
+  --bg: #fefefe;
+  --surface: #ffffff;
+  --surface-2: #f6f9fc;
+  --logo-box: #f2f2f2;
+  --line: #e2e9f1;
+  --navy: #0f447a;
+  --navy-deep: #122a42;
+  --ink: #1f2d3d;
+  --ink-2: #5b6b7d;
+  --ink-3: #8a97a6;
+  --blue: #197ccc;
+  --blue-soft: #e3eef9;
+  --yellow: #ffb500;
+  --yellow-soft: #fff6e0;
+  --warn: #d9480f;          /* score below 4.0 / NPS below 60% */
+  --good: #1f8a4c;
+  --shadow: 0 1px 2px rgba(15, 68, 122, .06), 0 8px 24px rgba(15, 68, 122, .07);
+  --radius: 16px;
+  --s-overall: #0f447a; --s-materi: #197ccc; --s-tutor: #e09b00; --s-astor: #13a89e;
+  --bg-tr: url(__ASSET_BG_TR__);
+  --bg-bl: url(__ASSET_BG_BL__);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+html { overflow-x: clip; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 15px/1.5 "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased; position: relative; overflow-x: clip;
+  background-image: var(--bg-tr), var(--bg-bl); background-repeat: no-repeat; background-position: top right, bottom left; background-size: min(900px, 75vw) auto, min(900px, 75vw) auto;
+}
+button, input, select { font: inherit; color: inherit; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+.muted { color: var(--ink-3); }
+.num { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ---------- Header ---------- */
+.top-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 18px; padding-bottom: 6px; }
+.logo-box { display: inline-flex; align-items: center; gap: 12px; background: var(--logo-box); border-radius: 14px; padding: 8px 16px; min-height: 52px; }
+.logo-box img { width: auto; display: block; }
+.logo-box img.ik { height: 40px; } .logo-box img.rk { height: 22px; }
+.logo-box .sep { width: 1px; height: 26px; background: #d4d9de; }
+.day-picker { display: flex; align-items: center; gap: 8px; }
+.day-picker label { font-size: 13px; color: var(--ink-2); }
+.select {
+  appearance: none; border: 0; background: var(--navy); color: #fff;
+  padding: 10px 40px 10px 16px; border-radius: 12px; font-weight: 700; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, #fff 50%), linear-gradient(135deg, #fff 50%, transparent 50%);
+  background-position: calc(100% - 20px) 55%, calc(100% - 15px) 55%; background-size: 5px 5px; background-repeat: no-repeat;
+  box-shadow: var(--shadow);
+}
+.select option { color: var(--ink); background: #fff; }
+
+.hero { padding: 22px 0 4px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; background: var(--yellow); color: var(--navy-deep); font-weight: 700; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; border-radius: 999px; padding: 4px 12px; }
+.hero h1 { font-size: clamp(28px, 4.4vw, 40px); margin: 10px 0 2px; letter-spacing: -.01em; line-height: 1.12; color: var(--navy); font-weight: 800; }
+.hero h1 b { color: var(--blue); }
+.hero .sub { color: var(--ink-2); margin: 0; font-size: 16px; }
+
+section { margin-top: 30px; }
+section[hidden] { display: none; }
+.sec-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.sec-title { display: flex; align-items: center; gap: 10px; }
+.sec-title .no { background: var(--yellow); color: var(--navy-deep); font-weight: 800; font-size: 12px; border-radius: 999px; padding: 3px 10px; }
+.sec-title h2 { font-size: 22px; margin: 0; color: var(--navy); font-weight: 700; }
+.sec-head .note { font-size: 13px; color: var(--ink-2); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.card-pad { padding: 20px; }
+.card-title { font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 14px; }
+
+/* ---------- Suara Mayoritas (chat bubbles) ---------- */
+.quotes { padding: 32px 20px 28px; background: linear-gradient(160deg, var(--blue-soft), var(--surface) 55%, var(--yellow-soft)); overflow: hidden; position: relative; }
+.qwall { display: flex; flex-direction: column; align-items: center; gap: 22px; max-width: 980px; margin: 0 auto; }
+.qrow { display: flex; justify-content: center; align-items: flex-start; gap: 28px; width: 100%; }
+.qrow.pair > .q:first-child { transform: rotate(-1.6deg); }
+.qrow.pair > .q:last-child { transform: rotate(1.4deg); margin-top: 26px; }
+.q { display: flex; flex-direction: column; gap: 8px; max-width: 460px; flex: 1 1 0; margin: 0; }
+.q.left { align-items: flex-start; } .q.right { align-items: flex-end; } .q.center { align-items: center; max-width: 680px; }
+.bubble { position: relative; margin: 0; padding: 18px 22px; border-radius: 24px; font-size: 19px; line-height: 1.45; font-weight: 500; box-shadow: 0 10px 28px rgba(15,68,122,.12); }
+.bubble::after { content: ""; position: absolute; bottom: -9px; width: 20px; height: 20px; background: inherit; }
+.q.left .bubble { background: var(--surface); color: var(--navy); border-bottom-left-radius: 6px; }
+.q.left .bubble::after { left: 0; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.q.right .bubble { background: var(--blue); color: #fff; border-bottom-right-radius: 6px; }
+.q.right .bubble::after { right: 0; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.q.center .bubble { background: var(--navy); color: #fff; font-size: clamp(20px, 2.6vw, 26px); font-weight: 600; padding: 26px 34px; text-align: center; border-radius: 28px; }
+.q.center .bubble::after { left: calc(50% - 10px); bottom: -10px; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.q.center .bubble::before { content: "\201C"; position: absolute; top: -26px; left: 22px; font: 800 72px/1 Georgia, serif; color: var(--yellow); }
+.q-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); padding: 4px 6px 0; }
+.q.right .q-meta { justify-content: flex-end; } .q.center .q-meta { justify-content: center; }
+.q-meta .tema { font-weight: 600; color: var(--navy); }
+.q-meta .share { background: var(--navy); color: #fff; border-radius: 999px; padding: 1px 9px; font-weight: 700; font-size: 12px; }
+.q-meta .dy { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 0 8px; font-weight: 600; font-size: 12px; color: var(--navy); }
+.q-empty { text-align: center; max-width: 620px; margin: 0 auto; color: var(--ink-2); font-size: 16px; }
+.q-empty b { display: block; font-size: 20px; color: var(--navy); margin-bottom: 6px; }
+.q-foot { text-align: center; margin: 22px 0 0; font-size: 13px; color: var(--ink-3); }
+
+/* ---------- Ringkasan ---------- */
+.summary { display: grid; grid-template-columns: minmax(220px, 1.3fr) repeat(5, minmax(0, 1fr)); gap: 12px; }
+.tile { padding: 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.tile .k { font-size: 13px; color: var(--ink-2); font-weight: 600; }
+.tile .v { font-size: 30px; font-weight: 800; letter-spacing: -.01em; line-height: 1.1; color: var(--navy); }
+.tile .v small { font-size: 14px; font-weight: 600; color: var(--ink-3); }
+.tile .d { font-size: 13px; color: var(--ink-3); }
+.tile.below .v { color: var(--warn); }
+.tile.part { background: var(--blue); border-color: var(--blue); color: #fff; }
+.tile.part .k, .tile.part .d { color: #d6e8f8; }
+.tile.part .v { color: #fff; } .tile.part .v small { color: #d6e8f8; }
+.tile.part .bar { background: rgba(255,255,255,.25); }
+.tile.part .bar > i { background: var(--yellow); }
+.bar { position: relative; height: 8px; border-radius: 999px; background: var(--blue-soft); margin-top: 8px; }
+.bar > i { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--blue); }
+.up { color: var(--good); } .down { color: var(--warn); }
+
+/* ---------- Insight grid ---------- */
+.insight { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); grid-template-rows: auto 1fr; grid-template-areas: "info aspek" "tren aspek"; gap: 12px; }
+.g-info { grid-area: info; } .g-aspek { grid-area: aspek; } .g-tren { grid-area: tren; }
+.people { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.people > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+.person { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line); min-width: 0; }
+.avatar { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; }
+.avatar.tutor { background: var(--yellow); color: var(--navy-deep); }
+.avatar.astor { background: var(--blue); color: #fff; }
+.person .role { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.person .role.tutor { color: #9a6c00; } .person .role.astor { color: var(--blue); }
+.person .name { font-weight: 700; color: var(--navy); overflow-wrap: anywhere; line-height: 1.3; }
+.person .days { font-size: 12px; color: var(--ink-2); }
+.topic { margin-top: 12px; font-size: 14px; color: var(--ink-2); }
+.topic b { color: var(--navy); }
+
+.aspek-group + .aspek-group { margin-top: 14px; }
+.aspek-group h4 { margin: 0 0 4px; font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+.aspek-row { display: grid; grid-template-columns: 34px 1fr auto 62px; gap: 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+.aspek.nodelta .aspek-row { grid-template-columns: 34px 1fr auto; }
+.aspek-group h4 + .aspek-row { border-top: 0; }
+.code { font-size: 12px; font-weight: 700; color: var(--navy); background: var(--blue-soft); border-radius: 6px; text-align: center; padding: 2px 0; }
+.aspek-row .stmt { font-size: 14px; }
+.aspek-row .score { font-weight: 800; font-size: 17px; color: var(--navy); }
+.aspek-row .score small { font-weight: 500; font-size: 12px; color: var(--ink-3); }
+.aspek-row.below .score, .aspek-row.below .stmt { color: var(--warn); }
+.aspek-row .delta { text-align: right; font-size: 13px; }
+
+.chart-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.series-btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 12px; font-size: 13px; cursor: pointer; color: var(--ink-2); }
+.series-btn i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.series-btn[aria-pressed="true"] { border-color: var(--navy); color: var(--navy); font-weight: 600; background: var(--blue-soft); }
+.chart-hint { font-size: 12px; color: var(--ink-3); margin: 0 0 4px; }
+.chart-wrap { position: relative; }
+.chart-wrap svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart-wrap svg text.val { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.chart-wrap .line { transition: opacity .2s; cursor: pointer; }
+.tip { position: absolute; pointer-events: none; background: var(--navy-deep); color: #fff; padding: 8px 10px; border-radius: 8px; font-size: 12px; line-height: 1.5; white-space: nowrap; transform: translateX(-50%); opacity: 0; transition: opacity .12s; z-index: 2; }
+.tip.on { opacity: 1; }
+.tip i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+
+/* ---------- Perbandingan per hari (Rangkuman) ---------- */
+.days-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.days-table th { text-align: left; font-size: 12px; color: var(--ink-3); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 0 12px 10px; border-bottom: 1px solid var(--line); background: none; white-space: nowrap; }
+.days-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.days-table tr:last-child td { border-bottom: 0; }
+.days-table tbody tr { cursor: pointer; transition: background .15s; }
+.days-table tbody tr:hover { background: var(--surface-2); }
+.days-table .dn { font-weight: 800; color: var(--navy); white-space: nowrap; }
+.days-table .dn small { display: block; font-weight: 400; font-size: 12px; color: var(--ink-3); }
+.days-table .tt { color: var(--ink); min-width: 140px; }
+.days-table .tt small { display: block; font-size: 12px; color: var(--ink-3); }
+.days-table .r { text-align: right; white-space: nowrap; }
+.days-table .sc { display: grid; grid-template-columns: minmax(70px, 1fr) 58px; gap: 10px; align-items: center; min-width: 170px; }
+.days-table .sc .bar { margin: 0; height: 8px; }
+.pv { justify-self: end; font-weight: 700; color: var(--ink-2); padding: 2px 8px; border-radius: 8px; }
+.pv.top { font-weight: 900; color: var(--navy); background: var(--blue-soft); }
+.pv.below { color: var(--warn); }
+.days-scroll { overflow-x: auto; }
+
+/* ---------- Suara Peserta ---------- */
+.voices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.voice h3 { font-size: 15px; margin: 0 0 6px; display: flex; align-items: center; gap: 8px; color: var(--navy); }
+.voice h3 .dot { width: 10px; height: 10px; border-radius: 50%; }
+.voice .src { margin: 0 0 4px; font-size: 12px; color: var(--ink-3); }
+.theme-chip { width: 100%; text-align: left; display: flex; justify-content: space-between; gap: 10px; align-items: center; border: 1px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 10px 12px; cursor: pointer; margin-top: 8px; transition: border-color .15s, background .15s; }
+.theme-chip:hover { border-color: var(--blue); }
+.theme-chip[aria-pressed="true"] { border-color: var(--navy); background: var(--navy); color: #fff; }
+.theme-chip[aria-pressed="true"] .cnt { background: var(--yellow); color: var(--navy-deep); border-color: var(--yellow); }
+.theme-chip .cnt { flex: none; font-size: 12px; font-weight: 700; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; }
+.theme-chip .go { flex: none; font-size: 12px; opacity: .6; }
+.empty { color: var(--ink-3); font-size: 14px; padding: 8px 0; }
+
+/* ---------- Jawaban Peserta ---------- */
+.codes { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px 18px; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 13px; background: var(--surface-2); border-radius: var(--radius) var(--radius) 0 0; }
+.codes div { display: flex; gap: 8px; align-items: baseline; }
+.codes .code { flex: none; width: 38px; }
+.toolbar { display: flex; gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.search { position: relative; flex: 1 1 260px; }
+.search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-3); }
+.input { width: 100%; border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 9px 12px 9px 36px; }
+.input.plain { padding-left: 12px; }
+.filter-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--navy); color: #fff; border-radius: 999px; padding: 5px 6px 5px 12px; font-size: 13px; font-weight: 500; }
+.filter-pill button { border: 0; background: rgba(255,255,255,.18); color: #fff; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; line-height: 1; }
+.filter-pill[hidden] { display: none; }
+.table-scroll { overflow: auto; max-width: 100%; max-height: 560px; border-radius: 0 0 var(--radius) var(--radius); }
+.table-scroll thead th { position: sticky; top: 0; z-index: 1; box-shadow: inset 0 -1px 0 var(--line); }
+#answers { border-collapse: collapse; width: 100%; font-size: 13px; }
+#answers th, #answers td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+#answers th { background: var(--surface-2); font-size: 12px; color: var(--navy); font-weight: 700; white-space: nowrap; }
+#answers td.s, #answers th.s { text-align: center; width: 40px; }
+#answers td.s.low { color: var(--warn); font-weight: 700; }
+#answers td.txt { min-width: 170px; color: var(--ink); }
+#answers td.dy { white-space: nowrap; font-weight: 700; color: var(--navy); }
+#answers tbody.flash tr { animation: flash 1s ease; }
+@keyframes flash { from { background: var(--yellow-soft); } to { background: transparent; } }
+mark { background: #ffe08a; color: inherit; border-radius: 3px; padding: 0 1px; }
+
+/* ---------- Footer + Kelola data ---------- */
+footer { margin: 36px 0 28px; display: flex; justify-content: flex-start; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; padding: 10px 18px; border: 1px solid var(--line); background: var(--surface); color: var(--navy); font-weight: 600; cursor: pointer; text-decoration: none; white-space: nowrap; transition: background .15s, border-color .15s; }
+.btn:hover { border-color: var(--blue); }
+.btn.primary { background: var(--navy); border-color: var(--navy); color: #fff; }
+.btn.primary:hover { background: var(--blue); border-color: var(--blue); }
+.btn.ghost { background: transparent; }
+dialog { border: 0; padding: 0; border-radius: 18px; width: min(560px, calc(100vw - 32px)); background: var(--surface); color: var(--ink); box-shadow: 0 20px 60px rgba(18,42,66,.3); }
+dialog::backdrop { background: rgba(18, 42, 66, .45); }
+.dlg-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.dlg-head h3 { margin: 0; font-size: 17px; color: var(--navy); }
+.dlg-body { padding: 4px 20px 20px; max-height: 70vh; overflow-y: auto; }
+.dlg-sec { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.dlg-sec:last-child { border-bottom: 0; }
+.dlg-sec h4 { margin: 0 0 4px; font-size: 15px; color: var(--navy); }
+.dlg-sec p { margin: 0 0 10px; font-size: 13px; color: var(--ink-2); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row .input { flex: 1 1 220px; }
+.status { font-size: 13px; margin-top: 8px; }
+.status.ok { color: var(--good); } .status.err { color: var(--warn); }
+.source-pill { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.source-pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
+.source-pill.live i { background: var(--good); }
+.source-pill.snap i { background: var(--yellow); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .summary .part { grid-column: 1 / -1; }
+}
+@media (max-width: 820px) {
+  .insight { grid-template-columns: 1fr; grid-template-areas: "info" "aspek" "tren"; }
+  .voices { grid-template-columns: 1fr; }
+  .qrow { flex-direction: column; align-items: stretch; gap: 18px; }
+  .qrow.pair > .q { transform: none !important; margin-top: 0 !important; max-width: 88%; }
+  .qrow.pair > .q.right { align-self: flex-end; }
+  .q.center { max-width: 100%; }
+  .days-table .bar { display: none; }
+  .days-table .sc { grid-template-columns: 1fr; min-width: 0; }
+}
+@media (max-width: 560px) {
+  .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .people { grid-template-columns: 1fr; }
+  .top-inner { flex-wrap: wrap; }
+  .day-picker { width: 100%; } .day-picker label { display: none; } .day-picker .select { width: 100%; }
+  .aspek-row { grid-template-columns: 30px 1fr auto 52px; gap: 8px; }
+  .bubble { font-size: 17px; }
+  .days-table th, .days-table td { padding-left: 6px; padding-right: 6px; }
+  .days-table .tt { min-width: 110px; }
+}
+</style>
+</head>
+<body>
+
+<header class="wrap top-inner">
+  <div class="logo-box" id="logoBox" aria-label="Institut Kemandirian dan Rakamin"></div>
+  <div class="day-picker">
+    <label for="daySelect">Lihat</label>
+    <select id="daySelect" class="select" aria-label="Pilih Rangkuman atau hari"></select>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="pill">Insight Feedback L1 · Social Media Specialist Batch 1</span>
+    <h1 id="heroTitle">Feedback Peserta <b>Rangkuman</b></h1>
+    <p class="sub" id="heroSub">–</p>
+  </div>
+
+  <section aria-labelledby="qTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="qTitle">Suara Mayoritas</h2></div><span class="note" id="qNote"></span></div>
+    <div class="card quotes" id="quotesBox"></div>
+  </section>
+
+  <section aria-labelledby="sTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="sTitle">Ringkasan</h2></div><span class="note" id="sNote"></span></div>
+    <div class="summary" id="summary"></div>
+  </section>
+
+  <section aria-labelledby="iTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="iTitle">Insight Sesi</h2></div></div>
+    <div class="insight">
+      <div class="card card-pad g-info"><p class="card-title" id="infoTitle">Identitas sesi</p><div id="sessionInfo"></div></div>
+      <div class="card card-pad g-aspek"><p class="card-title">Evaluasi per aspek</p><div id="aspek" class="aspek"></div></div>
+      <div class="card card-pad g-tren"><p class="card-title">Tren harian</p><div id="trend"></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="cTitle" id="compareSection">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="cTitle">Perbandingan per Hari</h2></div><span class="note">Klik baris untuk membuka hari itu</span></div>
+    <div class="card card-pad days-scroll"><table class="days-table" id="daysTable"></table></div>
+  </section>
+
+  <section aria-labelledby="vTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="vTitle">Suara Peserta</h2></div><span class="note">Klik tema untuk melihat jawaban peserta yang terkait</span></div>
+    <div class="voices" id="voices"></div>
+  </section>
+
+  <section aria-labelledby="aTitle" id="answersSection">
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="aTitle">Jawaban Peserta</h2></div><span class="note">Komentar ditampilkan apa adanya, nama peserta tidak ditampilkan</span></div>
+    <div class="card">
+      <div class="codes" id="codes"></div>
+      <div class="toolbar">
+        <div class="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="searchInput" class="input" type="search" placeholder="Cari kata kunci, misalnya: ads, praktik, durasi" aria-label="Cari komentar">
+        </div>
+        <span class="filter-pill" id="themeFilter" hidden><span></span><button type="button" aria-label="Hapus filter tema">×</button></span>
+        <span class="muted" id="searchCount" style="font-size:13px"></span>
+      </div>
+      <div class="table-scroll"><table id="answers"></table></div>
+    </div>
+  </section>
+
+  <footer>
+    <button class="btn primary" id="openManage" type="button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+      Kelola data
+    </button>
+    <div>Sumber: Daily Feedback Peserta Day 1–10 · Learning Quality Rakamin · <span id="sourcePill" class="source-pill"><i></i><span></span></span></div>
+  </footer>
+</main>
+
+<dialog id="manage" aria-labelledby="mTitle">
+  <div class="dlg-head">
+    <h3 id="mTitle">Kelola data dashboard</h3>
+    <button class="btn ghost" type="button" id="closeManage" aria-label="Tutup">Tutup</button>
+  </div>
+  <div class="dlg-body">
+    <div class="dlg-sec">
+      <h4>1. Hubungkan Google Sheet</h4>
+      <p>Tempel link sheet dashboard (anonim). Sheet harus dibagikan "Anyone with the link: Viewer". Tab yang dibaca: 00. Daily Feedback Peserta, Info Sesi, Insight by Claude.</p>
+      <div class="row">
+        <input id="sheetInput" class="input plain" type="url" placeholder="https://docs.google.com/spreadsheets/d/...">
+        <button class="btn primary" type="button" id="connectBtn">Hubungkan</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" type="button" id="reloadBtn">Muat ulang data</button>
+        <a class="btn" id="openSheetBtn" href="#" target="_blank" rel="noopener">Buka sheet</a>
+      </div>
+      <div class="status" id="sheetStatus" role="status"></div>
+    </div>
+    <div class="dlg-sec">
+      <h4>2. Bagikan</h4>
+      <p>Link ini membuka dashboard dengan data dari sheet di atas, di browser siapa pun.</p>
+      <button class="btn primary" type="button" id="copyLinkBtn">Salin link dashboard + sheet</button>
+      <div class="status" id="copyStatus" role="status"></div>
+    </div>
+    <div class="dlg-sec">
+      <h4>3. Reset</h4>
+      <p>Hapus sheet yang tersimpan di browser ini, lalu kembali ke data bawaan.</p>
+      <button class="btn" type="button" id="resetBtn">Kembali ke data bawaan</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* ======================================================================
+   Core: pure data logic (no DOM).
+   ====================================================================== */
+const Core = (() => {
+  const CONFIG = {
+    defaultSheetId: '__SHEET_ID__',   // [Dashboard L1] IKDD SMS Batch 1 (anonim)
+    tabs: { feedback: '00. Daily Feedback Peserta', info: 'Info Sesi', insight: 'Insight by Claude' },
+    days: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    dayDates: ['15 Jul', '16 Jul', '17 Jul', '20 Jul', '21 Jul', '22 Jul', '23 Jul', '24 Jul', '27 Jul', '28 Jul'],
+    programDate: '15–28 Juli 2026',
+    format: 'Bootcamp 10 hari',
+    defaultTotalPeserta: 19,
+    flagFloor: 4.0,              // skor di bawah ini diberi warna peringatan
+    npsFloor: 60,                // NPS (persen) di bawah ini diberi warna peringatan
+    majorityShare: 0.3,
+    maxQuotes: 3,
+    snapshotLabel: 'Data bawaan (17 Okt 2026)',
+  };
+
+  const ITEMS = [
+    { code: 'M1', group: 'materi', label: 'Materi mudah dipahami', match: 'mudah dipahami' },
+    { code: 'M2', group: 'materi', label: 'Alokasi waktu untuk materi ini telah sesuai', match: 'alokasi waktu' },
+    { code: 'M3', group: 'materi', label: 'Tujuan pembelajaran terjawab dalam materi', match: 'tujuan pembelajaran terjawab' },
+    { code: 'M4', group: 'materi', label: 'Metode sesuai dengan tujuan pembelajaran', match: 'metode yang digunakan' },
+    { code: 'M5', group: 'tutor', label: 'Tutor menguasai materi yang diajarkan', match: 'menguasai materi' },
+    { code: 'M6', group: 'tutor', label: 'Tutor menjawab pertanyaan peserta dengan efektif', match: 'menjawab pertanyaan' },
+    { code: 'M7', group: 'tutor', label: 'Tutor dapat menjaga minat belajar saya', match: 'minat belajar' },
+    { code: 'M8', group: 'astor', label: 'Asisten Tutor membantu dalam sesi pembelajaran', match: 'asisten tutor membantu' },
+    { code: 'M9', group: 'overall', label: 'Kepuasan terhadap sesi secara keseluruhan', match: 'puaskah' },
+  ];
+  const GROUPS = [
+    { key: 'materi', label: 'Materi' },
+    { key: 'tutor', label: 'Tutor' },
+    { key: 'astor', label: 'Asisten Tutor' },
+    { key: 'overall', label: 'Keseluruhan' },
+  ];
+  const TEXTS = [
+    { key: 'kesan', label: 'Kesan sesi', match: 'kesan atau komentar' },
+    { key: 'bantuan', label: 'Bantuan Tim/Asisten', match: 'seberapa membantu tim' },
+    { key: 'perbaikan', label: 'Perlu diperbaiki', match: 'perlu diperbaiki' },
+    { key: 'dalami', label: 'Ingin diperdalam', match: 'perlu diperdalam' },
+  ];
+  const NPS_MATCH = 'merekomendasikan';
+
+  function parseCSV(text) {
+    const rows = []; let row = []; let field = ''; let q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && text[i + 1] === '\n') i++;
+        row.push(field); rows.push(row); row = []; field = '';
+      } else field += c;
+    }
+    if (field !== '' || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(v => String(v).trim() !== ''));
+  }
+
+  function parseSheetId(input) {
+    const s = String(input || '').trim();
+    const m = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+    if (m) return m[1];
+    return /^[a-zA-Z0-9_-]{20,}$/.test(s) ? s : null;
+  }
+
+  /** "Day 5 - 20 Juli 2026" or "5" -> 5; "Rangkuman" -> 'all'. */
+  function parseView(v) {
+    const s = String(v ?? '').trim();
+    if (/^rangkuman/i.test(s)) return 'all';
+    const m = s.match(/day\s*(\d+)/i) || s.match(/^(\d+)(?:\.0+)?$/);
+    return m ? Number(m[1]) : null;
+  }
+  function toScore(v, max) {
+    const m = String(v ?? '').replace(',', '.').match(/-?\d+(\.\d+)?/);
+    if (!m) return null;
+    const n = Number(m[0]);
+    return Number.isInteger(n) && n >= 0 && n <= max ? n : null;
+  }
+
+  function isFeedbackTable(table) {
+    if (!table || !table.length) return false;
+    const head = table[0].map(h => String(h).toLowerCase().trim());
+    return head[0] === 'day' && ITEMS.filter(it => head.some(h => h.includes(it.match))).length >= 5;
+  }
+
+  function normalizeFeedback(table) {
+    if (!table || table.length < 2) return [];
+    const head = table[0].map(h => String(h).toLowerCase().trim());
+    const find = key => head.findIndex(h => h.includes(key));
+    const itemIdx = ITEMS.map(it => find(it.match));
+    const textIdx = TEXTS.map(t => find(t.match));
+    const npsIdx = find(NPS_MATCH);
+    const idIdx = head.indexOf('responden');
+    const out = [];
+    for (const r of table.slice(1)) {
+      const day = parseView(r[0]);
+      if (typeof day !== 'number') continue;
+      const scores = itemIdx.map(i => (i >= 0 ? toScore(r[i], 5) : null));
+      if (scores.every(s => s == null)) continue;
+      out.push({
+        day, id: idIdx >= 0 ? String(r[idIdx] || '').trim() : '', scores,
+        nps: npsIdx >= 0 ? toScore(r[npsIdx], 10) : null,
+        texts: Object.fromEntries(TEXTS.map((t, k) => [t.key, textIdx[k] >= 0 ? String(r[textIdx[k]] ?? '').trim() : ''])),
+      });
+    }
+    return out;
+  }
+
+  function rowsByHeader(table, required) {
+    if (!table || !table.length) return null;
+    const head = table[0].map(h => String(h).toLowerCase().trim());
+    if (!required.every(r => head.includes(r))) return null;
+    return table.slice(1).map(r => Object.fromEntries(head.map((h, i) => [h, String(r[i] ?? '').trim()])));
+  }
+
+  function normalizeInfo(table) {
+    const rows = rowsByHeader(table, ['day', 'tutor']) || [];
+    const map = {};
+    for (const r of rows) {
+      const day = parseView(r.day); if (typeof day !== 'number') continue;
+      const total = parseInt(r['jumlah peserta'], 10);
+      map[day] = { date: r.tanggal || '', tutor: r.tutor || '', astor: r['asisten tutor'] || '', topik: r.topik || '', total: Number.isFinite(total) && total > 0 ? total : null };
+    }
+    return map;
+  }
+
+  const splitList = s => String(s || '').split('|').map(x => x.trim()).filter(Boolean);
+
+  /** Insight by Claude: theme rows (referenced by respondent IDs) and Suara Mayoritas rows. */
+  function normalizeInsight(table) {
+    const rows = rowsByHeader(table, ['day', 'panel', 'tema']) || [];
+    const themes = []; const quotes = [];
+    for (const r of rows) {
+      const view = parseView(r.day); if (view == null) continue;
+      if (/suara mayoritas|quote/i.test(r.panel)) { if (r.kutipan) quotes.push({ view, text: r.kutipan, tema: r.tema, id: r.responden || '' }); continue; }
+      themes.push({ view, panel: r.panel, tema: r.tema, jumlah: parseInt(r.jumlah, 10) || 0, ids: splitList(r.responden), kataKunci: splitList(r['kata kunci']) });
+    }
+    return { themes, quotes };
+  }
+
+  const normText = s => String(s || '').toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+  /** Theme membership: by respondent ID when the sheet lists them, keywords only as fallback. */
+  function inTheme(response, theme) {
+    if (theme.ids.length) return theme.ids.includes(response.id);
+    const terms = theme.kataKunci.map(normText).filter(t => t.length >= 3);
+    const hay = normText(Object.values(response.texts).join(' | '));
+    return terms.some(t => hay.includes(t));
+  }
+
+  const mean = arr => { const v = arr.filter(x => x != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+  function nps(values) {
+    const v = values.filter(x => x != null);
+    if (!v.length) return null;
+    const pro = v.filter(x => x >= 9).length; const det = v.filter(x => x <= 6).length;
+    return { score: Math.round(((pro - det) / v.length) * 100), pro, pas: v.length - pro - det, det };
+  }
+  /** Aggregates over any set of answers (one day, or every day pooled for Rangkuman). */
+  function stats(rows) {
+    if (!rows.length) return null;
+    const items = ITEMS.map((_, i) => mean(rows.map(r => r.scores[i])));
+    // Group score = mean of its item means (same as the client's recap sheet).
+    const groups = Object.fromEntries(GROUPS.map(g => [g.key, mean(ITEMS.map((it, i) => (it.group === g.key ? items[i] : null)))]));
+    return { n: rows.length, items, groups, nps: nps(rows.map(r => r.nps)) };
+  }
+
+  const isFlagged = v => v != null && v < CONFIG.flagFloor;
+  const fmt = (v, d = 2) => (v == null ? '–' : v.toLocaleString('id-ID', { minimumFractionDigits: d, maximumFractionDigits: d }));
+  function fmtDelta(cur, prev, d = 2) {
+    if (cur == null || prev == null) return { text: '', cls: '' };
+    const diff = Number((cur - prev).toFixed(d));
+    if (diff === 0) return { text: '±0', cls: '' };
+    return { text: (diff > 0 ? '+' : '−') + fmt(Math.abs(diff), d), cls: diff > 0 ? 'up' : 'down' };
+  }
+  function quoteLayout(count) {
+    if (count <= 0) return [];
+    if (count === 1) return [[{ idx: 0, side: 'center' }]];
+    if (count === 2) return [[{ idx: 0, side: 'left' }, { idx: 1, side: 'right' }]];
+    return [[{ idx: 1, side: 'left' }, { idx: 2, side: 'right' }], [{ idx: 0, side: 'center' }]];
+  }
+
+  return { CONFIG, ITEMS, GROUPS, TEXTS, parseCSV, parseSheetId, parseView, isFeedbackTable, normalizeFeedback, normalizeInfo, normalizeInsight, inTheme, stats, isFlagged, fmt, fmtDelta, quoteLayout };
+})();
+</script>
+
+<script>
+const ASSETS = { ik: '__ASSET_IK__', rakamin: '__ASSET_RAKAMIN__' };
+const SNAPSHOT = __SNAPSHOT__;
+</script>
+
+<script>
+/* ======================================================================
+   App: data loading, state and rendering.
+   ====================================================================== */
+(() => {
+  const { CONFIG, ITEMS, GROUPS, TEXTS } = Core;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } },
+    del(k) { try { localStorage.removeItem(k); } catch { /* storage unavailable */ } },
+  };
+  const KEY_SHEET = 'ikdd1.sheetId';
+  const SERIES = [
+    { key: 'overall', label: 'Keseluruhan', color: 'var(--s-overall)' },
+    { key: 'materi', label: 'Materi', color: 'var(--s-materi)' },
+    { key: 'tutor', label: 'Tutor', color: 'var(--s-tutor)' },
+    { key: 'astor', label: 'Asisten Tutor', color: 'var(--s-astor)' },
+  ];
+  const PANELS = [
+    { key: 'Diapresiasi', src: 'Dari "kesan sesi"', color: 'var(--good)' },
+    { key: 'Saran perbaikan', src: 'Dari "bagian yang perlu diperbaiki"', color: 'var(--warn)' },
+    { key: 'Ingin diperdalam', src: 'Dari "konten yang perlu diperdalam"', color: 'var(--blue)' },
+  ];
+  const state = { data: null, source: 'snapshot', sheetId: null, view: 'all', search: '', theme: null, focus: 'overall' };
+
+  /* ---------------- Loading ---------------- */
+  async function fetchTab(id, name) {
+    const url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(name)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    if (/^\s*</.test(text)) throw new Error('Sheet belum dibagikan publik');
+    return Core.parseCSV(text);
+  }
+  async function loadFromSheet(id) {
+    const [fb, info, ins] = await Promise.all([fetchTab(id, CONFIG.tabs.feedback), fetchTab(id, CONFIG.tabs.info).catch(() => null), fetchTab(id, CONFIG.tabs.insight).catch(() => null)]);
+    if (!Core.isFeedbackTable(fb)) throw new Error(`Tab "${CONFIG.tabs.feedback}" tidak ditemukan atau header berubah`);
+    return buildData({ feedback: fb, info, insight: ins });
+  }
+  function buildData(raw) {
+    const responses = Core.normalizeFeedback(raw.feedback).filter(r => CONFIG.days.includes(r.day));
+    const { themes, quotes } = Core.normalizeInsight(raw.insight);
+    return { responses, info: Core.normalizeInfo(raw.info), themes, quotes };
+  }
+
+  async function init() {
+    renderLogos();
+    const params = new URLSearchParams(location.search);
+    const urlSheet = Core.parseSheetId(params.get('sheet'));
+    state.sheetId = urlSheet || store.get(KEY_SHEET) || (CONFIG.defaultSheetId.startsWith('__') ? null : CONFIG.defaultSheetId);
+    state.data = buildData(SNAPSHOT); state.source = 'snapshot';
+    const hash = (location.hash.match(/view=(\w+)/) || [])[1];
+    state.view = hash && hash !== 'all' && CONFIG.days.includes(Number(hash)) ? Number(hash) : 'all';
+    render();
+    if (state.sheetId) {
+      try {
+        const d = await loadFromSheet(state.sheetId);
+        if (d.responses.length) { state.data = d; state.source = 'sheet'; render(); }
+      } catch (e) { console.warn('Memakai data bawaan:', e.message); }
+    }
+  }
+
+  const responsesFor = v => (v === 'all' ? state.data.responses : state.data.responses.filter(r => r.day === v));
+  const daysWithData = () => CONFIG.days.filter(d => state.data.responses.some(r => r.day === d));
+  const totalFor = d => state.data.info[d]?.total || CONFIG.defaultTotalPeserta;
+  const dateOf = d => state.data.info[d]?.date || `${CONFIG.dayDates[d - 1]} 2026`;
+  const viewLabel = v => (v === 'all' ? 'Rangkuman' : `Day ${v}`);
+  const themesFor = v => state.data.themes.filter(t => t.view === v);
+  const initials = name => String(name).split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
+  const splitNames = s => String(s || '').split(/\s*,\s*/).filter(Boolean);
+  /** [1,2,3,5] -> "Day 1–3, 5" */
+  function dayRanges(days) {
+    const out = []; let start = null; let prev = null;
+    for (const d of [...days].sort((a, b) => a - b)) {
+      if (start == null) { start = prev = d; continue; }
+      if (d === prev + 1) { prev = d; continue; }
+      out.push(start === prev ? `${start}` : `${start}–${prev}`); start = prev = d;
+    }
+    if (start != null) out.push(start === prev ? `${start}` : `${start}–${prev}`);
+    return `Day ${out.join(', ')}`;
+  }
+
+  /* ---------------- Rendering ---------------- */
+  function renderLogos() {
+    $('logoBox').innerHTML = `<img class="ik" src="${ASSETS.ik}" alt="Institut Kemandirian"><span class="sep" aria-hidden="true"></span><img class="rk" src="${ASSETS.rakamin}" alt="Rakamin">`;
+  }
+
+  function render() {
+    renderPicker();
+    const v = state.view; const all = v === 'all';
+    const s = Core.stats(responsesFor(v));
+    const prevDay = all ? null : daysWithData().filter(d => d < v).pop();
+    const prev = prevDay != null ? Core.stats(responsesFor(prevDay)) : null;
+    const info = all ? {} : (state.data.info[v] || {});
+
+    $('heroTitle').innerHTML = `Feedback Peserta <b>${all ? 'Rangkuman Day 1–10' : `Day ${v}`}</b>`;
+    $('heroSub').textContent = all
+      ? `${CONFIG.programDate} · ${CONFIG.format} · ${CONFIG.defaultTotalPeserta} peserta · ${s ? s.n : 0} jawaban feedback`
+      : [dateOf(v), info.topik].filter(Boolean).join(' · ');
+    document.title = `${viewLabel(v)} · Insight L1 IKDD SMS Batch 1`;
+    $('sNote').textContent = all ? `Rata-rata dari ${s?.n || 0} jawaban gabungan Day 1–10` : prev ? `Δ dibandingkan Day ${prevDay}` : '';
+    $('infoTitle').textContent = all ? 'Tim pengajar Day 1–10' : 'Identitas sesi';
+    $('compareSection').hidden = !all;
+    let no = 0; document.querySelectorAll('main section').forEach(sec => { if (!sec.hidden) sec.querySelector('.no').textContent = String(++no).padStart(2, '0'); });
+
+    renderQuotes(s);
+    renderSummary(s, prev, prevDay);
+    renderInfo(info);
+    renderAspek(s, prev);
+    renderTrend();
+    if (all) renderDaysTable();
+    renderVoices();
+    renderCodes();
+    renderAnswers();
+    renderSource();
+  }
+
+  function renderPicker() {
+    const have = new Set(daysWithData());
+    $('daySelect').innerHTML = `<option value="all" ${state.view === 'all' ? 'selected' : ''}>Rangkuman Day 1–10</option>`
+      + CONFIG.days.map(d => `<option value="${d}" ${have.has(d) ? '' : 'disabled'} ${d === state.view ? 'selected' : ''}>Day ${d}, ${CONFIG.dayDates[d - 1]}</option>`).join('');
+  }
+
+  /* ---------------- Suara Mayoritas ---------------- */
+  function renderQuotes(s) {
+    const box = $('quotesBox');
+    const quotes = state.data.quotes.filter(q => q.view === state.view).slice(0, CONFIG.maxQuotes);
+    $('qNote').textContent = `Tema Diapresiasi yang disuarakan minimal ${Math.round(CONFIG.majorityShare * 100)}% responden`;
+    if (!quotes.length) {
+      box.innerHTML = `<div class="q-empty"><b>Belum ada suara mayoritas</b>${s ? `Tidak ada tema apresiasi yang disuarakan oleh ${Math.round(CONFIG.majorityShare * 100)}% atau lebih dari ${s.n} peserta yang mengisi ${state.view === 'all' ? 'feedback' : 'hari ini'}. Lihat Suara Peserta di bawah untuk tema yang muncul.` : 'Belum ada jawaban.'}</div>`;
+      return;
+    }
+    const split = t => { const m = String(t).match(/^(.*?)\s*\(([^)]*\d[^)]*)\)\s*$/); return m ? [m[1], m[2]] : [t, '']; };
+    const bubble = (q, side) => {
+      const [tema, share] = split(q.tema); const d = (q.id.match(/^D(\d+)/) || [])[1];
+      return `<figure class="q ${side}"><blockquote class="bubble">${esc(q.text)}</blockquote>
+        <figcaption class="q-meta">${d && state.view === 'all' ? `<span class="dy">Day ${d}</span>` : ''}<span class="tema">${esc(tema)}</span>${share ? `<span class="share num">${esc(share)}</span>` : ''}</figcaption></figure>`;
+    };
+    box.innerHTML = `<div class="qwall">${Core.quoteLayout(quotes.length).map(row =>
+      `<div class="qrow ${row.length === 2 ? 'pair' : ''}">${row.map(c => bubble(quotes[c.idx], c.side)).join('')}</div>`).join('')}</div>
+      <p class="q-foot">Kutipan diambil apa adanya dari jawaban peserta. Satu kutipan paling mewakili per tema.</p>`;
+  }
+
+  /* ---------------- Ringkasan ---------------- */
+  function tile({ k, v, unit = '', d = '', below, cls = '' }) {
+    return `<div class="card tile ${cls} ${below ? 'below' : ''}"><span class="k">${k}</span><span class="v num">${v}${unit ? ` <small>${unit}</small>` : ''}</span><span class="d num">${d || '&nbsp;'}</span></div>`;
+  }
+  function renderSummary(s, p, prevDay) {
+    const all = state.view === 'all';
+    const n = s?.n || 0;
+    const total = all ? CONFIG.defaultTotalPeserta * daysWithData().length : totalFor(state.view);
+    const pct = total ? Math.round((n / total) * 100) : 0;
+    const part = `<div class="card tile part"><span class="k">${all ? 'Pengisian feedback' : 'Peserta yang mengisi'}</span>
+      <span class="v num">${n} <small>dari ${total} ${all ? `(${CONFIG.defaultTotalPeserta} peserta × ${daysWithData().length} hari)` : 'peserta'}</small></span>
+      <div class="bar"><i style="width:${Math.min(100, pct)}%"></i></div><span class="d num">${pct}% partisipasi</span></div>`;
+    const delta = (cur, prev, dg) => { const x = Core.fmtDelta(cur, prev, dg); return x.text ? `<span class="${x.cls}">${x.text}</span> vs Day ${prevDay}` : ''; };
+    const g = k => s?.groups[k] ?? null; const pg = k => p?.groups[k] ?? null;
+    const scoreTile = (k, key) => tile({ k, v: Core.fmt(g(key)), unit: '/ 5', d: all ? '' : delta(g(key), pg(key)), below: Core.isFlagged(g(key)) });
+    const npsv = s?.nps?.score ?? null;
+    $('summary').innerHTML = part
+      + scoreTile('Kepuasan keseluruhan', 'overall')
+      + scoreTile('Materi', 'materi')
+      + scoreTile('Tutor', 'tutor')
+      + scoreTile('Asisten Tutor', 'astor')
+      + tile({ k: 'NPS', v: npsv == null ? '–' : `${npsv}%`, d: s?.nps ? `${s.nps.pro} promotor · ${s.nps.pas} pasif · ${s.nps.det} detraktor` : '', below: npsv != null && npsv < CONFIG.npsFloor });
+  }
+
+  /* ---------------- Insight Sesi ---------------- */
+  const person = (role, cls, name, days) => `<div class="person"><div class="avatar ${cls}" aria-hidden="true">${name ? esc(initials(name)) : '–'}</div><div style="min-width:0"><div class="role ${cls}">${role}</div><div class="name">${name ? esc(name) : '<span class="muted">Belum diisi</span>'}</div>${days ? `<div class="days">${days}</div>` : ''}</div></div>`;
+  function renderInfo(info) {
+    if (state.view !== 'all') {
+      const tutors = splitNames(info.tutor); const astors = splitNames(info.astor);
+      $('sessionInfo').innerHTML = `<div class="people">${(tutors.length ? tutors : ['']).map(t => person('Tutor', 'tutor', t)).join('')}${(astors.length ? astors : ['']).map(a => person('Asisten Tutor', 'astor', a)).join('')}</div>`
+        + (info.topik ? `<div class="topic">Topik: <b>${esc(info.topik)}</b></div>` : '');
+      return;
+    }
+    // Rangkuman: every talent once, with the days they taught.
+    const collect = key => {
+      const map = new Map();
+      for (const d of CONFIG.days) for (const name of splitNames(state.data.info[d]?.[key])) { if (!map.has(name)) map.set(name, []); map.get(name).push(d); }
+      return [...map.entries()];
+    };
+    $('sessionInfo').innerHTML = `<div class="people">${collect('tutor').map(([n, ds]) => person('Tutor', 'tutor', n, dayRanges(ds))).join('')}${collect('astor').map(([n, ds]) => person('Asisten Tutor', 'astor', n, dayRanges(ds))).join('')}</div>`;
+  }
+
+  function renderAspek(s, p) {
+    const all = state.view === 'all';
+    $('aspek').classList.toggle('nodelta', all || !p);
+    if (!s) { $('aspek').innerHTML = '<div class="empty">Belum ada jawaban.</div>'; return; }
+    $('aspek').innerHTML = GROUPS.map(g => {
+      const rows = ITEMS.map((it, i) => ({ it, i })).filter(x => x.it.group === g.key).map(({ it, i }) => {
+        const v = s.items[i]; const d = Core.fmtDelta(v, p?.items[i] ?? null);
+        return `<div class="aspek-row ${Core.isFlagged(v) ? 'below' : ''}"><span class="code">${it.code}</span><span class="stmt">${esc(it.label)}</span><span class="score num">${Core.fmt(v)} <small>/ 5</small></span>${all || !p ? '' : `<span class="delta num ${d.cls}">${d.text || '–'}</span>`}</div>`;
+      }).join('');
+      return `<div class="aspek-group"><h4>${g.label}</h4>${rows}</div>`;
+    }).join('');
+  }
+
+  /* Trend chart: one focus series in full weight, the rest faded; legend chips switch focus. */
+  function renderTrend() {
+    const days = CONFIG.days; const sel = state.view;
+    const stats = Object.fromEntries(days.map(d => [d, Core.stats(responsesFor(d))]));
+    const vals = days.flatMap(d => SERIES.map(s => stats[d]?.groups[s.key])).filter(v => v != null);
+    const W = 560, H = 300, L = 34, R = 84, T = 12, B = 28;
+    const yMin = Math.max(1, Math.floor(Math.min(3.5, ...vals) * 2) / 2), yMax = 5;
+    const x = d => L + ((d - 1) / (days.length - 1)) * (W - L - R);
+    const y = v => T + (1 - (v - yMin) / (yMax - yMin)) * (H - T - B);
+    const ticks = []; for (let t = yMin; t <= yMax + 1e-9; t += 0.5) ticks.push(t);
+    const focusLabel = SERIES.find(s => s.key === state.focus).label;
+    let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Tren skor rata-rata per hari, fokus ${focusLabel}">`;
+    if (sel !== 'all') svg += `<rect x="${x(sel) - 14}" y="${T}" width="28" height="${H - T - B}" rx="6" fill="var(--blue-soft)"/>`;
+    ticks.forEach(t => { svg += `<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"/><text x="${L - 8}" y="${y(t) + 4}" text-anchor="end" font-size="11" fill="var(--ink-3)">${Core.fmt(t, 1)}</text>`; });
+    days.forEach(d => { svg += `<text x="${x(d)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="${d === sel ? 'var(--navy)' : 'var(--ink-3)'}" font-weight="${d === sel ? 700 : 400}">D${d}</text>`; });
+    const ordered = [...SERIES.filter(s => s.key !== state.focus), SERIES.find(s => s.key === state.focus)];
+    ordered.forEach(s => {
+      const focus = s.key === state.focus;
+      const pts = days.filter(d => stats[d]?.groups[s.key] != null).map(d => [x(d), y(stats[d].groups[s.key]), stats[d].groups[s.key]]);
+      if (!pts.length) return;
+      svg += `<g class="line" data-series="${s.key}" opacity="${focus ? 1 : 0.22}">`;
+      svg += `<polyline points="${pts.map(q => `${q[0]},${q[1]}`).join(' ')}" fill="none" stroke="${s.color}" stroke-width="${focus ? 3 : 2}" stroke-linejoin="round" stroke-linecap="round"/>`;
+      svg += `<polyline points="${pts.map(q => `${q[0]},${q[1]}`).join(' ')}" fill="none" stroke="transparent" stroke-width="14"/>`;
+      pts.forEach(([px, py, v]) => { svg += `<circle cx="${px}" cy="${py}" r="${focus ? 5 : 3.5}" fill="${focus && Core.isFlagged(v) ? 'var(--warn)' : s.color}" stroke="var(--surface)" stroke-width="2"/>`; });
+      if (focus) {
+        pts.forEach(([px, py, v]) => { svg += `<text class="val" x="${px}" y="${py - 10}" text-anchor="middle" font-size="11" font-weight="700" fill="${Core.isFlagged(v) ? 'var(--warn)' : 'var(--navy)'}">${Core.fmt(v)}</text>`; });
+        const last = pts[pts.length - 1];
+        svg += `<text x="${last[0] + 10}" y="${last[1] + 4}" font-size="12" font-weight="700" fill="var(--navy)">${s.label}</text>`;
+      }
+      svg += '</g>';
+    });
+    days.forEach(d => { svg += `<rect class="hit" data-day="${d}" x="${x(d) - 22}" y="${T}" width="44" height="${H - T - B}" fill="transparent" style="pointer-events:${stats[d] ? 'all' : 'none'};cursor:pointer"/>`; });
+    svg += '</svg>';
+    const legend = `<div class="chart-legend" role="group" aria-label="Pilih garis yang disorot">${SERIES.map(s =>
+      `<button type="button" class="series-btn" data-series="${s.key}" aria-pressed="${s.key === state.focus}"><i style="background:${s.color}"></i>${s.label}</button>`).join('')}</div>`;
+    $('trend').innerHTML = `${legend}<p class="chart-hint">Klik nama garis untuk menyorot aspek, klik titik hari untuk membuka hari itu.</p><div class="chart-wrap">${svg}<div class="tip" id="tip"></div></div>`;
+
+    const wrap = $('trend').querySelector('.chart-wrap'); const tip = $('tip'); const svgEl = wrap.querySelector('svg');
+    const setFocus = key => { state.focus = key; renderTrend(); };
+    $('trend').querySelectorAll('.series-btn').forEach(b => b.addEventListener('click', () => setFocus(b.dataset.series)));
+    wrap.querySelectorAll('.line').forEach(g => g.addEventListener('click', () => setFocus(g.dataset.series)));
+    wrap.querySelectorAll('.hit').forEach(r => {
+      r.addEventListener('mouseenter', () => {
+        const d = Number(r.dataset.day); const st = stats[d];
+        const scale = svgEl.getBoundingClientRect().width / W;
+        tip.innerHTML = `<b>Day ${d}</b> · ${st.n} responden<br>` + SERIES.map(s => `<i style="background:${s.color}"></i>${s.label}: ${Core.fmt(st.groups[s.key])}`).join('<br>');
+        const half = tip.offsetWidth / 2; const w = svgEl.getBoundingClientRect().width;
+        tip.style.left = `${Math.min(w - half, Math.max(half, x(d) * scale))}px`; tip.style.top = `${(T + 4) * scale}px`; tip.classList.add('on');
+      });
+      r.addEventListener('mouseleave', () => tip.classList.remove('on'));
+      r.addEventListener('click', () => setView(Number(r.dataset.day)));
+    });
+  }
+
+  /* ---------------- Perbandingan per hari (Rangkuman) ---------------- */
+  function renderDaysTable() {
+    const rows = daysWithData().map(d => ({ d, s: Core.stats(responsesFor(d)), info: state.data.info[d] || {} }));
+    const topOverall = Math.max(...rows.map(r => r.s.groups.overall));
+    const topNps = Math.max(...rows.map(r => r.s.nps?.score ?? -Infinity));
+    const fill = v => Math.max(0, (v - 1) / 4);
+    $('daysTable').innerHTML = `<thead><tr><th>Hari</th><th>Tutor</th><th class="r">Responden</th><th>Kepuasan keseluruhan</th><th class="r">NPS</th></tr></thead><tbody>`
+      + rows.map(({ d, s, info }) => {
+        const ov = s.groups.overall; const np = s.nps?.score ?? null;
+        const ovCls = ov === topOverall ? 'top' : Core.isFlagged(ov) ? 'below' : '';
+        const npCls = np === topNps ? 'top' : np != null && np < CONFIG.npsFloor ? 'below' : '';
+        return `<tr data-day="${d}" tabindex="0" role="link" aria-label="Buka Day ${d}"><td class="dn">Day ${d}<small>${esc(CONFIG.dayDates[d - 1])}</small></td>
+          <td class="tt">${esc(info.tutor || 'Belum diisi')}<small>Asisten: ${esc(info.astor || '–')}</small></td>
+          <td class="r num">${s.n} <span class="muted">/ ${totalFor(d)}</span></td>
+          <td><div class="sc"><div class="bar"><i style="width:${Math.round(fill(ov) * 100)}%"></i></div><span class="pv num ${ovCls}">${Core.fmt(ov)}</span></div></td>
+          <td class="r"><span class="pv num ${npCls}">${np == null ? '–' : `${np}%`}</span></td></tr>`;
+      }).join('') + '</tbody>';
+    $('daysTable').querySelectorAll('tbody tr').forEach(tr => {
+      const go = () => setView(Number(tr.dataset.day));
+      tr.addEventListener('click', go);
+      tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  }
+
+  /* ---------------- Suara Peserta ---------------- */
+  function renderVoices() {
+    const rows = themesFor(state.view);
+    $('voices').innerHTML = PANELS.map(p => {
+      const items = rows.map((it, i) => ({ it, i })).filter(({ it }) => it.panel.toLowerCase() === p.key.toLowerCase()).sort((a, b) => b.it.jumlah - a.it.jumlah);
+      const body = items.length ? items.map(({ it, i }) =>
+        `<button class="theme-chip" type="button" data-theme="${i}" aria-pressed="${state.theme === i}" aria-controls="answers"><span>${esc(it.tema)}</span><span style="display:flex;gap:8px;align-items:center"><span class="cnt num">${it.jumlah}</span><span class="go" aria-hidden="true">↓</span></span></button>`).join('')
+        : '<div class="empty">Belum ada tema.</div>';
+      return `<div class="card card-pad voice"><h3><span class="dot" style="background:${p.color}"></span>${p.key}</h3><p class="src">${p.src}</p>${body}</div>`;
+    }).join('');
+    $('voices').querySelectorAll('.theme-chip').forEach(b => b.addEventListener('click', () => {
+      const i = Number(b.dataset.theme);
+      setTheme(state.theme === i ? null : i, true);
+    }));
+  }
+  function setTheme(i, scroll) {
+    state.theme = i;
+    $('voices').querySelectorAll('.theme-chip').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.theme) === i)));
+    renderAnswers(true);
+    if (scroll && i != null) $('answersSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ---------------- Jawaban Peserta ---------------- */
+  function renderCodes() {
+    $('codes').innerHTML = ITEMS.map(it => `<div><span class="code">${it.code}</span><span>${esc(it.label)}</span></div>`).join('')
+      + '<div><span class="code">NPS</span><span>Kemungkinan merekomendasikan pelatihan (0 sampai 10)</span></div>';
+  }
+  const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  function highlight(text, terms) {
+    const safe = esc(text);
+    const words = terms.filter(t => t && t.length >= 2).map(t => esc(t)).sort((a, b) => b.length - a.length);
+    if (!words.length || !safe) return safe;
+    const re = new RegExp(`(${words.map(w => reEsc(w).replace(/\s+/g, '[^\\p{L}\\p{N}]+')).join('|')})`, 'giu');
+    return safe.replace(re, '<mark>$1</mark>');
+  }
+  function renderAnswers(flash = false) {
+    const all = state.view === 'all';
+    const q = state.search.trim().toLowerCase();
+    const theme = state.theme != null ? themesFor(state.view)[state.theme] : null;
+    const base = responsesFor(state.view);
+    let rows = base;
+    if (theme) rows = rows.filter(r => Core.inTheme(r, theme));
+    if (q) rows = rows.filter(r => TEXTS.some(t => r.texts[t.key].toLowerCase().includes(q)));
+    const pill = $('themeFilter');
+    pill.hidden = !theme;
+    if (theme) pill.querySelector('span').textContent = `Tema: ${theme.tema}`;
+    $('searchCount').textContent = (q || theme) ? `${rows.length} dari ${base.length} jawaban` : `${base.length} jawaban`;
+    const terms = [q, ...(theme ? theme.kataKunci : [])];
+    const head = `<thead><tr><th class="s">#</th>${all ? '<th>Hari</th>' : ''}${ITEMS.map(it => `<th class="s" title="${esc(it.label)}">${it.code}</th>`).join('')}<th class="s" title="Kemungkinan merekomendasikan">NPS</th>${TEXTS.map(t => `<th>${t.label}</th>`).join('')}</tr></thead>`;
+    const empty = theme ? 'Belum ada jawaban untuk tema ini.' : q ? 'Tidak ada komentar yang cocok dengan kata kunci ini.' : 'Belum ada jawaban.';
+    const body = rows.length ? rows.map((r, i) => `<tr><td class="s muted num">${i + 1}</td>${all ? `<td class="dy">D${r.day}</td>` : ''}${r.scores.map(s => `<td class="s num ${s != null && s <= 3 ? 'low' : ''}">${s ?? '–'}</td>`).join('')}<td class="s num ${r.nps != null && r.nps <= 6 ? 'low' : ''}">${r.nps ?? '–'}</td>${TEXTS.map(t => `<td class="txt">${highlight(r.texts[t.key], terms) || '<span class="muted">–</span>'}</td>`).join('')}</tr>`).join('')
+      : `<tr><td colspan="${ITEMS.length + TEXTS.length + (all ? 3 : 2)}" class="empty" style="text-align:center;padding:20px">${empty}</td></tr>`;
+    $('answers').innerHTML = head + `<tbody class="${flash ? 'flash' : ''}">${body}</tbody>`;
+  }
+
+  function renderSource() {
+    const pill = $('sourcePill');
+    pill.className = `source-pill ${state.source === 'sheet' ? 'live' : 'snap'}`;
+    pill.querySelector('span').textContent = state.source === 'sheet' ? 'Google Sheet' : CONFIG.snapshotLabel;
+  }
+
+  function setView(v) {
+    state.view = v; state.search = ''; state.theme = null; $('searchInput').value = '';
+    try { history.replaceState(null, '', `${location.pathname}${location.search}#view=${v}`); } catch { /* not allowed on file/data previews */ }
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ---------------- Kelola data ---------------- */
+  const status = (id, msg, ok) => { const el = $(id); el.textContent = msg; el.className = `status ${ok ? 'ok' : 'err'}`; };
+  const sheetUrl = id => `https://docs.google.com/spreadsheets/d/${id}/edit`;
+  function openManage() {
+    $('sheetInput').value = state.sheetId ? sheetUrl(state.sheetId) : '';
+    $('openSheetBtn').href = state.sheetId ? sheetUrl(state.sheetId) : '#';
+    ['sheetStatus', 'copyStatus'].forEach(id => { $(id).textContent = ''; });
+    $('manage').showModal();
+  }
+  async function connect(idInput) {
+    const id = Core.parseSheetId(idInput);
+    if (!id) { status('sheetStatus', 'Link sheet tidak dikenali. Salin link dari address bar Google Sheets.', false); return; }
+    status('sheetStatus', 'Memuat data...', true);
+    try {
+      const d = await loadFromSheet(id);
+      if (!d.responses.length) throw new Error('Tab feedback kosong atau header berubah');
+      state.data = d; state.source = 'sheet'; state.sheetId = id; state.theme = null;
+      store.set(KEY_SHEET, id); render();
+      $('openSheetBtn').href = sheetUrl(id);
+      status('sheetStatus', `Terhubung. ${d.responses.length} jawaban dimuat.`, true);
+    } catch (e) {
+      status('sheetStatus', `Gagal memuat: ${e.message}. Pastikan sheet dibagikan "Anyone with the link: Viewer".`, false);
+    }
+  }
+  async function copyLink() {
+    if (!state.sheetId) { status('copyStatus', 'Hubungkan Google Sheet dulu.', false); return; }
+    const url = `${location.origin}${location.pathname}?sheet=${state.sheetId}`;
+    try { await navigator.clipboard.writeText(url); status('copyStatus', 'Link tersalin.', true); }
+    catch { status('copyStatus', url, true); }
+  }
+  function reset() {
+    store.del(KEY_SHEET);
+    state.data = buildData(SNAPSHOT); state.source = 'snapshot'; state.theme = null;
+    render(); $('manage').close();
+  }
+
+  $('daySelect').addEventListener('change', e => setView(e.target.value === 'all' ? 'all' : Number(e.target.value)));
+  $('searchInput').addEventListener('input', e => { state.search = e.target.value; renderAnswers(); });
+  $('themeFilter').querySelector('button').addEventListener('click', () => setTheme(null, false));
+  $('openManage').addEventListener('click', openManage);
+  $('closeManage').addEventListener('click', () => $('manage').close());
+  $('connectBtn').addEventListener('click', () => connect($('sheetInput').value));
+  $('reloadBtn').addEventListener('click', () => connect(state.sheetId));
+  $('copyLinkBtn').addEventListener('click', copyLink);
+  $('resetBtn').addEventListener('click', reset);
+
+  init();
+})();
+</script>
+</body>
+</html>

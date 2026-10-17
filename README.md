@@ -44,6 +44,7 @@ Semua program disajikan oleh **satu** situs statis, masing-masing di sub-path se
 | `bsi-bpi-sdp-b2-b3` | `/bsi-bpi-sdp-batch-2-3/` | Rangkuman, Batch 2, Batch 3 |
 | `bsi-bpi-sdp-a10` | `/bsi-bpi-sdp-angkatan-10/` | Rangkuman, Hari 1, Hari 2 |
 | `bsi-bpi-mastery` | `/bsi-bpi-mastery/` | Rangkuman, Hari 1, Hari 2 |
+| `ikdd-sms-b1` | `/ikdd-sms-batch-1/` | Rangkuman Day 1–10, Day 1 … Day 10 (dropdown) |
 
 Halaman akar (`/`) sengaja kosong dan `robots.txt` melarang pengindeksan, supaya tiap klien hanya tahu link miliknya sendiri. Bagikan link per sub-path, bukan alamat akar.
 
@@ -57,6 +58,7 @@ npm run build:goto-pm      # satu program → programs/<nama>/dist/index.html
 npm run build:bsi-b2-b3
 npm run build:bsi-a10
 npm run build:bsi-mastery
+npm run build:ikdd-b1
 ```
 
 Buka `site/<sub-path>/index.html` langsung di browser untuk pratinjau. Dari `file://`, pembacaan Google Sheet terblokir CORS, jadi halaman memakai data bawaan. Itu normal.

@@ -15,6 +15,7 @@ Sumber kebenaran ada di repo, jangan menulis ulang dari nol:
 | Beberapa unit selesai + Rangkuman (batch) | `programs/bsi-bpi-sdp-b2-b3/` |
 | Beberapa unit selesai + Rangkuman (hari, tim sama) | `programs/bsi-bpi-sdp-a10/` (turunan template di atas; `CONFIG.unit`, `sameTeam`, `samePeople`) |
 | Dua hari, form sama dengan A10 (hanya ganti data dan tema) | `programs/bsi-bpi-mastery/` (salinan A10: ganti `responses.js`, `themes.js`, tanggal/talent di `build-sheet-data.js`, `CONFIG`) |
+| Series panjang (10 hari, dropdown hari, tren harian, desain IKDD) | `programs/ikdd-sms-b1/` (Rangkuman + Day 1..N, tabel Perbandingan per Hari, tema dirujuk ID `D{day}-{n}`) |
 | Standar produk dan catatan tiap project | `docs/KONTEKS-DASHBOARD.md` |
 | Cara build, struktur, deploy | `README.md` |
 
