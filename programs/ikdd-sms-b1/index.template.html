@@ -180,7 +180,8 @@ section[hidden] { display: none; }
 .days-table tbody tr:hover { background: var(--surface-2); }
 .days-table .dn { font-weight: 800; color: var(--navy); white-space: nowrap; }
 .days-table .dn small { display: block; font-weight: 400; font-size: 12px; color: var(--ink-3); }
-.days-table .tt { color: var(--ink); min-width: 140px; }
+.days-table .tp { color: var(--ink-2); font-size: 13px; line-height: 1.4; min-width: 220px; max-width: 340px; }
+.days-table .tt { color: var(--ink); min-width: 120px; }
 .days-table .tt small { display: block; font-size: 12px; color: var(--ink-3); }
 .days-table .r { text-align: right; white-space: nowrap; }
 .days-table .sc { display: grid; grid-template-columns: minmax(70px, 1fr) 58px; gap: 10px; align-items: center; min-width: 170px; }
@@ -847,12 +848,13 @@ const SNAPSHOT = __SNAPSHOT__;
     const topOverall = Math.max(...rows.map(r => r.s.groups.overall));
     const topNps = Math.max(...rows.map(r => r.s.nps?.score ?? -Infinity));
     const fill = v => Math.max(0, (v - 1) / 4);
-    $('daysTable').innerHTML = `<thead><tr><th>Hari</th><th>Tutor</th><th class="r">Responden</th><th>Kepuasan keseluruhan</th><th class="r">NPS</th></tr></thead><tbody>`
+    $('daysTable').innerHTML = `<thead><tr><th>Hari</th><th>Topik</th><th>Tutor</th><th class="r">Responden</th><th>Kepuasan keseluruhan</th><th class="r">NPS</th></tr></thead><tbody>`
       + rows.map(({ d, s, info }) => {
         const ov = s.groups.overall; const np = s.nps?.score ?? null;
         const ovCls = ov === topOverall ? 'top' : Core.isFlagged(ov) ? 'below' : '';
         const npCls = np === topNps ? 'top' : np != null && np < CONFIG.npsFloor ? 'below' : '';
         return `<tr data-day="${d}" tabindex="0" role="link" aria-label="Buka Day ${d}"><td class="dn">Day ${d}<small>${esc(CONFIG.dayDates[d - 1])}</small></td>
+          <td class="tp">${esc(info.topik || '–')}</td>
           <td class="tt">${esc(info.tutor || 'Belum diisi')}<small>Asisten: ${esc(info.astor || '–')}</small></td>
           <td class="r num">${s.n} <span class="muted">/ ${totalFor(d)}</span></td>
           <td><div class="sc"><div class="bar"><i style="width:${Math.round(fill(ov) * 100)}%"></i></div><span class="pv num ${ovCls}">${Core.fmt(ov)}</span></div></td>
