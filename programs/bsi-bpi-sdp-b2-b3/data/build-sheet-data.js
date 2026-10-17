@@ -14,6 +14,14 @@ const PANEL = { baik: 'Diapresiasi', saran: 'Saran perbaikan', dalami: 'Ingin di
 const BATCH = { b2: '2', b3: '3' };
 const id = (b, n) => `B${BATCH[b]}-${n}`;
 
+// Majority voice: Diapresiasi themes voiced by >= 30% of respondents; when none reaches that, the
+// most-voiced theme(s) of the view (ties included). 30% is a guide, not a hard cut (user decision).
+function majority(themes, n) {
+  const strong = themes.filter(t => t.count / n >= 0.3);
+  if (strong.length) return strong;
+  const top = Math.max(...themes.map(t => t.count));
+  return themes.filter(t => t.count === top);
+}
 const errors = [];
 const feedback = [['Batch', 'Tanggal', 'Responden', ...ITEMS, NPS, ...TEXTS]];
 for (const b of ['b2', 'b3']) R[b].forEach((r, i) => feedback.push([BATCH[b], DATE, id(b, i + 1), ...r.map(String)]));
@@ -37,12 +45,13 @@ for (const b of ['b2', 'b3']) {
     }
   }
   // Suara Mayoritas: Diapresiasi themes voiced by at least 30% of respondents.
-  T[b].baik.filter(t => t.count / n >= 0.3).forEach(t => {
+  const chosen = majority(T[b].baik, n);
+  chosen.forEach(t => {
     if (!t.quote) { errors.push(`Tema mayoritas tanpa quote: ${b} ${t.tema}`); return; }
     if (!t.rows.includes(t.quote[0])) errors.push(`Quote bukan dari tema: ${b} ${t.tema}`);
     insight.push(quoteRow(BATCH[b], n, t, b, t.quote[0], t.quote[1]));
   });
-  T[b].baik.filter(t => t.quote && t.count / n < 0.3).forEach(t => errors.push(`Quote untuk tema di bawah 30%: ${b} ${t.tema}`));
+  T[b].baik.filter(t => t.quote && !chosen.includes(t)).forEach(t => errors.push(`Quote untuk tema yang bukan mayoritas: ${b} ${t.tema}`));
 }
 
 const nAll = R.b2.length + R.b3.length;
@@ -68,7 +77,8 @@ for (const [f, themes] of Object.entries(T.rangkuman)) {
     insight.push(['Rangkuman', PANEL[f], t.tema, t.count, ids.join('|'), kutipan, kunci.join('|')]);
   }
 }
-T.rangkuman.baik.filter(t => t.count / nAll >= 0.3).forEach(t => {
+const chosenAll = majority(T.rangkuman.baik, nAll);
+chosenAll.forEach(t => {
   const [b, num, text] = t.quote || [];
   if (!t.quote) { errors.push(`Rangkuman mayoritas tanpa quote: ${t.tema}`); return; }
   if (!t.from[b]?.includes(num)) errors.push(`Quote rangkuman bukan dari tema: ${t.tema}`);

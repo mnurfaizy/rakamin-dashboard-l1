@@ -443,7 +443,6 @@ const Core = (() => {
     noteFullUnits: false,      // add "<unit> juga diisi oleh seluruh peserta" when exactly one unit is fully answered
     flagFloor: 4.0,
     npsFloor: 60,
-    majorityShare: 0.3,
     maxQuotes: 3,
   };
 
@@ -759,7 +758,7 @@ if (typeof module !== 'undefined') module.exports = Core;
   function renderQuotes(s) {
     const quotes = state.data.quotes.filter(q => q.view === state.view).slice(0, CONFIG.maxQuotes);
     const box = $('quotesBox');
-    $('qNote').textContent = s ? `Tema Diapresiasi yang disuarakan minimal ${Math.round(CONFIG.majorityShare * 100)}% responden` : '';
+    $('qNote').textContent = '';
     const stars = `<svg class="stars" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true"><g fill="rgba(255,255,255,.18)"><path d="M40 20c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z"/><path d="M360 160c.6 4 3 6.5 7 7-4 .5-6.4 3-7 7-.6-4-3-6.5-7-7 4-.5 6.4-3 7-7z"/></g></svg>`;
     if (!quotes.length) { box.innerHTML = `${stars}<p class="foot" style="margin:0">Kutipan mayoritas dirangkum setelah jawaban terkumpul.</p>`; return; }
     const split = t => { const m = String(t).match(/^(.*?)\s*\(([^)]*\d[^)]*)\)\s*$/); return m ? [m[1], m[2]] : [t, '']; };

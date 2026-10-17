@@ -397,6 +397,7 @@ const Core = (() => {
     defaultTotalPeserta: 19,
     flagFloor: 4.0,              // skor di bawah ini diberi warna peringatan
     npsFloor: 60,                // NPS (persen) di bawah ini diberi warna peringatan
+    quoteMinShare: 0.5,          // Quotes of the Day (Day views) appear only once >= 50% of the participants have answered
     maxQuotes: 3,
     snapshotLabel: 'Data bawaan (17 Okt 2026)',
   };
@@ -707,6 +708,12 @@ const SNAPSHOT = __SNAPSHOT__;
     // Day views read like the live daily dashboard (Quotes of the Day); Rangkuman keeps Suara Mayoritas.
     const daily = state.view !== 'all';
     $('qTitle').textContent = daily ? 'Quotes of the Day' : 'Suara Mayoritas';
+    const n = s?.n || 0; const total = totalFor(state.view);
+    if (daily && n < Math.ceil(total * CONFIG.quoteMinShare)) {
+      const need = Math.ceil(total * CONFIG.quoteMinShare) - n;
+      box.innerHTML = `<div class="q-empty"><b>Sebentar ya, suara peserta sedang dikumpulkan</b>${n} dari ${total} peserta sudah mengisi. Quotes of the Day muncul setelah minimal ${Math.round(CONFIG.quoteMinShare * 100)}% peserta mengisi, tinggal ${need} jawaban lagi.</div>`;
+      return;
+    }
     if (!quotes.length) {
       box.innerHTML = `<div class="q-empty"><b>${daily ? 'Belum ada quotes hari ini' : 'Belum ada suara mayoritas'}</b>${s ? 'Kutipan dirangkum setelah jawaban terkumpul. Lihat Suara Peserta di bawah untuk tema yang muncul.' : 'Belum ada jawaban.'}</div>`;
       return;
