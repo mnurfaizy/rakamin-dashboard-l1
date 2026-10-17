@@ -47,7 +47,7 @@ module.exports = {
       quote: { text: 'Materi disampaikan dengan jelas, sistematis, dan mudah dipahami.', tag: 'Batch 3', theme: 'Penyampaian materi jelas dan mudah dipahami' },
     },
     {
-      id: 'bsi-a10', client: 'bsi', status: 'selesai', path: '/bsi-bpi-sdp-angkatan-10/', photo: null,
+      id: 'bsi-a10', client: 'bsi', status: 'selesai', path: '/bsi-bpi-sdp-angkatan-10/', photo: 'bsi-bpi-sdp-a10',
       fullName: 'BSI - Business Process Improvement SDP Angkatan 10',
       label: 'BSI · SDP', title: 'Business Process Improvement SDP Angkatan 10', meta: 'Workshop 2 hari · 29 peserta',
       date: '14–15 Sep 2026', sortDate: '2026-09-15',

@@ -228,5 +228,5 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 - Isi: 3 klien (GoTo, BSI, Dompet Dhuafa), 7 program + GoTo PM Batch 2 sebagai kartu "Segera hadir" (3 Nov 2026). Angka per kartu = jumlah jawaban dan skor Kepuasan keseluruhan dari Rangkuman/sesi dashboard masing-masing (per 18 Okt 2026). Agregat klien dan hero = rata-rata dibobot jumlah jawaban (4,51 dari 454 jawaban).
 - Nama lengkap program (dari user) dipakai sebagai `title`/`aria-label` kartu dan untuk pencarian; judul kartu memakai nama pendek.
 - IKDD SMS Batch 2 (`berjalan`) membaca sheet live saat halaman dibuka; snapshot: Day 1–3, 55 jawaban, kepuasan 4,22.
-- Foto dari folder dokumentasi Drive yang diberikan user. BSI BPI SDP Angkatan 10 belum punya folder dokumentasi, jadi kartunya menampilkan "Foto dokumentasi menyusul".
+- Foto dari folder dokumentasi Drive yang diberikan user (termasuk SDP Angkatan 10, folder `1WdjB3ByYBLKP-vZ5L3TGEvFWLCF9HvKO`). Program tanpa foto menampilkan "Foto dokumentasi menyusul".
 - Kutipan: satu Suara Mayoritas per program (kutipan teratas di dashboard-nya, persis). Tiga terbaru tampil, tombol "Lihat semua kutipan" membuka semuanya.
