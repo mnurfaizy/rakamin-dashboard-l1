@@ -9,8 +9,10 @@ Konteks produk (kondisi A/B/C, section standar, aturan perhitungan, warna pering
 ```
 .
 ├── README.md
-├── render.yaml                  # blueprint Render: satu static site per program
-├── package.json                 # npm run build  → build semua program
+├── render.yaml                  # blueprint Render: satu static site untuk semua program
+├── package.json                 # npm run build  → build semua program ke site/
+├── scripts/
+│   └── build-site.js            # build semua program dan susun site/ (satu sub-path per program)
 ├── docs/
 │   └── KONTEKS-DASHBOARD.md     # standar dashboard dan catatan tiap project
 └── programs/
@@ -30,38 +32,46 @@ Isi setiap folder program:
 | `data/themes.js` | Koding tema Diapresiasi / Saran / Ingin diperdalam oleh Claude, dirujuk lewat ID responden. |
 | `data/build-sheet-data.js` | Memvalidasi tema dan membuat `data/sheet-data.json` (tabel yang diunggah ke Google Sheet dashboard). |
 | `netlify.toml` | Hanya dipakai bila situs masih di Netlify. Boleh dihapus setelah migrasi selesai. |
-| `dist/` | Hasil build. Tidak di-commit. |
+| `dist/` | Hasil build program. Tidak di-commit. |
 
-## Program
+## Program dan alamatnya
 
-| Program | Tampilan | Situs |
+Semua program disajikan oleh **satu** situs statis, masing-masing di sub-path sendiri.
+
+| Program | Sub-path | Tampilan |
 |---|---|---|
-| `goto-pm-workshop-b1` | Sesi tunggal | `goto-pm-insight` (dropdown Batch 1 / Batch 2, Batch 2 belum berjalan) |
-| `bsi-bpi-sdp-b2-b3` | Rangkuman, Batch 2, Batch 3 | `bsi-bpi-sdp-insight` |
-| `bsi-bpi-sdp-a10` | Rangkuman, Hari 1, Hari 2 | `bsi-bpi-sdp-a10-insight` |
+| `goto-pm-workshop-b1` | `/goto-pm/` | Sesi tunggal, dropdown Batch 1 / Batch 2 (Batch 2 belum berjalan) |
+| `bsi-bpi-sdp-b2-b3` | `/bsi-b2-b3/` | Rangkuman, Batch 2, Batch 3 |
+| `bsi-bpi-sdp-a10` | `/bsi-a10/` | Rangkuman, Hari 1, Hari 2 |
+
+Halaman akar (`/`) sengaja kosong dan `robots.txt` melarang pengindeksan, supaya tiap klien hanya tahu link miliknya sendiri. Bagikan link per sub-path, bukan alamat akar.
 
 ## Build lokal
 
 Hanya butuh Node.js 18 atau lebih baru, tanpa dependensi.
 
 ```bash
-npm run build              # semua program
-npm run build:goto-pm      # satu program
+npm run build              # semua program → site/<sub-path>/index.html
+npm run build:goto-pm      # satu program → programs/<nama>/dist/index.html
 npm run build:bsi-b2-b3
 npm run build:bsi-a10
 ```
 
-Hasilnya `programs/<nama>/dist/index.html`. Buka langsung di browser untuk pratinjau. Saat dibuka dari `file://`, pembacaan Google Sheet terblokir CORS, jadi halaman memakai data bawaan. Itu normal.
+Buka `site/<sub-path>/index.html` langsung di browser untuk pratinjau. Dari `file://`, pembacaan Google Sheet terblokir CORS, jadi halaman memakai data bawaan. Itu normal.
 
 ## Deploy ke Render
 
-Semua situs berupa static site tanpa server dan tanpa environment variable.
+Satu static site untuk semuanya, tanpa server dan tanpa environment variable.
 
-1. Hubungkan repo ini di Render, lalu pilih **New → Blueprint** dan arahkan ke `render.yaml`. Render membuat tiga static site sekaligus.
-2. Tiap situs menjalankan `buildCommand` dari foldernya, lalu mempublikasikan `./dist`. Setiap `git push` ke branch utama men-deploy ulang otomatis.
-3. Bila Blueprint tidak dipakai, buat Static Site manual dengan **Root Directory** `programs/<nama>`, **Build Command** seperti di `render.yaml`, dan **Publish Directory** `dist`.
+| Kolom | Isi |
+|---|---|
+| Branch | `main` |
+| Root Directory | kosong (akar repo) |
+| Build Command | `node scripts/build-site.js` |
+| Publish Directory | `site` |
+| Header (opsional) | Path `/*`, `Cache-Control: no-cache` |
 
-Perubahan data di Google Sheet tampil setelah halaman di-refresh, tanpa deploy ulang. Deploy hanya perlu saat tampilan, data bawaan, atau tema berubah.
+`render.yaml` berisi pengaturan yang sama untuk **New → Blueprint** (Render meminta kartu untuk Blueprint). Setiap push ke `main` men-deploy ulang. Perubahan data di Google Sheet tampil setelah refresh tanpa deploy ulang.
 
 ## Membuat program baru
 
@@ -69,7 +79,7 @@ Perubahan data di Google Sheet tampil setelah halaman di-refresh, tanpa deploy u
 2. Ganti isi `brand/` dengan logo dan gambar klien, lalu sesuaikan token warna di bagian `:root` pada `index.template.html`.
 3. Ubah `CONFIG` di template: ID Google Sheet, nama program, tanggal, total peserta, label unit.
 4. Untuk program BSI-style: isi `data/responses.js`, kodekan tema di `data/themes.js`, jalankan `node data/build-sheet-data.js`, lalu unggah `data/sheet-data.json` ke sheet dashboard.
-5. Tambahkan skrip di `package.json` dan satu entri service di `render.yaml`.
+5. Tambahkan skrip di `package.json` dan satu entri di `PROGRAMS` pada `scripts/build-site.js`.
 
 ## Data pribadi
 
