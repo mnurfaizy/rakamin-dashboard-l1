@@ -163,6 +163,12 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 - Skor hanya dibaca bila berupa bilangan bulat, sehingga baris rata-rata di bawah data respons tidak ikut terhitung.
 - Desain: hero memakai foto/gradient brand klien, identitas sesi & talent jadi strip di bawah hero, Suara Mayoritas memakai glass callout di atas gradient brand (bentuk G di design system quote).
 
+### Template multi-unit (17 Okt 2026)
+
+- Template `bsi-bpi-sdp-a10` dan `bsi-bpi-sdp-b2-b3` kini satu kode yang sama; perbedaannya hanya `CONFIG`, judul, dan teks sumber. Mendukung N unit (Batch atau Hari), tim pengajar per unit atau satu tim untuk semua, dan NPS opsional (semua elemen NPS hilang bila form tidak punya pertanyaannya).
+- Diverifikasi: teks semua tampilan B2-B3 identik dengan versi sebelumnya; A10 identik kecuali nama tutor yang sebelumnya diulang di kepala kolom Perbandingan kini dihilangkan (tim sama, sudah ada di strip identitas). Uji tambahan dengan data sintetis 3 unit tanpa NPS (desktop 1280 px dan mobile 375 px) lulus.
+- Pada layar ≤560 px dengan lebih dari 2 unit, kepala kolom Perbandingan diringkas (nama tim disembunyikan, sudah tampil di strip).
+
 ### Project 3: BSI Business Process Improvement SDP Angkatan 10 (kondisi C, 2 hari)
 
 - Sheet dashboard (anonim): `[Dashboard L1] BSI - Business Process Improvement SDP Angkatan 10` (ID `1EfH4CX7hlUDpJ7xrY4_gaH4V1j24a-WMZVF-gHrb0B0`), disalin dari `[All Data] ... Angkatan 10 (Responses)` tanpa nama, email, dan skor post test. Kolom unit = `Hari`, ID responden `H1-n` / `H2-n`.

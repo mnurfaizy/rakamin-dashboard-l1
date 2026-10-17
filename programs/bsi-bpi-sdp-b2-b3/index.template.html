@@ -28,8 +28,10 @@
   --ink-3: #7b8a9a;
   --warn: #c2410c;
   --good: #03959f;
-  --b2: #f7ac3b;            /* Batch 2 accent */
-  --b3: #03959f;            /* Batch 3 accent */
+  --u1: #f7ac3b;            /* accents for the 1st..4th unit (day or batch) */
+  --u2: #03959f;
+  --u3: #006460;
+  --u4: #64748b;
   --shadow: 0 1px 2px rgba(0, 100, 96, .05), 0 10px 30px rgba(0, 100, 96, .08);
   --radius: 18px;
   --hero: url(__ASSET_HERO__);
@@ -82,7 +84,12 @@ button, input, select { font: inherit; color: inherit; }
 .strip { position: relative; z-index: 3; margin-top: -64px; }
 .strip-card { background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; }
 .strip-card.batch { grid-template-columns: repeat(2, minmax(0, 1.2fr)) repeat(3, minmax(0, 1fr)); }
-.strip-card.all { grid-template-columns: repeat(2, minmax(0, 1.4fr)) repeat(2, minmax(0, 1fr)); }
+.strip-card.multi { grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); }
+.strip-card.multi .teams { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.strip-card.multi .facts { display: grid; gap: 12px; align-content: center; border-left: 1px solid var(--line); padding-left: 14px; }
+.strip-card.multi .facts .fact { border-left: 0; padding-left: 4px; }
+.ut1 { background: var(--gold-soft); color: var(--gold-ink); } .ut2 { background: var(--teal-tint); color: var(--teal-deep); }
+.ut3 { background: #dbe9e8; color: #004a47; } .ut4 { background: #e6ebf1; color: #334155; }
 .who { display: flex; gap: 12px; align-items: center; min-width: 0; padding: 6px 4px; }
 .avatar { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-weight: 900; font-size: 16px; }
 .avatar.tutor { background: var(--teal); color: #fff; }
@@ -169,18 +176,19 @@ section { margin-top: 36px; }
 .tag.low { background: var(--gold-soft); color: var(--gold-ink); }
 
 /* ---------- Perbandingan batch ---------- */
-.compare-head { display: grid; grid-template-columns: minmax(150px, .9fr) repeat(2, minmax(0, 1fr)); gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); align-items: end; }
+.compare-head { display: grid; grid-template-columns: minmax(150px, .9fr) repeat(var(--n, 2), minmax(0, 1fr)); gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); align-items: end; }
 .compare-head .bh { display: flex; flex-direction: column; gap: 8px; }
 .compare-head .bh .t { display: flex; align-items: center; gap: 8px; font-weight: 900; color: var(--teal-deep); font-size: 17px; }
 .compare-head .bh .t i { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
 .compare-head .bh .s { font-size: 13px; color: var(--ink-2); }
-.cmp-row { display: grid; grid-template-columns: minmax(150px, .9fr) repeat(2, minmax(0, 1fr)); gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); align-items: center; }
+.cmp-row { display: grid; grid-template-columns: minmax(150px, .9fr) repeat(var(--n, 2), minmax(0, 1fr)); gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); align-items: center; }
 .cmp-row:last-child { border-bottom: 0; }
 .cmp-row .m { font-weight: 700; font-size: 14px; }
 .cmp-cell { display: flex; align-items: center; gap: 10px; }
 .cmp-cell .bar { flex: 1; margin: 0; height: 10px; }
 .cmp-cell .val { width: 52px; text-align: right; font-weight: 900; color: var(--teal-deep); }
 .cmp-cell.lead .val::after { content: "▲"; font-size: 9px; color: var(--teal); margin-left: 3px; vertical-align: 2px; }
+@media (max-width: 560px) { .many .bh .s { display: none; } .many .bh .t { font-size: 14px; gap: 0; } .many .bh .t i { display: none; } .many .cmp-cell .val { width: auto; } }
 .compare-note { margin: 14px 0 0; font-size: 13px; color: var(--ink-2); }
 
 /* ---------- Topik paling diingat ---------- */
@@ -264,21 +272,22 @@ dialog::backdrop { background: rgba(0, 60, 58, .45); }
   .summary .part { grid-column: 1 / -1; }
   .strip-card.batch { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .strip-card.batch .fact { border-left: 0; border-top: 1px solid var(--line); padding-left: 4px; padding-top: 12px; }
-  .strip-card.all { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .strip-card.all .fact { border-left: 0; border-top: 1px solid var(--line); padding-left: 4px; padding-top: 12px; }
+  .strip-card.multi { grid-template-columns: 1fr; }
+  .strip-card.multi .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); border-left: 0; border-top: 1px solid var(--line); padding: 12px 0 0; }
 }
 @media (max-width: 860px) {
   .hero { background: linear-gradient(180deg, rgba(247, 251, 251, .95) 0%, rgba(247, 251, 251, .85) 55%, rgba(247, 251, 251, .4) 100%), var(--hero) 72% bottom / cover no-repeat; }
   .aspek-grid { grid-template-columns: 1fr; }
   .voices { grid-template-columns: 1fr; }
-  .callouts { grid-template-columns: 1fr; }
-  .compare-head, .cmp-row { grid-template-columns: minmax(110px, .8fr) repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .callouts { grid-template-columns: 1fr !important; }
+  .compare-head, .cmp-row { grid-template-columns: minmax(110px, .8fr) repeat(var(--n, 2), minmax(0, 1fr)); gap: 10px; }
   .cmp-cell .bar { display: none; }
   .cmp-cell { justify-content: flex-end; }
 }
 @media (max-width: 560px) {
   .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .strip-card.batch, .strip-card.all { grid-template-columns: 1fr; }
+  .strip-card.batch, .strip-card.multi { grid-template-columns: 1fr; }
+  .strip-card.multi .facts { grid-template-columns: 1fr; }
   .switch { width: 100%; } .switch button { flex: 1; padding: 8px 6px; font-size: 13px; } .switch button small { display: none; }
   .logo-box { gap: 10px; padding: 8px 12px; }
   .recall-row { grid-template-columns: 20px 1fr 48px; } .recall-row .track { grid-column: 2 / -1; grid-row: 2; height: 10px; }
@@ -324,7 +333,7 @@ dialog::backdrop { background: rgba(0, 60, 58, .45); }
   </section>
 
   <section aria-labelledby="cTitle" id="compareSection">
-    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="cTitle">Perbandingan Batch &amp; Tim Pengajar</h2></div><span class="note">▲ = batch dengan skor lebih tinggi</span></div>
+    <div class="sec-head"><div class="sec-title"><span class="no"></span><h2 id="cTitle">Perbandingan</h2></div><span class="note" id="cNote"></span></div>
     <div class="card card-pad" id="compare"></div>
   </section>
 
@@ -411,7 +420,21 @@ const Core = (() => {
   const CONFIG = {
     sheetId: '1GTZi3-3GHlL0AfblyN0FxpRV847tumk1-_FSC4LqIXY',  // [Dashboard L1] BSI - Intermediate Business Process Improvement for SDP (Batch 2 & 3)
     tabs: { feedback: '00. Feedback Peserta', info: 'Info Sesi', insight: 'Insight by Claude' },
+    docTitle: 'BSI Business Process Improvement for SDP',   // suffix of the browser tab title
+    storageKey: 'bsibpi',              // localStorage key prefix, unique per program
+    // Units of the program (days or batches), in order. Any number of units (2, 3, 4 ...).
     batches: ['2', '3'],
+    // name/short label the unit; header = first column of the feedback tab (lower case).
+    unit: { name: 'Batch', short: 'B', header: 'batch' },
+    sameTeam: false,           // one tutor and assistant for every unit; false = a team card per unit
+    samePeople: false,         // the same participants answer every unit (Rangkuman counts fills, not people)
+    format: 'Workshop 1 hari',
+    unitIsSession: true,      // true: every unit is its own one-day workshop (hero and strip then say `format` for each unit)
+    programDate: '',           // empty: Rangkuman shows the dates found in Info Sesi
+    compareTitle: 'Perbandingan Batch & Tim Pengajar',          // optional override of the comparison heading
+    compareContext: 'Kedua batch berlangsung pada hari yang sama dengan materi yang sama.',
+    compareShift: false,       // add "the aspect group that moved most" to the comparison note
+    noteFullUnits: true,      // add "<unit> juga diisi oleh seluruh peserta" when exactly one unit is fully answered
     flagFloor: 4.0,
     npsFloor: 60,
     majorityShare: 0.3,
@@ -493,7 +516,7 @@ const Core = (() => {
   function isFeedbackTable(table) {
     if (!table || !table.length) return false;
     const head = lowerHead(table);
-    return head[0] === 'batch' && ITEMS.filter(it => head.some(h => h.includes(it.match))).length >= 6;
+    return head[0] === CONFIG.unit.header && ITEMS.filter(it => head.some(h => h.includes(it.match))).length >= 6;
   }
 
   function normalizeFeedback(table) {
@@ -527,8 +550,8 @@ const Core = (() => {
 
   function normalizeInfo(table) {
     const out = {};
-    for (const r of rowsByHeader(table, ['batch', 'tutor']) || []) {
-      const b = batchOf(r.batch); if (!b) continue;
+    for (const r of rowsByHeader(table, [CONFIG.unit.header, 'tutor']) || []) {
+      const b = batchOf(r[CONFIG.unit.header]); if (!b) continue;
       const total = parseInt(r['jumlah peserta'], 10);
       out[b] = { date: r.tanggal || '', tutor: r.tutor || '', astor: r['asisten tutor'] || '', topik: r.topik || '', total: Number.isFinite(total) && total > 0 ? total : null };
     }
@@ -541,8 +564,8 @@ const Core = (() => {
 
   function normalizeInsight(table) {
     const insight = []; const quotes = [];
-    for (const r of rowsByHeader(table, ['batch', 'panel', 'tema']) || []) {
-      const view = viewOf(r.batch); if (!view || !r.panel) continue;
+    for (const r of rowsByHeader(table, [CONFIG.unit.header, 'panel', 'tema']) || []) {
+      const view = viewOf(r[CONFIG.unit.header]); if (!view || !r.panel) continue;
       if (/mayoritas|quote/i.test(r.panel)) { if (r.kutipan) quotes.push({ view, text: r.kutipan, tema: r.tema, id: r.responden }); continue; }
       const ids = splitList(r.responden);
       insight.push({ view, panel: r.panel, tema: r.tema, jumlah: parseInt(r.jumlah, 10) || ids.length, ids, field: panelField(r.panel), kataKunci: splitList(r['kata kunci']) });
@@ -593,7 +616,7 @@ if (typeof module !== 'undefined') module.exports = Core;
     set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } },
     del(k) { try { localStorage.removeItem(k); } catch { /* storage unavailable */ } },
   };
-  const KEY_SHEET = 'bsibpi.sheetId';
+  const KEY_SHEET = `${CONFIG.storageKey}.sheetId`;
   const SPARK = (size = 14, color = 'currentColor') => `<svg class="spark" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true"><path fill="${color}" d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z"/></svg>`;
   const ICON = {
     date: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>',
@@ -601,8 +624,18 @@ if (typeof module !== 'undefined') module.exports = Core;
     people: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2 20a7 7 0 0 1 14 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7M22 20a7 7 0 0 0-4-6.3"></path></svg>',
     quote: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 7H6a3 3 0 0 0-3 3v4a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3v2a5 5 0 0 0 5-5zM21 7h-4a3 3 0 0 0-3 3v4a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3v2a5 5 0 0 0 5-5z"/></svg>',
   };
-  const VIEWS = [{ key: 'all', label: 'Rangkuman', sub: 'B2 + B3' }, ...CONFIG.batches.map(b => ({ key: b, label: `Batch ${b}`, sub: '' }))];
-  const batchColor = b => `var(--b${b})`;
+  const UNIT = CONFIG.unit;
+  const VIEWS = [{ key: 'all', label: 'Rangkuman', sub: CONFIG.batches.map(b => UNIT.short + b).join(' + ') }, ...CONFIG.batches.map(b => ({ key: b, label: `${UNIT.name} ${b}`, sub: '' }))];
+  const batchColor = b => `var(--u${Math.min(CONFIG.batches.indexOf(b), 3) + 1})`;
+  const unitIdx = b => Math.min(CONFIG.batches.indexOf(b), 3) + 1;
+  const unitCls = b => `ut${unitIdx(b)}`;
+  const N = CONFIG.batches.length;
+  const unitLow = UNIT.name.toLowerCase();
+  const allWord = N === 2 ? 'kedua' : 'semua';
+  const joinList = a => (a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} & ${a[a.length - 1]}`);
+  const unitNames = () => CONFIG.batches.map(b => `${UNIT.name} ${b}`);
+  /* Whether the form has an NPS question at all; without it every NPS element is dropped, not shown as a dash. */
+  const hasNps = () => state.data.responses.some(r => r.nps != null);
 
   /* When almost everyone scores 4-5 (>= 95% on every aspect), '% skor 4-5' is ~100% everywhere and says nothing;
      the program then switches to '% skor 5' so the bars still separate the aspects. */
@@ -647,7 +680,7 @@ if (typeof module !== 'undefined') module.exports = Core;
   const responses = () => state.data.responses.filter(inView);
   const infoFor = b => state.data.info[b] || {};
   const totalFor = view => (view === 'all' ? CONFIG.batches.reduce((a, b) => a + (infoFor(b).total || 0), 0) : infoFor(view).total || 0);
-  const dateOf = view => (view === 'all' ? [...new Set(CONFIG.batches.map(b => infoFor(b).date).filter(Boolean))].join(' & ') : infoFor(view).date) || '';
+  const dateOf = view => (view === 'all' && CONFIG.programDate ? CONFIG.programDate : view === 'all' ? [...new Set(CONFIG.batches.map(b => infoFor(b).date).filter(Boolean))].join(' & ') : infoFor(view).date) || '';
   const themes = () => state.data.insight.filter(t => t.view === state.view);
   const initials = name => String(name).split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
 
@@ -668,12 +701,18 @@ if (typeof module !== 'undefined') module.exports = Core;
     const all = state.view === 'all';
     const total = totalFor(state.view);
     renderSwitch();
-    $('heroSub').textContent = `${dateOf(state.view)} · Workshop 1 hari · ${s ? `${s.n} dari ${total} peserta mengisi feedback` : 'Belum ada jawaban'}`;
-    $('viewChip').innerHTML = `${SPARK(14, 'var(--gold)')} ${all ? 'Rangkuman Batch 2 & Batch 3' : `Batch ${state.view} · ${esc(infoFor(state.view).tutor || 'Tutor belum diisi')}`}`;
-    document.title = `${all ? 'Rangkuman' : `Batch ${state.view}`} · Insight L1 BSI Business Process Improvement for SDP`;
-    $('targetNote').textContent = `Rata-rata dari ${s?.n || 0} jawaban${all ? ' gabungan kedua batch' : ''}`;
-    $('aspekNote').textContent = `${all ? 'Skor gabungan, rincian per batch di bawah tiap aspek · ' : ''}Bar = peserta yang memberi ${shareLabel()}${shareMode() === 'top' ? ' (hampir semua peserta memberi 4–5)' : ''}`;
+    const people = CONFIG.samePeople && all ? infoFor(CONFIG.batches[0]).total : total;
+    const where = all || CONFIG.unitIsSession ? CONFIG.format : `${UNIT.name} ${state.view} dari ${CONFIG.batches.length}`;
+    $('heroSub').textContent = CONFIG.unitIsSession
+      ? `${dateOf(state.view)} · ${where} · ${s ? `${s.n} dari ${total} peserta mengisi feedback` : 'Belum ada jawaban'}`
+      : `${dateOf(state.view)} · ${where} · ${people} peserta · ${s ? `${s.n} jawaban feedback` : 'Belum ada jawaban'}`;
+    $('viewChip').innerHTML = `${SPARK(14, 'var(--gold)')} ${all ? `Rangkuman ${joinList(unitNames())}` : `${UNIT.name} ${state.view} · ${esc(infoFor(state.view).tutor || 'Tutor belum diisi')}`}`;
+    document.title = `${all ? 'Rangkuman' : `${UNIT.name} ${state.view}`} · Insight L1 ${CONFIG.docTitle}`;
+    $('targetNote').textContent = `Rata-rata dari ${s?.n || 0} jawaban${all ? ` gabungan ${allWord} ${unitLow}` : ''}`;
+    $('aspekNote').textContent = `${all ? `Skor gabungan, rincian per ${unitLow} di bawah tiap aspek · ` : ''}Bar = peserta yang memberi ${shareLabel()}${shareMode() === 'top' ? ' (hampir semua peserta memberi 4–5)' : ''}`;
     $('compareSection').hidden = !all;
+    $('cTitle').textContent = CONFIG.compareTitle || `Perbandingan ${joinList(unitNames())}`;
+    $('cNote').textContent = `▲ = ${unitLow} dengan skor lebih tinggi`;
     // Section numbers follow what is visible in this view.
     let no = 0; document.querySelectorAll('main section').forEach(sec => { if (!sec.hidden) sec.querySelector('.no').textContent = String(++no).padStart(2, '0'); });
 
@@ -695,14 +734,19 @@ if (typeof module !== 'undefined') module.exports = Core;
     const resp = `${s?.n || 0} <span class="muted">dari ${totalFor(state.view)}</span>`;
     if (state.view !== 'all') {
       const i = infoFor(state.view);
-      $('strip').innerHTML = `<div class="strip-card batch">${who('Tutor', 'tutor', i.tutor)}${who('Asisten Tutor', 'astor', i.astor)}${fact('date', 'Tanggal', esc(i.date || '–'))}${fact('format', 'Format', 'Workshop 1 hari')}${fact('people', 'Responden', resp)}</div>`;
+      $('strip').innerHTML = `<div class="strip-card batch">${who('Tutor', 'tutor', i.tutor)}${who('Asisten Tutor', 'astor', i.astor)}${fact('date', 'Tanggal', esc(i.date || '–'))}${fact('format', 'Format', CONFIG.unitIsSession ? esc(CONFIG.format) : `${UNIT.name} ${state.view} dari ${CONFIG.batches.length}`)}${fact('people', 'Responden', resp)}</div>`;
+      return;
+    }
+    if (CONFIG.sameTeam) {
+      const i = infoFor(CONFIG.batches[0]);
+      $('strip').innerHTML = `<div class="strip-card batch">${who('Tutor', 'tutor', i.tutor)}${who('Asisten Tutor', 'astor', i.astor)}${fact('date', 'Tanggal', esc(dateOf('all')))}${fact('format', 'Format', esc(CONFIG.format))}${fact('people', 'Pengisian', `${s?.n || 0} <span class="muted">dari ${totalFor('all')}</span>`)}</div>`;
       return;
     }
     const team = b => { const i = infoFor(b); const n = state.data.responses.filter(r => r.batch === b).length;
-      return `<div class="team"><div class="tb" style="color:${b === '2' ? 'var(--gold-ink)' : 'var(--teal-deep)'}"><i style="background:${batchColor(b)}"></i>Batch ${b} · ${n}/${i.total || '–'} responden</div>
+      return `<div class="team"><div class="tb ${unitCls(b)}" style="background:none"><i style="background:${batchColor(b)}"></i>${UNIT.name} ${b} · ${n}/${i.total || '–'} responden</div>
         <div class="people"><span class="p"><span class="avatar tutor">${esc(initials(i.tutor || '?'))}</span><span><b>${esc(i.tutor || 'Belum diisi')}</b> <span>Tutor</span></span></span>
         <span class="p"><span class="avatar astor">${esc(initials(i.astor || '?'))}</span><span><b>${esc(i.astor || 'Belum diisi')}</b> <span>Asisten Tutor</span></span></span></div></div>`; };
-    $('strip').innerHTML = `<div class="strip-card all">${CONFIG.batches.map(team).join('')}${fact('date', 'Tanggal', esc(dateOf('all')))}${fact('people', 'Responden', resp)}</div>`;
+    $('strip').innerHTML = `<div class="strip-card multi"><div class="teams">${CONFIG.batches.map(team).join('')}</div><div class="facts">${fact('date', 'Tanggal', esc(dateOf('all')))}${fact('people', CONFIG.samePeople ? 'Pengisian' : 'Responden', resp)}</div></div>`;
   }
 
   /* Glass callouts (shape G) on the brand gradient: the majority voice of this view. */
@@ -713,11 +757,11 @@ if (typeof module !== 'undefined') module.exports = Core;
     const stars = `<svg class="stars" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true"><g fill="rgba(255,255,255,.18)"><path d="M40 20c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z"/><path d="M360 160c.6 4 3 6.5 7 7-4 .5-6.4 3-7 7-.6-4-3-6.5-7-7 4-.5 6.4-3 7-7z"/></g></svg>`;
     if (!quotes.length) { box.innerHTML = `${stars}<p class="foot" style="margin:0">Kutipan mayoritas dirangkum setelah jawaban terkumpul.</p>`; return; }
     const split = t => { const m = String(t).match(/^(.*?)\s*\(([^)]*\d[^)]*)\)\s*$/); return m ? [m[1], m[2]] : [t, '']; };
-    box.style.setProperty('--cols', Math.min(quotes.length, 2));
+    box.style.setProperty('--cols', quotes.length);
     box.innerHTML = `${stars}<span class="watermark" aria-hidden="true">“</span><div class="callouts">${quotes.map(q => {
-      const [tema, share] = split(q.tema); const b = (q.id.match(/^B(\d)/) || [])[1];
+      const [tema, share] = split(q.tema); const b = (q.id.match(/^[A-Z]+(\d)/) || [])[1];
       return `<figure class="callout" style="margin:0"><span class="badge-ico">${ICON.quote}</span><blockquote>${esc(q.text)}</blockquote>
-        <figcaption class="meta">${b && state.view === 'all' ? `<span class="bt">Batch ${b}</span>` : ''}<span class="tema">${esc(tema)}</span>${share ? `<span class="share num">${esc(share)}</span>` : ''}</figcaption></figure>`;
+        <figcaption class="meta">${b && state.view === 'all' ? `<span class="bt">${UNIT.name} ${b}</span>` : ''}<span class="tema">${esc(tema)}</span>${share ? `<span class="share num">${esc(share)}</span>` : ''}</figcaption></figure>`;
     }).join('')}</div><p class="foot">Kutipan diambil apa adanya dari jawaban peserta. Satu kutipan paling mewakili per tema.</p>`;
   }
 
@@ -726,7 +770,8 @@ if (typeof module !== 'undefined') module.exports = Core;
   }
   function renderSummary(s, total) {
     const n = s?.n || 0; const p = total ? Math.round((n / total) * 100) : 0;
-    const part = `<div class="card tile part"><span class="k">Peserta yang mengisi</span><span class="v num">${n} <small>dari ${total} peserta</small></span>
+    const twice = CONFIG.samePeople && state.view === 'all';
+    const part = `<div class="card tile part"><span class="k">${twice ? 'Pengisian feedback' : 'Peserta yang mengisi'}</span><span class="v num">${n} <small>dari ${total} ${twice ? `(${infoFor(CONFIG.batches[0]).total} peserta × ${N} ${unitLow})` : 'peserta'}</small></span>
       <div class="bar"><i style="width:${Math.min(100, p)}%"></i></div><span class="d num">${p}% partisipasi</span></div>`;
     const tiles = GROUPS.map(g => { const v = s?.groups[g.key] ?? null; return tile({ k: g.tile, v: Core.fmt(v), unit: '/ 5', d: s ? `${Core.pct((shareMode() === 'top' ? s.groupTop : s.groupShare)[g.key])} ${shareLabel()}` : '', below: Core.isFlagged(v) }); }).join('');
     const nps = s?.nps;
@@ -743,7 +788,7 @@ if (typeof module !== 'undefined') module.exports = Core;
     const row = (it, i) => {
       const v = s.items[i]; const share = (shareMode() === 'top' ? s.itemTop : s.itemShare)[i];
       const tag = v === max && maxCount === 1 ? '<span class="tag top">Tertinggi</span>' : v === min && minCount === 1 ? '<span class="tag low">Terendah</span>' : '';
-      const split = perBatch ? `<div class="split">${CONFIG.batches.map(b => `<span><i style="background:${batchColor(b)}"></i>B${b} <b class="num">${Core.fmt(perBatch[b]?.items[i])}</b></span>`).join('')}</div>` : '';
+      const split = perBatch ? `<div class="split">${CONFIG.batches.map(b => `<span><i style="background:${batchColor(b)}"></i>${UNIT.short}${b} <b class="num">${Core.fmt(perBatch[b]?.items[i])}</b></span>`).join('')}</div>` : '';
       return `<div class="aspek-row ${Core.isFlagged(v) ? 'below' : ''}"><span class="code">${it.code}</span><span class="stmt">${esc(it.label)}${tag}</span><span class="score num">${Core.fmt(v)} <small>/ 5</small></span>
         <div class="meter"><div class="bar"><i style="width:${Math.round((share || 0) * 100)}%"></i></div><span class="share num">${Core.pct(share)} ${shareLabel()}</span></div>${split}</div>`;
     };
@@ -758,18 +803,39 @@ if (typeof module !== 'undefined') module.exports = Core;
   function renderCompare() {
     const per = Object.fromEntries(CONFIG.batches.map(b => [b, Core.stats(state.data.responses.filter(r => r.batch === b))]));
     const head = `<div class="compare-head"><div class="card-title" style="margin:0">Aspek</div>${CONFIG.batches.map(b => { const i = infoFor(b); const n = per[b]?.n || 0;
-      return `<div class="bh"><span class="t"><i style="background:${batchColor(b)}"></i>Batch ${b}</span><span class="s">Tutor <b>${esc(i.tutor || '–')}</b> · Asisten <b>${esc(i.astor || '–')}</b><br>${n} dari ${i.total || '–'} peserta mengisi</span></div>`; }).join('')}</div>`;
+      const who = CONFIG.sameTeam ? '' : `Tutor <b>${esc(i.tutor || '–')}</b> · Asisten <b>${esc(i.astor || '–')}</b><br>`;
+      return `<div class="bh"><span class="t"><i style="background:${batchColor(b)}"></i>${UNIT.name} ${b}</span><span class="s">${who}${n} dari ${i.total || '–'} peserta mengisi</span></div>`; }).join('')}</div>`;
     const metric = (label, get, fmt, scale) => {
       const v = CONFIG.batches.map(b => get(per[b], b));
-      const lead = v[0] != null && v[1] != null && v[0] !== v[1] ? (v[0] > v[1] ? 0 : 1) : -1;
-      return `<div class="cmp-row"><span class="m">${label}</span>${v.map((x, k) => `<div class="cmp-cell ${k === lead ? 'lead' : ''}"><div class="bar"><i style="width:${x == null ? 0 : Math.round(scale(x) * 100)}%;background:${batchColor(CONFIG.batches[k])}"></i></div><span class="val num">${fmt(x)}</span></div>`).join('')}</div>`;
+      const known = v.filter(x => x != null);
+      const top = known.length ? Math.max(...known) : null;
+      const spread = known.length > 1 && new Set(known.map(x => x.toFixed(2))).size > 1;   // no arrow when every unit is equal
+      return `<div class="cmp-row"><span class="m">${label}</span>${v.map((x, k) => `<div class="cmp-cell ${spread && x != null && x.toFixed(2) === top.toFixed(2) ? 'lead' : ''}"><div class="bar"><i style="width:${x == null ? 0 : Math.round(scale(x) * 100)}%;background:${batchColor(CONFIG.batches[k])}"></i></div><span class="val num">${fmt(x)}</span></div>`).join('')}</div>`;
     };
     const score = x => (x == null ? 0 : Math.max(0, (x - 1) / 4));
     const rows = GROUPS.map(g => metric(g.tile, s => s?.groups[g.key] ?? null, v => Core.fmt(v), score)).join('')
-      + metric('NPS', s => s?.nps?.score ?? null, v => (v == null ? '–' : `${v}%`), x => Math.max(0, x) / 100)
+      + (hasNps() ? metric('NPS', s => s?.nps?.score ?? null, v => (v == null ? '–' : `${v}%`), x => Math.max(0, x) / 100) : '')
       + metric('Partisipasi', (s, b) => (s && infoFor(b).total ? Math.round((s.n / infoFor(b).total) * 100) : null), v => (v == null ? '–' : `${v}%`), x => x / 100);
-    const d = (per['3']?.groups.overall ?? 0) - (per['2']?.groups.overall ?? 0);
-    $('compare').innerHTML = head + rows + `<p class="compare-note">Kedua batch berlangsung pada hari yang sama dengan materi yang sama. Kepuasan keseluruhan ${d >= 0 ? 'Batch 3' : 'Batch 2'} lebih tinggi ${Core.fmt(Math.abs(d))} poin. Batch 3 juga diisi oleh seluruh peserta, sehingga skornya mewakili kelas secara penuh.</p>`;
+    const [first, last] = [CONFIG.batches[0], CONFIG.batches[N - 1]];
+    const overall = CONFIG.batches.map(u => ({ u, v: per[u]?.groups.overall })).filter(x => x.v != null);
+    let diff = '';
+    if (overall.length > 1) {
+      const hi = overall.reduce((p, q) => (q.v > p.v ? q : p)); const lo = overall.reduce((p, q) => (q.v < p.v ? q : p));
+      const d = hi.v - lo.v;
+      if (d < 0.1) diff = `Kepuasan keseluruhan ${allWord} ${unitLow} praktis setara (selisih ${Core.fmt(d)} poin)`;
+      else if (N === 2) diff = `Kepuasan keseluruhan ${UNIT.name} ${hi.u} lebih tinggi ${Core.fmt(d)} poin`;
+      else diff = `Kepuasan keseluruhan tertinggi pada ${UNIT.name} ${hi.u} (${Core.fmt(hi.v)}) dan terendah pada ${UNIT.name} ${lo.u} (${Core.fmt(lo.v)}), selisih ${Core.fmt(d)} poin`;
+    }
+    // The aspect group that moved most between the first and last unit, worth calling out.
+    const shift = CONFIG.compareShift ? GROUPS.filter(g => g.key !== 'overall').map(g => ({ label: g.tile, from: per[first]?.groups[g.key], to: per[last]?.groups[g.key] }))
+      .filter(x => x.from != null && x.to != null).sort((p, q) => Math.abs(q.to - q.from) - Math.abs(p.to - p.from))[0] : null;
+    const full = CONFIG.batches.filter(u => per[u] && infoFor(u).total && per[u].n >= infoFor(u).total);
+    const parts = [CONFIG.compareContext, diff && `${diff}.`,
+      shift && `Perubahan terbesar ada di ${shift.label.toLowerCase()}: ${Core.fmt(shift.from)} di ${UNIT.name} ${first} menjadi ${Core.fmt(shift.to)} di ${UNIT.name} ${last}.`,
+      CONFIG.noteFullUnits && full.length === 1 && N > 1 && `${UNIT.name} ${full[0]} juga diisi oleh seluruh peserta, sehingga skornya mewakili kelas secara penuh.`].filter(Boolean);
+    $('compare').style.setProperty('--n', N);
+    $('compare').classList.toggle('many', N > 2);
+    $('compare').innerHTML = head + rows + `<p class="compare-note">${parts.join(' ')}</p>`;
   }
 
   /* Recall topics as a ranked bar list; clicking filters the answer table. */
@@ -803,7 +869,7 @@ if (typeof module !== 'undefined') module.exports = Core;
 
   function renderCodes() {
     $('codes').innerHTML = ITEMS.map(it => `<div><span class="code">${it.code}</span><span>${esc(it.label)}</span></div>`).join('')
-      + '<div><span class="code">NPS</span><span>Kemungkinan merekomendasikan training (1 sampai 10)</span></div>';
+      + (hasNps() ? '<div><span class="code">NPS</span><span>Kemungkinan merekomendasikan training (1 sampai 10)</span></div>' : '');
   }
 
   const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -825,12 +891,13 @@ if (typeof module !== 'undefined') module.exports = Core;
     if (theme) pill.querySelector('span').textContent = `${theme.panel}: ${theme.tema}`;
     $('searchCount').textContent = (q || theme) ? `${rows.length} dari ${all.length} jawaban` : `${all.length} jawaban`;
     const showBatch = state.view === 'all';
-    const head = `<thead><tr><th class="s">#</th>${showBatch ? '<th>Batch</th>' : ''}${ITEMS.map(it => `<th class="s" title="${esc(it.label)}">${it.code}</th>`).join('')}<th class="s">NPS</th>${TEXTS.map(t => `<th>${t.label}</th>`).join('')}</tr></thead>`;
+    const npsOn = hasNps();
+    const head = `<thead><tr><th class="s">#</th>${showBatch ? `<th>${UNIT.name}</th>` : ''}${ITEMS.map(it => `<th class="s" title="${esc(it.label)}">${it.code}</th>`).join('')}${npsOn ? '<th class="s" title="Net Promoter Score">NPS</th>' : ''}${TEXTS.map(t => `<th>${t.label}</th>`).join('')}</tr></thead>`;
     const body = rows.length ? rows.map(r => {
       const cell = t => { const focus = theme && theme.field === t.key; const terms = [q, ...(focus ? theme.kataKunci : [])];
         return `<td class="txt ${focus ? 'focus' : ''}">${highlight(r.texts[t.key], terms) || '<span class="muted">–</span>'}</td>`; };
-      return `<tr><td class="s muted num">${esc(r.id.replace(/^B\d-/, ''))}</td>${showBatch ? `<td><span class="bt-tag" style="background:${r.batch === '2' ? 'var(--gold-soft)' : 'var(--teal-tint)'};color:${r.batch === '2' ? 'var(--gold-ink)' : 'var(--teal-deep)'}">B${r.batch}</span></td>` : ''}${r.scores.map(s => `<td class="s num ${s != null && s <= 3 ? 'low' : ''}">${s ?? '–'}</td>`).join('')}<td class="s num ${r.nps != null && r.nps <= 6 ? 'low' : ''}">${r.nps ?? '–'}</td>${TEXTS.map(cell).join('')}</tr>`;
-    }).join('') : `<tr><td colspan="${ITEMS.length + TEXTS.length + (showBatch ? 3 : 2)}" class="empty" style="text-align:center;padding:20px">Tidak ada jawaban yang cocok.</td></tr>`;
+      return `<tr><td class="s muted num">${esc(r.id.replace(/^[A-Z]+\d-/, ''))}</td>${showBatch ? `<td><span class="bt-tag ${unitCls(r.batch)}">${UNIT.short}${r.batch}</span></td>` : ''}${r.scores.map(s => `<td class="s num ${s != null && s <= 3 ? 'low' : ''}">${s ?? '–'}</td>`).join('')}${npsOn ? `<td class="s num ${r.nps != null && r.nps <= 6 ? 'low' : ''}">${r.nps ?? '–'}</td>` : ''}${TEXTS.map(cell).join('')}</tr>`;
+    }).join('') : `<tr><td colspan="${ITEMS.length + TEXTS.length + (showBatch ? 1 : 0) + (npsOn ? 2 : 1)}" class="empty" style="text-align:center;padding:20px">Tidak ada jawaban yang cocok.</td></tr>`;
     $('answers').innerHTML = head + `<tbody class="${flash ? 'flash' : ''}">${body}</tbody>`;
   }
 

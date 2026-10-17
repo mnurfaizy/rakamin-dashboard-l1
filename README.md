@@ -75,6 +75,7 @@ Satu static site untuk semuanya, tanpa server dan tanpa environment variable.
 
 ## Membuat program baru
 
+0. Template `bsi-bpi-sdp-a10` dan `bsi-bpi-sdp-b2-b3` mendukung berapa pun unit (batch/hari) dan NPS opsional lewat `CONFIG`; lihat `.claude/skills/rakamin-l1-dashboard/` untuk alur lengkap.
 1. Salin folder program yang paling mirip ke `programs/<klien>-<program>/`. Sesi tunggal: `goto-pm-workshop-b1`. Program multi-sesi selesai dengan Rangkuman: `bsi-bpi-sdp-a10` (atau `bsi-bpi-sdp-b2-b3` bila unitnya batch).
 2. Ganti isi `brand/` dengan logo dan gambar klien, lalu sesuaikan token warna di bagian `:root` pada `index.template.html`.
 3. Ubah `CONFIG` di template: ID Google Sheet, nama program, tanggal, total peserta, label unit.
