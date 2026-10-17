@@ -18,14 +18,12 @@ module.exports = {
       { tema: 'Penyampaian lebih dinamis, tidak monoton', rows: [4, 17], kunci: ['membosankan', 'monoton'] },
       { tema: 'Sesi tanya jawab dan perkenalan diatur ulang', rows: [10, 12], kunci: ['tanya jawab', 'perkenalan', 'microphone'] },
       { tema: 'Tes career preparation lebih spesifik', rows: [19], kunci: ['tes psikologi', 'carier preparation'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [1, 2, 5, 7, 9, 13, 14, 16], kunci: ['sudah baik', 'belum ada', 'memuaskan', 'belumm ada'] },
     ],
     dalami: [
       { tema: 'Studi kasus dan praktik', rows: [2, 3, 15, 16, 20], kunci: ['study case', 'studi kasus', 'praktik'] },
       { tema: 'Analisis performa, metrik, dan engagement rate', rows: [8, 9, 10, 11], kunci: ['analisis performa', 'analytics', 'matriks', 'engagement rate', 'analisa konten', 'laporan performa'] },
       { tema: 'Algoritma dan cara kerja media sosial', rows: [7, 12, 18], kunci: ['algoritma', 'sudut pandang', 'cara sosial media itu sendiri bekerja', 'cta'] },
       { tema: 'Ads dalam konten', rows: [17], kunci: ['ads'] },
-      { tema: 'Sudah jelas, belum ada', rows: [1, 5, 6, 13, 14, 19], kunci: ['sudah baik', 'sudah memuaskan', 'sudah sangat jelas', 'belum ada', 'sudah detail'] },
     ],
   },
   2: {
@@ -43,13 +41,11 @@ module.exports = {
       { tema: 'Slide lebih terstruktur, bebas typo', rows: [15], kunci: ['typo', 'ppt'] },
       { tema: 'Tambah praktik dan studi kasus', rows: [18], kunci: ['praktik', 'studi kasus'] },
       { tema: 'Hadiah lebih banyak', rows: [1], kunci: ['hadiah'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [3, 6, 8, 9, 11, 13, 17], kunci: ['belum ada', 'sudah baik', 'sudah cukup', 'cukup', 'terus tingkatkan'] },
     ],
     dalami: [
       { tema: 'Studi kasus dan praktik', rows: [1, 3, 11, 13, 17, 18], kunci: ['study case', 'praktik', 'tutorial', 'contoh'] },
       { tema: 'Analisis data, metrik, dan engagement rate', rows: [5, 10, 13, 14, 18], kunci: ['rate engagement', 'analist', 'analytic', 'menganalisis data', 'analisis audiens'] },
       { tema: 'Riset media sosial dan metodologi', rows: [7], kunci: ['research', 'metodologi'] },
-      { tema: 'Sudah jelas, belum ada', rows: [2, 6, 9, 12, 16], kunci: ['tidak ada', 'sudah baik', 'sudah baguss', 'cukup'] },
     ],
   },
   3: {
@@ -63,13 +59,11 @@ module.exports = {
     saran: [
       { tema: 'Durasi praktik dan diskusi diperpanjang', rows: [3, 8], kunci: ['durasi'] },
       { tema: 'Praktik dipandu dan studi kasus ditambah', rows: [11, 17], kunci: ['tutorial', 'praktik', 'studi kasus'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [1, 2, 4, 5, 6, 7, 9, 10, 12, 14, 15, 16], kunci: ['belum ada', 'sudah baik', 'so far good', 'bagus semua', 'udah cukup', 'okee', 'memuaskan'] },
     ],
     dalami: [
       { tema: 'Studi kasus dan contoh konten nyata', rows: [1, 5, 6, 7], kunci: ['study case', 'contoh'] },
       { tema: 'Hook dan storytelling', rows: [8, 11], kunci: ['hook', 'storytelling'] },
       { tema: 'Metodologi media sosial', rows: [13], kunci: ['metodologi'] },
-      { tema: 'Sudah jelas, belum ada', rows: [3, 4, 9, 12, 14, 15, 16, 17], kunci: ['sudah sangat bagus', 'sudah sangat baik', 'belum ada', 'tidak ada', 'sudah cukup', 'belum terpikirkan', 'mudah bisa di pahami'] },
     ],
   },
   4: {
@@ -83,14 +77,12 @@ module.exports = {
       { tema: 'Materi terlalu padat, perlu waktu lebih', rows: [1, 2, 3, 5, 12, 16], kunci: ['padat', 'packed', 'waktu', 'durasi', 'diperpanjang'] },
       { tema: 'Seimbangkan teori dan praktik', rows: [7], kunci: ['teori & praktik'] },
       { tema: 'Slide lebih ringkas', rows: [17], kunci: ['ringkas'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [4, 6, 8, 9, 10, 11, 13, 14, 15], kunci: ['belum ada', 'tidak ada', 'sudah cukup', 'semua sudah oke', 'memuaskan', 'sementara cukup'] },
     ],
     dalami: [
       { tema: 'Menerjemahkan brief menjadi ide konten', rows: [3, 7, 12], kunci: ['brief', 'breaf', 'ide'] },
       { tema: 'Canva dan brand kit', rows: [2, 8], kunci: ['canva', 'brand kit'] },
       { tema: 'Studi kasus', rows: [4], kunci: ['study case'] },
       { tema: 'Konten pilar', rows: [17], kunci: ['konten pilar'] },
-      { tema: 'Sudah jelas, belum ada', rows: [1, 5, 6, 9, 10, 11, 13, 14, 15, 16], kunci: ['baik', 'tidak ada', 'sudah sesuai', 'sudah baguss', 'memuaskan', 'sementara cukup', 'sudah cukup'] },
     ],
   },
   5: {
@@ -109,12 +101,10 @@ module.exports = {
       { tema: 'Durasi ditambah', rows: [6], kunci: ['durasi'] },
       { tema: 'Materi ads masih membingungkan', rows: [14, 17], kunci: ['pusing', 'padet'] },
       { tema: 'Kendala teknis listrik', rows: [2], kunci: ['konslet listrik'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [3, 7, 10, 13, 15], kunci: ['belum ada', 'tidak ada', 'semuanya baik', 'udah bagus'] },
     ],
     dalami: [
       { tema: 'Praktik Meta Ads dan TikTok Ads', rows: [1, 3, 4, 7, 8, 11, 12], kunci: ['meta ads', 'iklan', 'ads', 'praktek', 'praktik'] },
       { tema: 'Analytic', rows: [15], kunci: ['analiytic'] },
-      { tema: 'Sudah jelas, belum ada', rows: [2, 6, 9, 10, 13, 14, 16], kunci: ['belum ada', 'sudah sesuai', 'sementara cukup', 'cukup', 'mudah pahami', 'sudah oke'] },
     ],
   },
   6: {
@@ -129,13 +119,11 @@ module.exports = {
       { tema: 'Tutor lebih interaktif, tidak membaca slide', rows: [1, 8], kunci: ['interaktif', 'baca slide'] },
       { tema: 'Praktik iklan langsung', rows: [12], kunci: ['mempraktekan iklan'] },
       { tema: 'Durasi ditambah', rows: [3, 4], kunci: ['durasi'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [2, 6, 7, 9, 15], kunci: ['sangat baik', 'belum ada', 'cukup baik', 'amannn', 'tidak ada'] },
     ],
     dalami: [
       { tema: 'Metrik dan analitik ads', rows: [1, 6, 11], kunci: ['analytic', 'metrik', 'metrix'] },
       { tema: 'Eksekusi dan praktik ads', rows: [5, 10, 13], kunci: ['ads', 'study case'] },
       { tema: 'Bahasa penjelasan lebih sederhana', rows: [14], kunci: ['sederhana'] },
-      { tema: 'Sudah jelas, belum ada', rows: [2, 3, 4, 7, 8, 9, 12, 15, 17], kunci: ['tidak ada', 'belum ada', 'sudahh baguss', 'sudah sangat lengkap', 'sudah cukup'] },
     ],
   },
   7: {
@@ -150,14 +138,12 @@ module.exports = {
       { tema: 'Slide lebih ringkas', rows: [7, 8], kunci: ['ringkas'] },
       { tema: 'Atur waktu teori dan praktik', rows: [1, 6], kunci: ['durasi', 'waktu praktek'] },
       { tema: 'Tutor keliling saat praktik kelompok', rows: [14], kunci: ['keliling'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [2, 3, 4, 5, 9, 10, 11, 12, 13, 15, 16, 17], kunci: ['belum ada', 'memuaskan', 'cukup baik', 'all good', 'sudah cukup', 'udah sesuai', 'good', 'cukup', 'tidak ada', 'sudahh baik'] },
     ],
     dalami: [
       { tema: 'Strategi konten dan copywriting', rows: [7, 8, 9, 11], kunci: ['strategi konten', 'strategy konten', 'materi strategy', 'copywriting'] },
       { tema: 'Membaca data dan reporting', rows: [2], kunci: ['membaca data', 'reporting'] },
       { tema: 'Meta Ads', rows: [3], kunci: ['meta ads'] },
       { tema: 'Langsung praktik', rows: [10], kunci: ['praktek'] },
-      { tema: 'Sudah jelas, belum ada', rows: [1, 4, 5, 6, 12, 13, 14, 15, 16, 17], kunci: ['tidak ada', 'memuaskan', 'bagusss', 'so far so good', 'belum ada', 'sudah ok', 'cukup', 'sudahh cukup dalam'] },
     ],
   },
   8: {
@@ -173,13 +159,11 @@ module.exports = {
       { tema: 'Kejelasan pembagian kelompok', rows: [10], kunci: ['pembagian kelompok'] },
       { tema: 'Tambah ice breaking dan hadiah', rows: [2], kunci: ['ice breaking', 'gifts'] },
       { tema: 'Durasi ditambah', rows: [4], kunci: ['durasi'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [1, 3, 5, 6, 7, 8, 11, 13, 15, 16, 17], kunci: ['all good', 'belum ada', 'so far good', 'tidak ada', 'baik', 'sudah cukup', 'so far so good', 'udah bagus'] },
     ],
     dalami: [
       { tema: 'Paid ads, Meta Ads, dan budgeting', rows: [2, 3, 10], kunci: ['meta ads', 'paid ads', 'budgeting'] },
       { tema: 'Flow marketing dengan banyak praktik', rows: [13], kunci: ['flow marekting'] },
       { tema: 'Public speaking', rows: [16], kunci: ['public speaking'] },
-      { tema: 'Sudah jelas, belum ada', rows: [1, 4, 5, 6, 7, 8, 9, 11, 15, 17], kunci: ['all good', 'tidak ada', 'lanjutkan', 'baguss', 'baik', 'sudah cukup', 'sudah dalam', 'uda bagus'] },
     ],
   },
   9: {
@@ -195,14 +179,12 @@ module.exports = {
       { tema: 'Koneksi internet tidak stabil', rows: [3, 7, 15], kunci: ['koneksi internet', 'wifi'] },
       { tema: 'Durasi diperpanjang', rows: [1], kunci: ['durasi'] },
       { tema: 'Materi masih membingungkan', rows: [12], kunci: ['membingungkan'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [2, 5, 8, 9, 13], kunci: ['belum ada', 'sudah baik', 'tidak ada', 'udah oke', 'lanjutkan'] },
     ],
     dalami: [
       { tema: 'Looker Studio', rows: [6, 7, 11, 17], kunci: ['looker', 'loker studio'] },
       { tema: 'AI: prompt dan visual ads', rows: [3, 4, 5], kunci: ['ai', 'promp'] },
       { tema: 'Modul tutorial dan praktik', rows: [14, 16], kunci: ['study case', 'praktik', 'modul tutorial'] },
       { tema: 'Konten film', rows: [12], kunci: ['film'] },
-      { tema: 'Sudah jelas, belum ada', rows: [1, 2, 8, 9, 10, 13], kunci: ['belum ada', 'tidak ada', 'cukup', 'lanjutkan'] },
     ],
   },
   10: {
@@ -217,13 +199,11 @@ module.exports = {
       { tema: 'Kelas offline, modul disesuaikan latar peserta', rows: [8], kunci: ['offline class', 'menyesuaikan'] },
       { tema: 'Lebih banyak tutorial', rows: [14], kunci: ['tutorialnya'] },
       { tema: 'Koneksi wifi', rows: [10], kunci: ['wifi'] },
-      { tema: 'Sudah baik, belum ada saran', rows: [2, 3, 4, 5, 6, 7, 9, 12, 13], kunci: ['belum ada', 'lanjutkan', 'udah baik', 'all fine', 'good', 'so far so good', 'okee'] },
     ],
     dalami: [
       { tema: 'Public speaking dan soft skill', rows: [4, 5, 6], kunci: ['soft skill', 'public speaking', 'presentasi'] },
       { tema: 'Ads dan materi kompleks sebagai kelas khusus', rows: [8, 14], kunci: ['ads', 'materi khusus'] },
       { tema: 'Konten movie maker', rows: [11], kunci: ['movie maker'] },
-      { tema: 'Sudah jelas, belum ada', rows: [1, 2, 3, 7, 9, 10, 12, 13], kunci: ['belum ada', 'lanjutkan', 'good', 'tidak ada', 'semuanya amann', 'baik semuanyaa'] },
     ],
   },
   rangkuman: {

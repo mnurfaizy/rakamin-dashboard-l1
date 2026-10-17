@@ -59,6 +59,7 @@ Ini keputusan eksplisit user. Alasannya dituliskan supaya bisa dipakai menimbang
 - **Panel "Ingin diperdalam" dihapus bila form tidak punya pertanyaannya.** Pertanyaan "topik yang paling diingat" menjadi section **Topik Paling Diingat** (ranking bar yang bisa diklik).
 - **Pure feedback.** Pre-test, post-test, dan kehadiran tidak masuk dashboard walau ada di file sumber.
 - **Rangkuman** memakai semua jawaban gabungan (rata-rata dibobot jumlah jawaban), tanpa pembanding Δ, tanpa tampilan "menunggu jawaban". Jika tutor berbeda antar unit, tampilkan perbandingan langsung berdampingan tanpa switcher atau detail yang bisa dibuka. Bila tim dan pesertanya sama untuk semua hari, tampilkan satu tim, dan hitung partisipasi sebagai pengisian (mis. 55 dari 58 = 29 peserta × 2 hari).
+- **Jawaban tanpa isi tidak dijadikan tema.** "Sudah baik, belum ada saran", "Sudah jelas, belum ada", "Semuanya" dan sejenisnya tidak masuk panel Saran perbaikan atau Ingin diperdalam; panel hanya berisi masukan yang bisa ditindaklanjuti (keputusan user, 17 Okt 2026; diterapkan di IKDD Batch 1, template lain menyusul).
 - **Tema dirujuk lewat ID responden**, jumlah = banyaknya ID, bukan hasil pencocokan kata kunci (kata kunci hanya untuk highlight). Ini menjaga angka tema selalu sama dengan filter tabel.
 - **Bahasa:** Indonesia. Komentar peserta ditampilkan apa adanya (termasuk bahasa Inggris dan salah ketik).
 

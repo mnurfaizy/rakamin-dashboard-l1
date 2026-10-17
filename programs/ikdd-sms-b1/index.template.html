@@ -130,6 +130,8 @@ section[hidden] { display: none; }
 
 /* ---------- Insight grid ---------- */
 .insight { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); grid-template-rows: auto 1fr; grid-template-areas: "info aspek" "tren aspek"; gap: 12px; }
+.insight.is-all { grid-template-rows: auto; grid-template-areas: "tren aspek"; }
+.insight.is-all .g-info { display: none; }
 .g-info { grid-area: info; } .g-aspek { grid-area: aspek; } .g-tren { grid-area: tren; }
 .people { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .people > :last-child:nth-child(odd) { grid-column: 1 / -1; }
@@ -258,6 +260,7 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
 }
 @media (max-width: 820px) {
   .insight { grid-template-columns: 1fr; grid-template-areas: "info" "aspek" "tren"; }
+  .insight.is-all { grid-template-areas: "tren" "aspek"; }
   .voices { grid-template-columns: 1fr; }
   .qrow { flex-direction: column; align-items: stretch; gap: 18px; }
   .qrow.pair > .q { transform: none !important; margin-top: 0 !important; max-width: 88%; }
@@ -679,8 +682,8 @@ const SNAPSHOT = __SNAPSHOT__;
       : [dateOf(v), info.topik].filter(Boolean).join(' · ');
     document.title = `${viewLabel(v)} · Insight L1 IKDD SMS Batch 1`;
     $('sNote').textContent = all ? `Rata-rata dari ${s?.n || 0} jawaban gabungan Day 1–10` : prev ? `Δ dibandingkan Day ${prevDay}` : '';
-    $('infoTitle').textContent = all ? 'Tim pengajar Day 1–10' : 'Identitas sesi';
     $('compareSection').hidden = !all;
+    document.querySelector('.insight').classList.toggle('is-all', all);   // Rangkuman: team + per-day tutor already live in the comparison table
     let no = 0; document.querySelectorAll('main section').forEach(sec => { if (!sec.hidden) sec.querySelector('.no').textContent = String(++no).padStart(2, '0'); });
 
     renderQuotes(s);
@@ -789,7 +792,7 @@ const SNAPSHOT = __SNAPSHOT__;
     const days = CONFIG.days; const sel = state.view;
     const stats = Object.fromEntries(days.map(d => [d, Core.stats(responsesFor(d))]));
     const vals = days.flatMap(d => SERIES.map(s => stats[d]?.groups[s.key])).filter(v => v != null);
-    const W = 560, H = 300, L = 34, R = 84, T = 12, B = 28;
+    const W = 560, H = sel === 'all' ? 520 : 300, L = 34, R = 84, T = 12, B = 28;   // taller chart on Rangkuman so it matches the aspect list
     const yMin = Math.max(1, Math.floor(Math.min(3.5, ...vals) * 2) / 2), yMax = 5;
     const x = d => L + ((d - 1) / (days.length - 1)) * (W - L - R);
     const y = v => T + (1 - (v - yMin) / (yMax - yMin)) * (H - T - B);
