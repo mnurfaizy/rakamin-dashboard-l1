@@ -5,7 +5,8 @@ programs/*/data/sheet-data.json
 # Local tool state
 .netlify/
 node_modules/
-.claude/
+.claude/*
+!.claude/skills/
 
 # OS / editor
 .DS_Store
