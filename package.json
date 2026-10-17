@@ -1,0 +1,15 @@
+{
+  "name": "rakamin-dashboard-l1",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dashboard feedback L1 (Kirkpatrick Level 1) per program training Rakamin. Satu file HTML statis per program.",
+  "scripts": {
+    "build": "npm run build:goto-pm && npm run build:bsi-b2-b3 && npm run build:bsi-a10",
+    "build:goto-pm": "cd programs/goto-pm-workshop-b1 && node build.js",
+    "build:bsi-b2-b3": "cd programs/bsi-bpi-sdp-b2-b3 && node data/build-sheet-data.js && node build.js",
+    "build:bsi-a10": "cd programs/bsi-bpi-sdp-a10 && node data/build-sheet-data.js && node build.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,4 @@
+# dist/ is built locally with `node build.js` (brand assets live outside this folder).
+[build]
+  publish = "dist"
+  command = ""

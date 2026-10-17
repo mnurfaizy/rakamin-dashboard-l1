@@ -1,0 +1,39 @@
+# Render Blueprint: one static site per training program.
+# Each site builds from its own folder under programs/ and publishes ./dist. No server, no env vars.
+# Docs: https://render.com/docs/blueprint-spec  (check the static-site fields there if Render rejects a key)
+services:
+  - type: web
+    runtime: static
+    name: goto-pm-insight
+    rootDir: programs/goto-pm-workshop-b1
+    buildCommand: node build.js
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: false
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+
+  - type: web
+    runtime: static
+    name: bsi-bpi-sdp-insight
+    rootDir: programs/bsi-bpi-sdp-b2-b3
+    buildCommand: node data/build-sheet-data.js && node build.js
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: false
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+
+  - type: web
+    runtime: static
+    name: bsi-bpi-sdp-a10-insight
+    rootDir: programs/bsi-bpi-sdp-a10
+    buildCommand: node data/build-sheet-data.js && node build.js
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: false
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache

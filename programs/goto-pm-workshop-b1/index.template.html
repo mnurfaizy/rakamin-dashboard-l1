@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feedback · GoTo PM Workshop Batch 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* Design tokens follow the "[Pre-Reading] GoTo Project Management Capability Program" deck. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f2faf6;
+  --line: #dcefe6;
+  --line-strong: #bfe8d9;
+  --green-deep: #00774c;
+  --green: #00a367;
+  --green-mid: #4dbf95;
+  --green-tint: #e6f6f0;
+  --yellow: #ffcc29;
+  --yellow-soft: #fff5d4;
+  --yellow-ink: #9c7400;
+  --ink: #1c1c1c;
+  --ink-2: #595959;
+  --ink-3: #8a918d;
+  --warn: #d9480f;          /* below-target text */
+  --good: #00a367;
+  --shadow: 0 1px 2px rgba(0, 119, 76, .05), 0 8px 24px rgba(0, 119, 76, .07);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+html { overflow-x: clip; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 15px/1.5 "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased; position: relative; overflow-x: clip;
+}
+/* Capsule outlines from the deck background, pinned to the viewport corners. */
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: url(__ASSET_BG__) center / cover no-repeat; }
+button, input, select { font: inherit; color: inherit; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+.muted { color: var(--ink-3); }
+.num { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+/* ---------- Header ---------- */
+.top-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 18px; padding-bottom: 6px; flex-wrap: wrap; }
+.logo-box { display: inline-flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 14px; padding: 10px 18px; min-height: 52px; box-shadow: var(--shadow); }
+.logo-box img { width: auto; display: block; }
+.logo-box img.gt { height: 26px; } .logo-box img.rk { height: 36px; margin: -4px 0; }
+.logo-box .sep { width: 1px; height: 26px; background: var(--line-strong); }
+.batch-picker { display: flex; align-items: center; gap: 8px; }
+.batch-picker label { font-size: 13px; color: var(--ink-2); }
+.select {
+  appearance: none; border: 0; background: var(--green); color: #fff;
+  padding: 10px 40px 10px 16px; border-radius: 999px; font-weight: 700; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, #fff 50%), linear-gradient(135deg, #fff 50%, transparent 50%);
+  background-position: calc(100% - 20px) 55%, calc(100% - 15px) 55%; background-size: 5px 5px; background-repeat: no-repeat;
+  box-shadow: var(--shadow);
+}
+.select option { color: var(--ink); background: #fff; }
+#report[hidden], #upcoming[hidden] { display: none; }
+
+/* ---------- Belum dimulai ---------- */
+.upcoming { padding: 28px 24px; background: linear-gradient(160deg, var(--green-tint), var(--surface) 55%, var(--yellow-soft)); display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+.up-head { max-width: 720px; }
+.up-head h3 { margin: 10px 0 6px; font-size: clamp(22px, 3vw, 28px); color: var(--green-deep); line-height: 1.25; }
+.up-head p { margin: 0; color: var(--ink-2); font-size: 16px; }
+.up-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 12px; width: 100%; }
+.up-facts { display: grid; gap: 8px; }
+.up-person { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--line); }
+.up-person .role { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--green); }
+.up-person .name { font-weight: 700; color: var(--green-deep); text-align: right; }
+.up-person .name .muted { font-weight: 500; }
+.up-agenda { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.up-agenda li { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line-strong); }
+.up-no { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--green); color: #fff; font-weight: 700; font-size: 13px; }
+.up-time { display: block; font-size: 12px; font-weight: 700; color: var(--green); }
+.up-agenda b { color: var(--green-deep); }
+.up-agenda p { margin: 2px 0 0; font-size: 13px; color: var(--ink-2); }
+
+.hero { padding: 22px 0 4px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; background: var(--yellow); color: var(--green-deep); font-weight: 700; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; border-radius: 999px; padding: 4px 12px; }
+.hero h1 { font-size: clamp(28px, 4.4vw, 40px); margin: 10px 0 2px; letter-spacing: -.01em; line-height: 1.12; color: var(--green-deep); font-weight: 800; }
+.hero h1 b { color: var(--green); }
+.hero .sub { color: var(--ink-2); margin: 0; font-size: 16px; }
+.banner { margin-top: 14px; padding: 10px 14px; border-radius: 12px; font-size: 14px; background: var(--yellow-soft); border: 1px solid #ffe7a0; color: var(--ink); }
+.banner[hidden] { display: none; }
+
+section { margin-top: 30px; }
+.sec-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.sec-title { display: flex; align-items: center; gap: 10px; }
+.sec-title .no { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--green); color: #fff; font-weight: 700; font-size: 13px; }
+.sec-title h2 { font-size: 22px; margin: 0; color: var(--green-deep); font-weight: 700; }
+.sec-head .note { font-size: 13px; color: var(--ink-2); }
+.card { background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); box-shadow: var(--shadow); }
+.card-pad { padding: 20px; }
+.card-title { font-size: 12px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 14px; }
+
+/* ---------- Suara Mayoritas (chat bubbles) ---------- */
+.quotes { padding: 32px 20px 28px; background: linear-gradient(160deg, var(--green-tint), var(--surface) 55%, var(--yellow-soft)); overflow: hidden; position: relative; }
+.quotes .mascot { position: absolute; right: 18px; bottom: -6px; width: 150px; height: auto; pointer-events: none; }
+.qwall { display: flex; flex-direction: column; align-items: center; gap: 22px; max-width: 980px; margin: 0 auto; position: relative; }
+.qrow { display: flex; justify-content: center; align-items: flex-start; gap: 28px; width: 100%; }
+.qrow.pair > .q:first-child { transform: rotate(-1.6deg); }
+.qrow.pair > .q:last-child { transform: rotate(1.4deg); margin-top: 26px; }
+.q { display: flex; flex-direction: column; gap: 8px; max-width: 440px; flex: 1 1 0; }
+.q.left { align-items: flex-start; } .q.right { align-items: flex-end; } .q.center { align-items: center; max-width: 640px; }
+.bubble { position: relative; padding: 18px 22px; border-radius: 24px; font-size: 19px; line-height: 1.45; font-weight: 500; box-shadow: 0 10px 28px rgba(0, 119, 76, .14); }
+.bubble::after { content: ""; position: absolute; bottom: -9px; width: 20px; height: 20px; background: inherit; }
+.q.left .bubble { background: var(--surface); color: var(--green-deep); border-bottom-left-radius: 6px; }
+.q.left .bubble::after { left: 0; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.q.right .bubble { background: var(--green); color: #fff; border-bottom-right-radius: 6px; }
+.q.right .bubble::after { right: 0; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.q.center .bubble { background: var(--green-deep); color: #fff; font-size: clamp(20px, 2.6vw, 26px); font-weight: 600; padding: 26px 34px; text-align: center; border-radius: 28px; }
+.q.center .bubble::after { left: calc(50% - 10px); bottom: -10px; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.q.center .bubble::before { content: "\201C"; position: absolute; top: -26px; left: 22px; font: 800 72px/1 Georgia, serif; color: var(--yellow); }
+.q-meta { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); padding: 4px 6px 0; flex-wrap: wrap; justify-content: center; }
+.q-meta .ava { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; background: var(--yellow); color: var(--green-deep); }
+.q-meta .tema { font-weight: 600; color: var(--green-deep); }
+.q-meta .share { background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px; padding: 1px 10px; font-weight: 600; color: var(--green-deep); }
+
+.q-wait { text-align: center; max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 14px; position: relative; }
+.typing { display: inline-flex; gap: 6px; padding: 16px 22px; background: var(--surface); border-radius: 22px; border-bottom-left-radius: 6px; box-shadow: 0 10px 28px rgba(0, 119, 76, .12); }
+.typing i { width: 10px; height: 10px; border-radius: 50%; background: var(--green); opacity: .35; animation: blink 1.2s infinite; }
+.typing i:nth-child(2) { animation-delay: .2s; } .typing i:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%, 80%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .typing i { animation: none; opacity: .7; } }
+.q-wait h3 { margin: 0; font-size: clamp(22px, 3vw, 30px); color: var(--green-deep); font-weight: 700; line-height: 1.25; }
+.q-wait p { margin: 0; font-size: 17px; color: var(--ink-2); }
+.q-wait .count { font-size: clamp(40px, 6vw, 56px); font-weight: 800; color: var(--green); line-height: 1; }
+.q-wait .count small { font-size: 20px; color: var(--ink-2); font-weight: 600; }
+
+/* ---------- Ringkasan ---------- */
+.summary { display: grid; grid-template-columns: minmax(220px, 1.3fr) repeat(5, minmax(0, 1fr)); gap: 12px; }
+.tile { padding: 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.tile .k { font-size: 13px; color: var(--ink-2); font-weight: 600; }
+.tile .v { font-size: 30px; font-weight: 800; letter-spacing: -.01em; line-height: 1.1; color: var(--green-deep); }
+.tile .v small { font-size: 14px; font-weight: 600; color: var(--ink-3); }
+.tile .d { font-size: 13px; color: var(--ink-3); }
+.tile.below .v { color: var(--warn); }
+.tile.part { background: var(--green); border-color: var(--green); color: #fff; }
+.tile.part .k, .tile.part .d { color: #d7f3e7; }
+.tile.part .v { color: #fff; } .tile.part .v small { color: #d7f3e7; }
+.tile.part .bar { background: rgba(255,255,255,.25); }
+.tile.part .bar > i { background: var(--yellow); }
+.bar { position: relative; height: 8px; border-radius: 999px; background: var(--green-tint); margin-top: 8px; }
+.bar > i { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--green); }
+
+/* ---------- Insight grid ---------- */
+.insight { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 12px; align-items: stretch; }
+.g-info, .g-aspek { display: flex; flex-direction: column; }
+.g-info #sessionInfo { flex: 1; display: flex; flex-direction: column; }
+.g-info .facts { flex: 1; grid-auto-rows: 1fr; }
+.people { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+.person { display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line-strong); min-width: 0; }
+.avatar { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 16px; }
+.avatar.tutor { background: var(--green); color: #fff; }
+.avatar.astor { background: var(--yellow); color: var(--green-deep); }
+.avatar.empty { background: var(--green-tint); color: var(--ink-3); }
+.person .role { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--green); }
+.person .role.astor { color: var(--yellow-ink); }
+.person .name { font-weight: 700; font-size: 16px; color: var(--green-deep); overflow-wrap: anywhere; }
+.person .name .muted { font-weight: 500; font-size: 14px; }
+.facts { display: grid; gap: 10px; margin: 0; }
+.fact { display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line); min-width: 0; }
+.fact .ico { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--green-tint); color: var(--green-deep); }
+.fact dt { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--green); }
+.fact dd { margin: 0; font-weight: 700; color: var(--green-deep); overflow-wrap: anywhere; }
+.fact dd .muted { font-weight: 500; }
+
+.aspek-group + .aspek-group { margin-top: 10px; }
+.aspek-group h4 { margin: 0 0 4px; font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+.aspek-row { display: grid; grid-template-columns: 34px 1fr auto; gap: 2px 10px; align-items: center; padding: 7px 0; border-top: 1px solid var(--line); }
+.aspek-row .meter { grid-column: 2 / -1; display: flex; align-items: center; gap: 10px; }
+.aspek-row .meter .bar { flex: 1; height: 6px; margin: 0; }
+.aspek-row.below .meter .bar > i { background: var(--warn); }
+.tag { display: inline-block; margin-left: 8px; font-size: 11px; font-weight: 700; border-radius: 999px; padding: 1px 8px; vertical-align: 1px; }
+.tag.top { background: var(--green-tint); color: var(--green-deep); }
+.tag.low { background: var(--yellow-soft); color: var(--yellow-ink); }
+.aspek-group h4 + .aspek-row { border-top: 0; }
+.code { font-size: 12px; font-weight: 700; color: var(--green-deep); background: var(--green-tint); border-radius: 6px; text-align: center; padding: 2px 0; }
+.aspek-row .stmt { font-size: 14px; }
+.aspek-row .score { font-weight: 800; font-size: 17px; color: var(--green-deep); }
+.aspek-row .score small { font-weight: 500; font-size: 12px; color: var(--ink-3); }
+.aspek-row.below .score, .aspek-row.below .stmt { color: var(--warn); }
+.aspek-row .share { flex: none; width: 84px; text-align: right; font-size: 12px; color: var(--ink-3); }
+
+
+/* ---------- Suara Peserta ---------- */
+.voices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.voice h3 { font-size: 15px; margin: 0 0 6px; display: flex; align-items: center; gap: 8px; color: var(--green-deep); }
+.voice h3 .dot { width: 10px; height: 10px; border-radius: 50%; }
+.voice h3 small { font-weight: 500; color: var(--ink-3); font-size: 12px; margin-left: auto; }
+.theme-chip { width: 100%; text-align: left; display: flex; justify-content: space-between; gap: 10px; align-items: center; border: 1px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 10px 12px; cursor: pointer; margin-top: 8px; transition: border-color .15s, background .15s; }
+.theme-chip:hover { border-color: var(--green); }
+.theme-chip[aria-pressed="true"] { border-color: var(--green-deep); background: var(--green-deep); color: #fff; }
+.theme-chip[aria-pressed="true"] .cnt { background: var(--yellow); color: var(--green-deep); border-color: var(--yellow); }
+.theme-chip .cnt { flex: none; font-size: 12px; font-weight: 700; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px; padding: 1px 9px; }
+.theme-chip .go { flex: none; font-size: 12px; opacity: .6; }
+.empty { color: var(--ink-3); font-size: 14px; padding: 8px 0; }
+
+/* ---------- Jawaban Peserta ---------- */
+.codes { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px 18px; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 13px; background: var(--surface-2); border-radius: var(--radius) var(--radius) 0 0; }
+.codes div { display: flex; gap: 8px; align-items: baseline; }
+.codes .code { flex: none; width: 38px; }
+.toolbar { display: flex; gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.search { position: relative; flex: 1 1 260px; }
+.search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-3); }
+.input { width: 100%; border: 1px solid var(--line-strong); background: var(--surface-2); border-radius: 10px; padding: 9px 12px 9px 36px; }
+.input.plain { padding-left: 12px; }
+.filter-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--green-deep); color: #fff; border-radius: 999px; padding: 5px 6px 5px 12px; font-size: 13px; font-weight: 500; }
+.filter-pill button { border: 0; background: rgba(255,255,255,.18); color: #fff; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; line-height: 1; }
+.filter-pill[hidden] { display: none; }
+.table-scroll { overflow: auto; max-width: 100%; max-height: 520px; border-radius: 0 0 var(--radius) var(--radius); }
+.table-scroll thead th { position: sticky; top: 0; z-index: 1; box-shadow: inset 0 -1px 0 var(--line); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+th { background: var(--surface-2); font-size: 12px; color: var(--green-deep); font-weight: 700; white-space: nowrap; }
+td.s, th.s { text-align: center; width: 40px; }
+td.s.low { color: var(--warn); font-weight: 700; }
+td.txt { min-width: 220px; color: var(--ink); }
+tbody tr { transition: background .3s; }
+tbody.flash tr { animation: flash 1s ease; }
+@keyframes flash { from { background: var(--yellow-soft); } to { background: transparent; } }
+mark { background: #ffe58a; color: inherit; border-radius: 3px; padding: 0 1px; }
+
+/* ---------- Footer + Kelola data ---------- */
+footer { margin: 36px 0 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+footer .left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.tagline { font-family: "Montserrat", "Rubik", sans-serif; font-weight: 600; font-size: 12px; color: var(--green); letter-spacing: .02em; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; padding: 10px 18px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--green-deep); font-weight: 600; cursor: pointer; text-decoration: none; white-space: nowrap; transition: background .15s, border-color .15s; }
+.btn:hover { border-color: var(--green); }
+.btn.primary { background: var(--green-deep); border-color: var(--green-deep); color: #fff; }
+.btn.primary:hover { background: var(--green); border-color: var(--green); }
+.btn.ghost { background: transparent; }
+
+dialog { border: 0; padding: 0; border-radius: 18px; width: min(560px, calc(100vw - 32px)); background: var(--surface); color: var(--ink); box-shadow: 0 20px 60px rgba(0, 60, 38, .3); }
+dialog::backdrop { background: rgba(0, 60, 38, .45); }
+.dlg-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.dlg-head h3 { margin: 0; font-size: 17px; color: var(--green-deep); }
+.dlg-body { padding: 4px 20px 20px; max-height: 70vh; overflow-y: auto; }
+.dlg-sec { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.dlg-sec:last-child { border-bottom: 0; }
+.dlg-sec h4 { margin: 0 0 4px; font-size: 15px; color: var(--green-deep); }
+.dlg-sec p { margin: 0 0 10px; font-size: 13px; color: var(--ink-2); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row .input { flex: 1 1 220px; }
+.status { font-size: 13px; margin-top: 8px; }
+.status.ok { color: var(--good); } .status.err { color: var(--warn); }
+.drop { border: 1.5px dashed var(--line-strong); border-radius: 12px; padding: 16px; text-align: center; font-size: 13px; color: var(--ink-2); }
+.drop.over { border-color: var(--green); background: var(--green-tint); }
+.source-pill { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-strong); }
+.source-pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
+.source-pill.live i { background: var(--good); }
+.source-pill.snapshot i { background: var(--yellow); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .summary .part { grid-column: 1 / -1; }
+  .quotes .mascot { width: 110px; opacity: .9; }
+}
+@media (max-width: 820px) {
+  .insight { grid-template-columns: 1fr; }
+  .up-grid { grid-template-columns: 1fr; }
+  .voices { grid-template-columns: 1fr; }
+  .qrow { flex-direction: column; align-items: stretch; gap: 18px; }
+  .qrow.pair > .q { transform: none !important; margin-top: 0 !important; max-width: 88%; }
+  .qrow.pair > .q.right { align-self: flex-end; }
+  .q.center { max-width: 100%; }
+  .quotes .mascot { display: none; }
+}
+@media (max-width: 560px) {
+  .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .people { grid-template-columns: 1fr; }
+  .batch-picker label { display: none; }
+  .aspek-row { grid-template-columns: 30px 1fr auto; gap: 4px 8px; }
+  .bubble { font-size: 17px; }
+  .logo-box { gap: 10px; padding: 8px 12px; }
+  .logo-box img.gt { height: 22px; } .logo-box img.rk { height: 26px; }
+  .q-wait .count small { display: block; margin-top: 6px; font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="wrap top-inner">
+  <div class="logo-box" id="logoBox" aria-label="GoTo x Rakamin"></div>
+  <div class="batch-picker">
+    <label for="batchSelect">Lihat batch</label>
+    <select id="batchSelect" class="select" aria-label="Pilih batch"></select>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="pill" id="heroPill">Insight Feedback</span>
+    <h1 id="heroTitle">Feedback Peserta</h1>
+    <p class="sub" id="heroSub">–</p>
+    <div class="banner" id="snapshotBanner" hidden><b>Data tersimpan.</b> Halaman ini menampilkan salinan data terakhir karena Google Sheet belum bisa dibaca. Hubungkan lewat tombol <b>Kelola data</b> di bawah untuk data terbaru.</div>
+  </div>
+
+  <section id="upcoming" aria-label="Sesi belum dimulai" hidden>
+    <div class="card upcoming" id="upcomingBox"></div>
+  </section>
+
+  <div id="report">
+  <section aria-labelledby="qTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no">01</span><h2 id="qTitle">Suara Mayoritas</h2></div><span class="note" id="qNote"></span></div>
+    <div class="card quotes" id="quotesBox"></div>
+  </section>
+
+  <section aria-labelledby="sTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no">02</span><h2 id="sTitle">Ringkasan Sesi</h2></div><span class="note" id="targetNote"></span></div>
+    <div class="summary" id="summary"></div>
+  </section>
+
+  <section aria-labelledby="iTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no">03</span><h2 id="iTitle">Insight Sesi</h2></div></div>
+    <div class="insight">
+      <div class="card card-pad g-info"><p class="card-title">Identitas sesi &amp; talent</p><div id="sessionInfo"></div></div>
+      <div class="card card-pad g-aspek"><p class="card-title">Evaluasi per aspek</p><div id="aspek"></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="vTitle">
+    <div class="sec-head"><div class="sec-title"><span class="no">04</span><h2 id="vTitle">Suara Peserta</h2></div><span class="note">Klik tema untuk melihat jawaban peserta yang terkait</span></div>
+    <div class="voices" id="voices"></div>
+  </section>
+
+  <section aria-labelledby="aTitle" id="answersSection">
+    <div class="sec-head"><div class="sec-title"><span class="no">05</span><h2 id="aTitle">Jawaban Peserta</h2></div><span class="note">Komentar ditampilkan apa adanya, nama peserta tidak ditampilkan</span></div>
+    <div class="card">
+      <div class="codes" id="codes"></div>
+      <div class="toolbar">
+        <div class="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input id="searchInput" class="input" type="search" placeholder="Cari kata kunci di komentar, misalnya: time, material, speaker" aria-label="Cari komentar">
+        </div>
+        <span class="filter-pill" id="themeFilter" hidden><span></span><button type="button" aria-label="Hapus filter tema">×</button></span>
+        <span class="muted" id="searchCount" style="font-size:13px"></span>
+      </div>
+      <div class="table-scroll"><table id="answers"></table></div>
+    </div>
+  </section>
+  </div>
+
+  <footer>
+    <div class="left">
+      <button class="btn primary" id="openManage" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"></path></svg>
+        Kelola data
+      </button>
+      <div>Sumber: Feedback Peserta · Learning Quality Rakamin · <span id="sourcePill" class="source-pill"><i></i><span></span></span></div>
+    </div>
+    <span class="tagline">Go Learn, Go Further</span>
+  </footer>
+</main>
+
+<dialog id="manage" aria-labelledby="mTitle">
+  <div class="dlg-head">
+    <h3 id="mTitle">Kelola data dashboard</h3>
+    <button class="btn ghost" type="button" id="closeManage" aria-label="Tutup">Tutup</button>
+  </div>
+  <div class="dlg-body">
+    <div class="dlg-sec">
+      <h4>1. Hubungkan Google Sheet</h4>
+      <p>Tempel link sheet. Sheet harus dibagikan "Anyone with the link: Viewer". Tab yang dibaca: 00. Daily Feedback Peserta, Info Sesi, dan Insight by Claude.</p>
+      <div class="row">
+        <input id="sheetInput" class="input plain" type="url" placeholder="https://docs.google.com/spreadsheets/d/...">
+        <button class="btn primary" type="button" id="connectBtn">Hubungkan</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" type="button" id="reloadBtn">Muat ulang data</button>
+        <a class="btn" id="openSheetBtn" href="#" target="_blank" rel="noopener">Buka sheet</a>
+      </div>
+      <div class="status" id="sheetStatus" role="status"></div>
+    </div>
+    <div class="dlg-sec">
+      <h4>2. Bagikan</h4>
+      <p>Link ini membuka dashboard dengan data dari sheet di atas, di browser siapa pun.</p>
+      <button class="btn primary" type="button" id="copyLinkBtn">Salin link dashboard + sheet</button>
+      <div class="status" id="copyStatus" role="status"></div>
+    </div>
+    <div class="dlg-sec">
+      <h4>3. Upload file (cadangan)</h4>
+      <p>.csv atau .xlsx. Hanya tersimpan di browser ini, tidak terlihat oleh orang lain.</p>
+      <div class="drop" id="dropZone">
+        Tarik file ke sini, atau
+        <div style="margin-top:10px"><button class="btn" type="button" id="pickFileBtn">Pilih file</button></div>
+        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" hidden>
+      </div>
+      <div class="status" id="uploadStatus" role="status"></div>
+    </div>
+    <div class="dlg-sec">
+      <h4>4. Reset</h4>
+      <p>Hapus sheet dan file yang tersimpan di browser ini, lalu kembali ke data tersimpan.</p>
+      <button class="btn" type="button" id="resetBtn">Kembali ke data tersimpan</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* Brand assets from the GoTo pre-reading deck, embedded at build time (see build.js). */
+const ASSETS = { goto: '__ASSET_GOTO__', rakamin: '__ASSET_RAKAMIN__', mascot: '__ASSET_MASCOT__' };
+</script>
+<script>
+/* ======================================================================
+   Core: pure data logic (no DOM). Kondisi B: satu sesi, tanpa Day.
+   ====================================================================== */
+const Core = (() => {
+  const CONFIG = {
+    feedbackTabs: ['00. Daily Feedback Peserta', 'Feedback Peserta'],
+    tabs: { info: 'Info Sesi', insight: 'Insight by Claude' },
+    program: 'GoTo Project Management',
+    roles: { tutor: 'Trainer', astor: 'Asisten Trainer' },  // label peran mengikuti istilah program
+    // Satu sheet per batch. Batch tanpa sheet atau tanpa jawaban tampil sebagai "belum dimulai".
+    // total: dipakai bila kolom "Jumlah Peserta" di Info Sesi kosong.
+    batches: [
+      { id: '1', label: 'Batch 1', short: '17 Sep', date: 'Kamis, 17 September 2026', sessionName: 'Project Management Workshop',
+        sheetId: '1zJy-TqS-YDIZ_PqLq-9LwQqx6i3_66qNdfj2C4SHZrk', total: 23 },
+      { id: '2', label: 'Batch 2', short: '3 Nov', date: 'Selasa, 3 November 2026', sessionName: 'Basic Project Management Training',
+        sheetId: null, total: null,
+        agenda: [
+          ['09.30', 'Foundation & Planning', 'Modul 1, 2A, 2B, 2C: project vs BAU, scope, WBS, estimasi waktu dan biaya'],
+          ['13.00', 'People, Risk & Priority', 'Modul 3 sampai 6: stakeholder, risiko, prioritas, dan MVP'],
+          ['15.30', 'Roadmap & GoRide Case', 'Modul 7 dan 8, ditutup dengan post-test'],
+        ] },
+    ],
+    quoteShare: 0.5,           // Suara Mayoritas tampil setelah 50% peserta mengisi
+    flagFloor: 4.0,           // skor di bawah ini ditandai oranye
+    npsFloor: 60,              // NPS (persen) di bawah ini ditandai oranye
+    maxQuotes: 3,
+  };
+
+  // Statement codes. `match` is matched against the lower-cased form header.
+  const ITEMS = [
+    { code: 'M1', group: 'trainer', label: 'Penyampaian trainer jelas dan mudah dipahami', match: 'delivery is clear' },
+    { code: 'M2', group: 'materi', label: 'Materi sesi tersusun dengan baik', match: 'well-structured' },
+    { code: 'M3', group: 'materi', label: 'Program relevan dengan peran saya', match: 'relevant to my role' },
+    { code: 'M4', group: 'sarana', label: 'Puas dengan sarana pendukung belajar', match: 'learning support tools' },
+    { code: 'M5', group: 'overall', label: 'Puas dengan program secara keseluruhan', match: 'overall, i am satisfied' },
+  ];
+  const GROUPS = [
+    { key: 'overall', label: 'Keseluruhan', tile: 'Kepuasan keseluruhan' },
+    { key: 'trainer', label: 'Trainer', tile: 'Trainer' },
+    { key: 'materi', label: 'Materi', tile: 'Materi' },
+    { key: 'sarana', label: 'Sarana', tile: 'Sarana belajar' },
+  ];
+  const ASPEK_ORDER = ['trainer', 'materi', 'sarana', 'overall'];
+  const TEXTS = [
+    { key: 'keep', label: 'Dipertahankan', match: 'kept the same' },
+    { key: 'perbaikan', label: 'Saran perbaikan', match: 'changes or improvements' },
+  ];
+  const NPS_MATCH = 'recommend this program';
+  const PANELS = [
+    { key: 'diapresiasi', label: 'Diapresiasi', hint: 'dari "hal yang dipertahankan"', color: 'var(--good)' },
+    { key: 'saran perbaikan', label: 'Saran perbaikan', hint: 'dari "saran perbaikan"', color: 'var(--warn)' },
+  ];
+  const isQuotePanel = p => /mayoritas|quote/i.test(p);
+
+  /** RFC 4180 CSV parser: handles quotes, escaped quotes and newlines in fields. */
+  function parseCSV(text) {
+    const rows = []; let row = []; let field = ''; let q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && text[i + 1] === '\n') i++;
+        row.push(field); rows.push(row); row = []; field = '';
+      } else field += c;
+    }
+    if (field !== '' || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(v => String(v).trim() !== ''));
+  }
+
+  function parseSheetId(input) {
+    const s = String(input || '').trim();
+    const m = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+    if (m) return m[1];
+    return /^[a-zA-Z0-9_-]{20,}$/.test(s) ? s : null;
+  }
+
+  function toScore(v, max) {
+    const m = String(v ?? '').replace(',', '.').match(/-?\d+(\.\d+)?/);
+    if (!m) return null;
+    const n = Number(m[0]);
+    return n >= 0 && n <= max ? n : null;
+  }
+
+  const lowerHead = table => table[0].map(h => String(h).toLowerCase().trim());
+
+  /** True only for the feedback layout: column A is "Tanggal" and most score questions exist. */
+  function isFeedbackTable(table) {
+    if (!table || !table.length) return false;
+    const head = lowerHead(table);
+    return head[0] === 'tanggal' && ITEMS.filter(it => head.some(h => h.includes(it.match))).length >= 3;
+  }
+
+  /** Converts raw feedback rows (header first) into typed responses. */
+  function normalizeFeedback(table) {
+    if (!table || table.length < 2) return [];
+    const head = lowerHead(table);
+    const find = key => head.findIndex(h => h.includes(key));
+    const itemIdx = ITEMS.map(it => find(it.match));
+    const textIdx = TEXTS.map(t => find(t.match));
+    const npsIdx = find(NPS_MATCH);
+    const out = [];
+    for (const r of table.slice(1)) {
+      const scores = itemIdx.map(i => (i >= 0 ? toScore(r[i], 5) : null));
+      if (scores.every(s => s == null)) continue;
+      out.push({
+        date: String(r[0] ?? '').trim(),
+        scores,
+        nps: npsIdx >= 0 ? toScore(r[npsIdx], 10) : null,
+        texts: Object.fromEntries(TEXTS.map((t, k) => [t.key, textIdx[k] >= 0 ? String(r[textIdx[k]] ?? '').trim() : ''])),
+      });
+    }
+    return out;
+  }
+
+  /** Header-aware row reader; returns null when the expected headers are missing. */
+  function rowsByHeader(table, required) {
+    if (!table || !table.length) return null;
+    const head = lowerHead(table);
+    if (!required.every(r => head.includes(r))) return null;
+    return table.slice(1).map(r => Object.fromEntries(head.map((h, i) => [h, String(r[i] ?? '').trim()])));
+  }
+
+  /** Info Sesi: the first row with any content describes the single session. */
+  function normalizeInfo(table) {
+    const rows = rowsByHeader(table, ['tanggal', 'topik']) || [];
+    const r = rows.find(x => Object.values(x).some(Boolean));
+    if (!r) return {};
+    const total = parseInt(r['jumlah peserta'], 10);
+    return { date: r.tanggal || '', tutor: r.tutor || '', astor: r['asisten tutor'] || '', topik: r.topik || '', total: Number.isFinite(total) && total > 0 ? total : null };
+  }
+
+  const splitList = s => String(s || '').split('|').map(x => x.trim().replace(/^["“]|["”]$/g, '')).filter(Boolean);
+
+  /** Insight by Claude rows. Panel "Suara Mayoritas" (or legacy "Quotes of the Day") rows become quotes. */
+  function normalizeInsight(table) {
+    const rows = rowsByHeader(table, ['panel', 'tema']) || [];
+    const insight = []; const quotes = [];
+    for (const r of rows) {
+      if (!r.panel || !r.tema) continue;
+      if (isQuotePanel(r.panel)) { splitList(r.kutipan).forEach(text => quotes.push({ text, tema: r.tema })); continue; }
+      insight.push({ panel: r.panel, tema: r.tema, jumlah: parseInt(r.jumlah, 10) || 0, kutipan: splitList(r.kutipan), kataKunci: splitList(r['kata kunci']) });
+    }
+    return { insight, quotes };
+  }
+
+  /** Lower-case, strip punctuation, collapse whitespace: makes quote matching tolerant. */
+  const normText = s => String(s || '').toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+
+  /** Search terms that link a theme to answers: its quotes and optional keywords. */
+  function themeTerms(theme) {
+    return [...theme.kutipan, ...(theme.kataKunci || [])].map(normText).filter(t => t.length >= 3);
+  }
+
+  /** True when any of the answer's comments contains one of the theme's terms. */
+  function matchesTheme(response, theme) {
+    const terms = themeTerms(theme);
+    if (!terms.length) return false;
+    const hay = normText(Object.values(response.texts).join(' | '));
+    return terms.some(t => hay.includes(t));
+  }
+
+  const isFlagged = score => score != null && score < CONFIG.flagFloor;
+  const mean = arr => { const v = arr.filter(x => x != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+  /** Share of answers scoring 4 or 5: the "% puas" figure next to each mean. */
+  const topShare = arr => { const v = arr.filter(x => x != null); return v.length ? v.filter(x => x >= 4).length / v.length : null; };
+
+  function npsStats(values) {
+    const v = values.filter(x => x != null);
+    if (!v.length) return null;
+    const pro = v.filter(x => x >= 9).length; const det = v.filter(x => x <= 6).length;
+    return { score: Math.round(((pro - det) / v.length) * 100), pro, pas: v.length - pro - det, det };
+  }
+
+  /** Aggregates for the session: per-item and per-group means and 4–5 shares, NPS, respondent count. */
+  function sessionStats(responses) {
+    if (!responses.length) return null;
+    const col = i => responses.map(r => r.scores[i]);
+    const items = ITEMS.map((_, i) => mean(col(i)));
+    const itemShare = ITEMS.map((_, i) => topShare(col(i)));
+    const groupCols = key => ITEMS.flatMap((it, i) => (it.group === key ? col(i) : []));
+    const groups = Object.fromEntries(GROUPS.map(g => [g.key, mean(ITEMS.map((it, i) => (it.group === g.key ? items[i] : null)))]));
+    const groupShare = Object.fromEntries(GROUPS.map(g => [g.key, topShare(groupCols(g.key))]));
+    const hasNps = responses.some(r => r.nps != null);
+    return { n: responses.length, items, itemShare, groups, groupShare, nps: hasNps ? npsStats(responses.map(r => r.nps)) : null };
+  }
+
+  /** Two strongest and two weakest aspects; ties broken by the 4–5 share. */
+  function highlights(stats, k = 2) {
+    const list = ITEMS.map((it, i) => ({ it, v: stats.items[i], share: stats.itemShare[i] })).filter(x => x.v != null);
+    const sorted = [...list].sort((a, b) => (b.v - a.v) || (b.share - a.share));
+    return { top: sorted.slice(0, k), low: sorted.slice(-k).reverse() };
+  }
+
+  /** Quotes gate: only shown once enough participants have answered. */
+  function quoteState(n, quotes, threshold) {
+    if (n < threshold) return { mode: 'waiting', need: threshold - n };
+    return quotes.length ? { mode: 'ready' } : { mode: 'pending' };
+  }
+
+  /** Quote wall layout: one quote centred, two side by side, three = pair plus a centred one. */
+  function quoteLayout(count) {
+    if (count <= 0) return [];
+    if (count === 1) return [[{ idx: 0, side: 'center' }]];
+    if (count === 2) return [[{ idx: 0, side: 'left' }, { idx: 1, side: 'right' }]];
+    return [[{ idx: 0, side: 'center' }], [{ idx: 1, side: 'left' }, { idx: 2, side: 'right' }]];
+  }
+
+  const fmt = (v, d = 2) => (v == null ? '–' : v.toLocaleString('id-ID', { minimumFractionDigits: d, maximumFractionDigits: d }));
+  const pct = v => (v == null ? '–' : `${Math.round(v * 100)}%`);
+
+  return { CONFIG, ITEMS, GROUPS, ASPEK_ORDER, TEXTS, PANELS, isQuotePanel, isFeedbackTable, isFlagged, parseCSV, parseSheetId, toScore, normalizeFeedback, normalizeInfo, normalizeInsight, normText, themeTerms, matchesTheme, mean, topShare, npsStats, sessionStats, highlights, quoteState, quoteLayout, fmt, pct };
+})();
+if (typeof module !== 'undefined') module.exports = Core;
+</script>
+
+<script>
+/* ======================================================================
+   Snapshot: salinan data sheet per 16 Okt 2026, dipakai bila sheet tidak bisa dibaca.
+   ====================================================================== */
+const SnapshotBatch1 = (() => {
+  const D = 'Kamis, 17 September 2026';
+  const S = '[17 Sep] Project Management Workshop';
+  const header = ['Tanggal', 'Responden', 'Choose Your Learning Session', 'The speaker/trainer delivery is clear and easy to understand', 'The material of the session is well-structured', 'This program is relevant to my role', 'I am satisfied with the learning support tools provided on the program', 'Overall, I am satisfied with this program', 'What do you think should be kept the same in future training sessions?', 'What changes or improvements would you suggest for future training sessions?', 'I would recommend this program to others'];
+  // [M1..M5, kept the same, improvements, recommend 0-10]
+  const rows = [
+    [5, 5, 5, 5, 5, "The learning venue", "More q&a", 10],
+    [5, 5, 5, 5, 5, "gvibeoodv", "this iis minorbutic sometimes not working well matbe for tfuyheture can make sure it works well", 9],
+    [4, 4, 4, 5, 5, "interactions, pace", "longer session", 9],
+    [5, 5, 5, 5, 5, "the circumstances of the training session", "the materials are too many considering the limited time", 10],
+    [5, 5, 5, 5, 5, "the activity create some canvas project is helpful", "the learning material need to be more compact and have better timing", 9],
+    [4, 4, 5, 3, 3, "presentation and challenger sessions", "less jargon and more practicle tools to help us for project management", 4],
+    [4, 4, 5, 3, 4, "Time management OK, Practical material based on audience role, Attractive trainer", "Why we need to be reassigned to another table? I come to the training room earlier to find the best seating arrangement actually. However then I asked to other table based on MC assignment.", 10],
+    [5, 4, 5, 5, 5, "engaging speaker, place, foods, activities (games)", "time keeping, more deep dive on each case/game", 10],
+    [4, 5, 5, 4, 5, "the way of having it", "the materials? shouod be more related to role / company", 7],
+    [4, 4, 4, 4, 5, "The arragement of the whole event from start to end. So smooth, fun and insightful", "NA", 9],
+    [5, 5, 5, 5, 4, "all good", "jokes", 9],
+    [5, 5, 5, 5, 5, "The speaker", "n/a", 10],
+    [4, 4, 5, 4, 4, "the learning material seems relevant and useful", "the time distribution between material and excercise", 8],
+    [5, 5, 5, 5, 5, "The session is fun", "The workshop was kinda rushed, maybe it's better if we have more time", 10],
+    [4, 3, 5, 4, 4, "Love the ”travelling challenger“ & “presenter” concept! Learning from each other is definitely my most favorite part of the training process! I also like the case study sessions, but I do feel like the time constraint makes it harder for me to really be mindful on the overall basis. ", "I personally thought and felt that I couldn’t be mindful in hearing the presentation and explanatory of each canvas because I am to occupied to think about filling the canvas itself.. so I spent much of my time discussing & answering questions without knowing the justification of the question itself.. I wonder would it be better if since this is a team project, to assign each person to a different role first (same as the game) so that the discussion became more efficient. ", 8],
+    [5, 5, 5, 5, 5, "Hands on project", "None", 10],
+    [5, 5, 5, 5, 5, "1. The 100% rules from the speaker (having a context with tech industry, will help us connecting the dot between theory and practical in a daily work field. 2. The awarding session", "1. For the technical workshop, can have longer time to make it more deep in terms of learning.", 7],
+    [2, 3, 4, 4, 2, "1. The theme & material 2. The way each team present to the different team", "1. In my opinion, I need more elaborative and guidance for any information shown in the slide rather than the “jargon“ answer. Especially on how it can be applied to the real case. The slide having a lot of information but not well explained with depth understanding, 2. The clarity on the use cases, the task and how arrangement of team.", 4],
+    [3, 3, 3, 3, 2, "the material should be more relevant with tools for project management", "The training more like class lecture in collage", 4],
+  ];
+  const feedback = [header, ...rows.map((r, i) => [D, `Peserta ${i + 1}`, S, ...r.map(String)])];
+  const info = [['Tanggal', 'Tutor', 'Asisten Tutor', 'Topik', 'Jumlah Peserta'], [D, 'Ricky', 'Pandu', 'Project Management Workshop', '23']];
+  const insight = [['Tanggal', 'Panel', 'Tema', 'Jumlah', 'Kutipan', 'Kata Kunci'],
+    [D, 'Diapresiasi', 'Aktivitas hands-on, game, dan presentasi antar tim', '7', 'the activity create some canvas project is helpful | presentation and challenger sessions | Hands on project', 'canvas|challenger|hands on|games|interactions|case study|each team present'],
+    [D, 'Diapresiasi', 'Tempat, suasana, dan penyelenggaraan acara', '6', 'The learning venue | the circumstances of the training session | The arragement of the whole event', 'venue|circumstances|place|arragement|the way of having it|session is fun'],
+    [D, 'Diapresiasi', 'Trainer atau pembicara yang menarik', '4', 'Attractive trainer | engaging speaker | The speaker', 'trainer|speaker'],
+    [D, 'Diapresiasi', 'Materi relevan dengan peran dan konteks industri', '4', 'Practical material based on audience role | the learning material seems relevant and useful | having a context with tech industry', 'relevant and useful|audience role|tech industry|theme'],
+    [D, 'Saran perbaikan', 'Waktu terlalu singkat dan materi padat', '8', 'longer session | the materials are too many considering the limited time | The workshop was kinda rushed', 'time keeping|time constraint|longer time|limited time|rushed|timing|time distribution|longer session'],
+    [D, 'Saran perbaikan', 'Materi lebih praktis dan relevan dengan peran', '4', 'less jargon and more practicle tools to help us for project management | the materials? shouod be more related to role / company | the material should be more relevant with tools for project management', 'practicle tools|related to role|relevant with tools|real case|class lecture'],
+    [D, 'Saran perbaikan', 'Penjelasan lebih mendalam dan kurangi jargon', '4', 'time keeping, more deep dive on each case/game | can have longer time to make it more deep in terms of learning. | I need more elaborative and guidance for any information shown in the slide rather than the “jargon“ answer.', 'less jargon|deep dive|more deep|elaborative'],
+    [D, 'Saran perbaikan', 'Pembagian peran dan instruksi tim perlu lebih jelas', '3', 'Why we need to be reassigned to another table? | to assign each person to a different role first (same as the game) | The clarity on the use cases, the task and how arrangement of team.', 'reassigned|assign each person|arrangement of team|another table'],
+    [D, 'Saran perbaikan', 'Tambah sesi tanya jawab', '1', 'More q&a', 'q&a'],
+    [D, 'Saran perbaikan', 'Ada bagian yang kadang tidak berjalan lancar', '1', 'this iis minorbutic sometimes not working well matbe for tfuyheture can make sure it works well', 'not working well'],
+    [D, 'Suara Mayoritas', 'Aktivitas hands-on paling banyak disuarakan (7 dari 19 responden)', '', 'the activity create some canvas project is helpful', ''],
+  ];
+  return { feedback, info, insight };
+})();
+const Snapshot = { 1: SnapshotBatch1 };  // per batch id
+</script>
+
+<script>
+/* ======================================================================
+   App: data loading, state and rendering.
+   ====================================================================== */
+(() => {
+  const { CONFIG, ITEMS, GROUPS, ASPEK_ORDER, TEXTS, PANELS } = Core;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } },
+    del(k) { try { localStorage.removeItem(k); } catch { /* storage unavailable */ } },
+  };
+  // Per-batch storage keys, so a sheet linked for Batch 2 never replaces Batch 1.
+  const keySheet = id => `gotopm.b${id}.sheetId`;
+  const keyUpload = id => `gotopm.b${id}.upload`;
+
+  const BATCHES = CONFIG.batches;
+  const batchById = id => BATCHES.find(b => b.id === String(id));
+  // cache[id] = { data, source, sheetId }; data is null while a batch has no answers yet.
+  const cache = {};
+  const state = { batch: null, data: null, source: 'none', sheetId: null, search: '', theme: null };
+  const B = () => batchById(state.batch);
+  const hasAnswers = entry => !!entry?.data?.responses.length;
+
+  /* ---------------- Loading ---------------- */
+  async function fetchTab(id, name) {
+    const url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(name)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    if (/^\s*</.test(text)) throw new Error('Sheet belum dibagikan publik');
+    return Core.parseCSV(text);
+  }
+
+  /** Tries each configured feedback tab name and returns the first one with the right layout. */
+  async function findFeedbackTab(id) {
+    for (const name of CONFIG.feedbackTabs) {
+      const table = await fetchTab(id, name).catch(() => null);
+      if (Core.isFeedbackTable(table)) return table;
+    }
+    throw new Error(`Tab feedback tidak ditemukan. Pakai nama tab: ${CONFIG.feedbackTabs.join(' atau ')}`);
+  }
+
+  async function loadFromSheet(id) {
+    const [fb, info, ins] = await Promise.all([
+      findFeedbackTab(id),
+      fetchTab(id, CONFIG.tabs.info).catch(() => null),
+      fetchTab(id, CONFIG.tabs.insight).catch(() => null),
+    ]);
+    return buildData({ feedback: fb, info, insight: ins });
+  }
+
+  // gviz silently returns the first tab when a tab name is missing; header checks in Core filter that out.
+  function buildData(raw) {
+    const { insight, quotes } = Core.normalizeInsight(raw.insight);
+    return { responses: Core.normalizeFeedback(raw.feedback), info: Core.normalizeInfo(raw.info), insight, quotes };
+  }
+
+  /** Upload (this browser) > sheet (URL param, saved, or configured) > embedded snapshot > nothing yet. */
+  async function loadBatch(b, urlSheet) {
+    const entry = { data: null, source: 'none', sheetId: urlSheet || store.get(keySheet(b.id)) || b.sheetId };
+    const upload = store.get(keyUpload(b.id));
+    if (!urlSheet && upload) {
+      try { entry.data = buildData(JSON.parse(upload)); entry.source = 'upload'; } catch { store.del(keyUpload(b.id)); }
+    }
+    if (!entry.data && entry.sheetId) {
+      try {
+        const d = await loadFromSheet(entry.sheetId);
+        if (d.responses.length) { entry.data = d; entry.source = 'sheet'; }
+      } catch (e) { console.warn(`Gagal memuat sheet ${b.label}:`, e.message); }
+    }
+    if (!entry.data && Snapshot[b.id]) { entry.data = buildData(Snapshot[b.id]); entry.source = 'snapshot'; }
+    return entry;
+  }
+
+  function useBatch(id) {
+    const entry = cache[id];
+    Object.assign(state, { batch: id, data: entry.data, source: entry.source, sheetId: entry.sheetId, search: '', theme: null });
+    $('searchInput').value = '';
+  }
+
+  async function init() {
+    renderLogos();
+    const params = new URLSearchParams(location.search);
+    const urlBatch = batchById(params.get('batch'))?.id;
+    const urlSheet = Core.parseSheetId(params.get('sheet'));
+    const entries = await Promise.all(BATCHES.map(b => loadBatch(b, b.id === urlBatch ? urlSheet : null)));
+    BATCHES.forEach((b, i) => { cache[b.id] = entries[i]; });
+    // Default: the batch named in the URL, else the latest batch that already has answers.
+    const latest = [...BATCHES].reverse().find(b => hasAnswers(cache[b.id])) || BATCHES[0];
+    useBatch(urlBatch || latest.id);
+    render();
+  }
+
+  function setBatch(id) {
+    useBatch(id);
+    render();
+    const params = new URLSearchParams(location.search);
+    params.set('batch', id); params.delete('sheet');
+    try { history.replaceState(null, '', `${location.pathname}?${params}`); } catch { /* file or data URL preview */ }
+  }
+
+  const totalPeserta = () => state.data?.info.total || B().total || 0;
+  const sessionDate = () => state.data?.info.date || state.data?.responses.find(r => r.date)?.date || B().date;
+  const quoteThreshold = () => Math.max(1, Math.ceil(totalPeserta() * CONFIG.quoteShare));
+
+  /* ---------------- Rendering ---------------- */
+  function renderLogos() {
+    const { goto, rakamin } = ASSETS;
+    $('logoBox').innerHTML = `<img class="gt" src="${goto}" alt="GoTo">`
+      + '<span class="sep" aria-hidden="true"></span>'
+      + `<img class="rk" src="${rakamin}" alt="Rakamin">`;
+  }
+
+  function renderBatchPicker() {
+    $('batchSelect').innerHTML = BATCHES.map(b => `<option value="${b.id}" ${b.id === state.batch ? 'selected' : ''}>${esc(b.label)} · ${esc(b.short)}${hasAnswers(cache[b.id]) ? '' : ' (belum dimulai)'}</option>`).join('');
+  }
+
+  function render() {
+    const b = B();
+    const upcoming = !state.data?.responses.length;
+    const info = state.data?.info || {};
+    const date = sessionDate();
+    const topik = info.topik || b.sessionName;
+
+    renderBatchPicker();
+    $('heroPill').textContent = `Insight Feedback · ${CONFIG.program} ${b.label}`;
+    $('heroTitle').innerHTML = `Feedback Peserta <b>${esc(topik)}</b>`;
+    document.title = `Feedback · ${topik} · ${CONFIG.program} ${b.label}`;
+    $('report').hidden = upcoming;
+    $('upcoming').hidden = !upcoming;
+    $('snapshotBanner').hidden = upcoming || state.source !== 'snapshot';
+    renderSource();
+    if (upcoming) { $('heroSub').textContent = `${date} · Sesi belum dimulai`; renderUpcoming(b, info); return; }
+
+    const stats = Core.sessionStats(state.data.responses);
+    $('heroSub').textContent = `${date} · ${stats.n} peserta mengisi feedback`;
+    $('targetNote').textContent = 'Persentase = peserta yang memberi skor 4–5';
+
+    renderQuotes(stats);
+    renderSummary(stats);
+    renderInfo(info, date, topik, stats);
+    renderAspek(stats);
+    renderVoices();
+    renderCodes();
+    renderAnswers();
+    renderSource();
+  }
+
+  /* ---------------- Belum dimulai ---------------- */
+  function renderUpcoming(b, info) {
+    const person = (role, name) => `<div class="up-person"><span class="role">${role}</span><span class="name">${name ? esc(name) : '<span class="muted">Belum diisi</span>'}</span></div>`;
+    const agenda = (b.agenda || []).map(([time, title, desc], i) =>
+      `<li><span class="up-no num">${i + 1}</span><div><span class="up-time num">${esc(time)}</span><b>${esc(title)}</b><p>${esc(desc)}</p></div></li>`).join('');
+    $('upcomingBox').innerHTML = `
+      <div class="up-head">
+        <span class="pill">Belum dimulai</span>
+        <h3>${esc(b.label)} dijadwalkan ${esc(b.date)}</h3>
+        <p>Feedback peserta akan tampil di sini setelah sesi berjalan dan form mulai diisi. Bagian Suara Mayoritas, Ringkasan, dan Suara Peserta terisi otomatis dari Google Sheet ${esc(b.label)}.</p>
+      </div>
+      <div class="up-grid">
+        <div class="card card-pad"><p class="card-title">Identitas sesi &amp; talent</p>
+          <div class="up-facts">
+            ${person('Tanggal', b.date)}
+            ${person('Topik', info.topik || b.sessionName)}
+            ${person(CONFIG.roles.tutor, info.tutor)}
+            ${person(CONFIG.roles.astor, info.astor)}
+            ${person('Peserta', info.total || b.total ? `${info.total || b.total} peserta` : '')}
+          </div>
+        </div>
+        ${agenda ? `<div class="card card-pad"><p class="card-title">Agenda sesi</p><ol class="up-agenda">${agenda}</ol></div>` : ''}
+      </div>
+      ${hasAnswers(cache[BATCHES[0].id]) && b.id !== BATCHES[0].id ? `<button class="btn" type="button" id="seePrev">Lihat hasil ${esc(BATCHES[0].label)}</button>` : ''}`;
+    $('seePrev')?.addEventListener('click', () => { setBatch(BATCHES[0].id); $('batchSelect').focus(); });
+  }
+
+  /* ---------------- Suara Mayoritas ---------------- */
+  function renderQuotes(stats) {
+    const n = stats?.n || 0; const total = totalPeserta();
+    const quotes = state.data.quotes.slice(0, CONFIG.maxQuotes);
+    const qs = Core.quoteState(n, quotes, quoteThreshold());
+    const box = $('quotesBox');
+    const mascot = ASSETS.mascot ? `<img class="mascot" src="${ASSETS.mascot}" alt="" aria-hidden="true">` : '';
+    $('qNote').textContent = qs.mode === 'ready' ? `Tema yang paling banyak disuarakan dari ${n} jawaban` : '';
+
+    if (qs.mode === 'ready') {
+      // "Aktivitas hands-on ... (7 dari 19 responden)": the share in brackets becomes its own badge.
+      const splitTema = t => { const m = String(t).match(/^(.*?)\s*\(([^)]*\d[^)]*)\)\s*$/); return m ? [m[1], m[2]] : [t, '']; };
+      const bubble = (q, side) => {
+        const [tema, share] = splitTema(q.tema);
+        return `<figure class="q ${side}" style="margin:0">
+          <blockquote class="bubble" style="margin:0">${esc(q.text)}</blockquote>
+          <figcaption class="q-meta"><span class="ava" aria-hidden="true">P</span>Peserta${tema ? ` · <span class="tema">${esc(tema)}</span>` : ''}${share ? ` <span class="share num">${esc(share)}</span>` : ''}</figcaption>
+        </figure>`;
+      };
+      box.innerHTML = `${mascot}<div class="qwall">${Core.quoteLayout(quotes.length).map(row =>
+        `<div class="qrow ${row.length === 2 ? 'pair' : ''}">${row.map(c => bubble(quotes[c.idx], c.side)).join('')}</div>`).join('')}</div>`;
+      return;
+    }
+
+    const waiting = qs.mode === 'waiting';
+    box.innerHTML = `<div class="q-wait">
+      <div class="typing" aria-hidden="true"><i></i><i></i><i></i></div>
+      <h3>${waiting ? 'Sebentar ya, suara peserta sedang dikumpulkan' : 'Suara mayoritas sedang dirangkum'}</h3>
+      <div class="count num">${n} <small>dari ${total} peserta sudah mengisi</small></div>
+      <p>${waiting
+        ? `Suara Mayoritas muncul setelah minimal ${quoteThreshold()} peserta mengisi, supaya kutipannya mewakili kelas. Tinggal <b>${qs.need} jawaban lagi</b>.`
+        : 'Jawaban sudah cukup. Kutipan yang paling mewakili akan segera tampil di sini.'}</p>
+    </div>`;
+  }
+
+  /* ---------------- Ringkasan Sesi ---------------- */
+  function tile({ k, v, unit = '', d = '', below, cls = '' }) {
+    return `<div class="card tile ${cls} ${below ? 'below' : ''}"><span class="k">${k}</span><span class="v num">${v}${unit ? ` <small>${unit}</small>` : ''}</span><span class="d num">${d || '&nbsp;'}</span></div>`;
+  }
+
+  function renderSummary(s) {
+    const total = totalPeserta(); const n = s?.n || 0;
+    const pctPart = Math.round((n / total) * 100);
+    const part = `<div class="card tile part"><span class="k">Peserta yang sudah mengisi</span>
+      <span class="v num">${n} <small>dari ${total} peserta</small></span>
+      <div class="bar"><i style="width:${Math.min(100, pctPart)}%"></i></div>
+      <span class="d num">${pctPart}% partisipasi</span></div>`;
+    const scoreTile = g => {
+      const v = s?.groups[g.key] ?? null;
+      return tile({ k: g.tile, v: Core.fmt(v), unit: '/ 5', d: s ? `${Core.pct(s.groupShare[g.key])} skor 4–5` : '', below: Core.isFlagged(v) });
+    };
+    const nps = s?.nps;
+    const npsTile = nps ? tile({ k: 'NPS', v: `${nps.score}%`, below: nps.score < CONFIG.npsFloor, d: `${nps.pro} promotor · ${nps.pas} pasif · ${nps.det} detraktor` }) : '';
+    $('summary').innerHTML = part + GROUPS.map(scoreTile).join('') + npsTile;
+    $('summary').style.gridTemplateColumns = nps ? '' : 'minmax(220px, 1.3fr) repeat(4, minmax(0, 1fr))';
+  }
+
+  /* ---------------- Insight Sesi ---------------- */
+  const ICONS = {
+    date: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>',
+    topic: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"></path><path d="M4 19.5V21h16"></path></svg>',
+    person: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>',
+    people: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2 20a7 7 0 0 1 14 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7M22 20a7 7 0 0 0-4-6.3"></path></svg>',
+  };
+  const initials = name => String(name).split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
+  /** Talent cards are always shown; a missing name stays visible as "Belum diisi". */
+  function renderInfo(info, date, topik, stats) {
+    const person = (role, cls, name) => `<div class="person"><div class="avatar ${name ? cls : 'empty'}" aria-hidden="true">${name ? esc(initials(name)) : '–'}</div><div style="min-width:0"><div class="role ${cls}">${role}</div><div class="name">${name ? esc(name) : '<span class="muted">Belum diisi</span>'}</div></div></div>`;
+    const fact = (icon, label, value) => `<div class="fact"><span class="ico">${ICONS[icon]}</span><div style="min-width:0"><dt>${label}</dt><dd>${value}</dd></div></div>`;
+    $('sessionInfo').innerHTML = `<div class="people">${person(CONFIG.roles.tutor, 'tutor', info.tutor)}${person(CONFIG.roles.astor, 'astor', info.astor)}</div>`
+      + '<dl class="facts">'
+      + fact('date', 'Tanggal', esc(date))
+      + fact('topic', 'Topik', esc(topik))
+      + fact('people', 'Responden', `${stats?.n || 0} <span class="muted">dari ${totalPeserta()} peserta</span>`)
+      + '</dl>';
+  }
+
+  function renderAspek(s) {
+    if (!s) { $('aspek').innerHTML = '<div class="empty">Belum ada jawaban.</div>'; return; }
+    const vals = s.items.filter(v => v != null);
+    const max = Math.max(...vals), min = Math.min(...vals);
+    const maxCount = vals.filter(v => v === max).length, minCount = vals.filter(v => v === min).length;
+    $('aspek').innerHTML = ASPEK_ORDER.map(key => GROUPS.find(g => g.key === key)).map(g => {
+      const rows = ITEMS.map((it, i) => ({ it, i })).filter(x => x.it.group === g.key).map(({ it, i }) => {
+        const v = s.items[i]; const share = s.itemShare[i];
+        // Highest / lowest are tagged inline only when they are unique, so ties never get a misleading label.
+        const tag = v === max && maxCount === 1 ? '<span class="tag top">Tertinggi</span>' : v === min && minCount === 1 ? '<span class="tag low">Terendah</span>' : '';
+        return `<div class="aspek-row ${Core.isFlagged(v) ? 'below' : ''}"><span class="code">${it.code}</span><span class="stmt">${esc(it.label)}${tag}</span><span class="score num">${Core.fmt(v)} <small>/ 5</small></span>
+          <div class="meter"><div class="bar"><i style="width:${Math.round((share || 0) * 100)}%"></i></div><span class="share num">${Core.pct(share)} skor 4–5</span></div></div>`;
+      }).join('');
+      return rows ? `<div class="aspek-group"><h4>${g.label}</h4>${rows}</div>` : '';
+    }).join('');
+  }
+
+  /* ---------------- Suara Peserta (themes filter the answer table) ---------------- */
+  function renderVoices() {
+    const rows = state.data.insight;
+    $('voices').innerHTML = PANELS.map(p => {
+      const items = rows.map((it, i) => ({ it, i })).filter(({ it }) => it.panel.toLowerCase() === p.key).sort((a, b) => b.it.jumlah - a.it.jumlah);
+      const body = items.length ? items.map(({ it, i }) =>
+        `<button class="theme-chip" type="button" data-theme="${i}" aria-pressed="${state.theme === i}" aria-controls="answers"><span>${esc(it.tema)}</span><span style="display:flex;gap:8px;align-items:center"><span class="cnt num">${it.jumlah}</span><span class="go" aria-hidden="true">↓</span></span></button>`).join('')
+        : '<div class="empty">Insight dirangkum setelah sesi selesai.</div>';
+      return `<div class="card card-pad voice"><h3><span class="dot" style="background:${p.color}"></span>${p.label}<small>${p.hint}</small></h3>${body}</div>`;
+    }).join('');
+    $('voices').querySelectorAll('.theme-chip').forEach(b => b.addEventListener('click', () => {
+      const i = Number(b.dataset.theme);
+      setTheme(state.theme === i ? null : i, true);
+    }));
+  }
+
+  function setTheme(i, scroll) {
+    state.theme = i;
+    $('voices').querySelectorAll('.theme-chip').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.theme) === i)));
+    renderAnswers(true);
+    if (scroll && i != null) $('answersSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ---------------- Jawaban Peserta ---------------- */
+  const hasNps = () => state.data.responses.some(r => r.nps != null);
+  function renderCodes() {
+    $('codes').innerHTML = ITEMS.map(it => `<div><span class="code">${it.code}</span><span>${esc(it.label)}</span></div>`).join('')
+      + (hasNps() ? '<div><span class="code">NPS</span><span>Kemungkinan merekomendasikan program (0 sampai 10)</span></div>' : '');
+  }
+
+  const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  /** Highlights search text and theme terms; matching is case- and punctuation-tolerant per word run. */
+  function highlight(text, terms) {
+    const safe = esc(text);
+    const words = terms.filter(Boolean).map(t => esc(t)).sort((a, b) => b.length - a.length);
+    if (!words.length || !safe) return safe;
+    const re = new RegExp(`(${words.map(w => reEsc(w).replace(/\s+/g, '[^\\p{L}\\p{N}]+')).join('|')})`, 'giu');
+    return safe.replace(re, '<mark>$1</mark>');
+  }
+
+  function renderAnswers(flash = false) {
+    const q = state.search.trim().toLowerCase();
+    const theme = state.theme != null ? state.data.insight[state.theme] : null;
+    const all = state.data.responses;
+    let rows = all;
+    if (theme) rows = rows.filter(r => Core.matchesTheme(r, theme));
+    if (q) rows = rows.filter(r => TEXTS.some(t => r.texts[t.key].toLowerCase().includes(q)));
+
+    const pill = $('themeFilter');
+    pill.hidden = !theme;
+    if (theme) pill.querySelector('span').textContent = `Tema: ${theme.tema}`;
+    $('searchCount').textContent = (q || theme) ? `${rows.length} dari ${all.length} jawaban` : `${all.length} jawaban`;
+
+    const nps = hasNps();
+    const terms = [q, ...(theme ? Core.themeTerms(theme) : [])];
+    const head = `<thead><tr><th class="s">#</th>${ITEMS.map(it => `<th class="s" title="${esc(it.label)}">${it.code}</th>`).join('')}${nps ? '<th class="s" title="Net Promoter Score">NPS</th>' : ''}${TEXTS.map(t => `<th>${t.label}</th>`).join('')}</tr></thead>`;
+    const empty = theme ? 'Belum ada komentar yang cocok dengan tema ini. Tambahkan Kata Kunci di tab Insight by Claude.' : q ? 'Tidak ada komentar yang cocok dengan kata kunci ini.' : 'Belum ada jawaban.';
+    const body = rows.length ? rows.map(r => `<tr><td class="s muted num">${all.indexOf(r) + 1}</td>${r.scores.map(s => `<td class="s num ${s != null && s <= 3 ? 'low' : ''}">${s ?? '–'}</td>`).join('')}${nps ? `<td class="s num ${r.nps != null && r.nps <= 6 ? 'low' : ''}">${r.nps ?? '–'}</td>` : ''}${TEXTS.map(t => `<td class="txt">${highlight(r.texts[t.key], terms) || '<span class="muted">–</span>'}</td>`).join('')}</tr>`).join('')
+      : `<tr><td colspan="${ITEMS.length + TEXTS.length + (nps ? 2 : 1)}" class="empty" style="text-align:center;padding:20px">${empty}</td></tr>`;
+    $('answers').innerHTML = head + `<tbody class="${flash ? 'flash' : ''}">${body}</tbody>`;
+  }
+
+  function renderSource() {
+    const pill = $('sourcePill');
+    const label = { sheet: 'Google Sheet', upload: 'File upload (browser ini)', snapshot: 'Data tersimpan', none: 'Belum ada data' }[state.source];
+    pill.className = `source-pill ${state.source === 'sheet' ? 'live' : state.source === 'snapshot' ? 'snapshot' : ''}`;
+    pill.querySelector('span').textContent = label;
+  }
+
+  /* ---------------- Kelola data ---------------- */
+  const status = (id, msg, ok) => { const el = $(id); el.textContent = msg; el.className = `status ${ok ? 'ok' : 'err'}`; };
+  const sheetUrl = id => `https://docs.google.com/spreadsheets/d/${id}/edit`;
+
+  /** Stores a freshly loaded data set for the current batch and re-renders. */
+  function commit(data, source, sheetId) {
+    cache[state.batch] = { data, source, sheetId };
+    useBatch(state.batch); render();
+  }
+
+  function openManage() {
+    $('mTitle').textContent = `Kelola data · ${B().label}`;
+    $('sheetInput').value = state.sheetId ? sheetUrl(state.sheetId) : '';
+    $('openSheetBtn').href = state.sheetId ? sheetUrl(state.sheetId) : '#';
+    ['sheetStatus', 'copyStatus', 'uploadStatus'].forEach(id => { $(id).textContent = ''; });
+    $('manage').showModal();
+  }
+
+  async function connect(idInput) {
+    const id = Core.parseSheetId(idInput);
+    if (!id) { status('sheetStatus', 'Link sheet tidak dikenali. Salin link dari address bar Google Sheets.', false); return; }
+    status('sheetStatus', 'Memuat data...', true);
+    try {
+      const d = await loadFromSheet(id);
+      if (!d.responses.length) throw new Error('Tab feedback kosong atau header berubah');
+      store.set(keySheet(state.batch), id); store.del(keyUpload(state.batch));
+      commit(d, 'sheet', id);
+      $('openSheetBtn').href = sheetUrl(id);
+      status('sheetStatus', `Terhubung. ${d.responses.length} jawaban dimuat.`, true);
+    } catch (e) {
+      status('sheetStatus', `Gagal memuat: ${e.message}. Pastikan sheet dibagikan "Anyone with the link: Viewer".`, false);
+    }
+  }
+
+  async function copyLink() {
+    if (!state.sheetId) { status('copyStatus', 'Hubungkan Google Sheet dulu.', false); return; }
+    const url = `${location.origin}${location.pathname}?batch=${state.batch}&sheet=${state.sheetId}`;
+    try { await navigator.clipboard.writeText(url); status('copyStatus', 'Link tersalin.', true); }
+    catch { status('copyStatus', url, true); }
+  }
+
+  function loadScript(src) {
+    return new Promise((ok, fail) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = fail; document.head.appendChild(s); });
+  }
+
+  async function handleFile(file) {
+    if (!file) return;
+    try {
+      let raw;
+      if (/\.csv$/i.test(file.name)) {
+        raw = { feedback: Core.parseCSV(await file.text()) };
+      } else {
+        if (!window.XLSX) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js');
+        const wb = XLSX.read(await file.arrayBuffer(), { type: 'array' });
+        const tab = name => (wb.Sheets[name] ? XLSX.utils.sheet_to_json(wb.Sheets[name], { header: 1, defval: '', raw: false }) : null);
+        raw = { feedback: [...CONFIG.feedbackTabs, wb.SheetNames[0]].map(tab).find(Core.isFeedbackTable) || null, info: tab(CONFIG.tabs.info), insight: tab(CONFIG.tabs.insight) };
+      }
+      const d = buildData(raw);
+      if (!d.responses.length) throw new Error('Tidak ada jawaban yang terbaca. Cek header kolom.');
+      store.set(keyUpload(state.batch), JSON.stringify(raw));
+      commit(d, 'upload', state.sheetId);
+      status('uploadStatus', `${file.name}: ${d.responses.length} jawaban dimuat.`, true);
+    } catch (e) { status('uploadStatus', `Gagal membaca file: ${e.message}`, false); }
+  }
+
+  async function reset() {
+    store.del(keySheet(state.batch)); store.del(keyUpload(state.batch));
+    $('manage').close();
+    cache[state.batch] = await loadBatch(B(), null);
+    useBatch(state.batch); render();
+  }
+
+  /* ---------------- Wiring ---------------- */
+  $('batchSelect').addEventListener('change', e => setBatch(e.target.value));
+  $('searchInput').addEventListener('input', e => { state.search = e.target.value; renderAnswers(); });
+  $('themeFilter').querySelector('button').addEventListener('click', () => setTheme(null, false));
+  $('openManage').addEventListener('click', openManage);
+  $('closeManage').addEventListener('click', () => $('manage').close());
+  $('connectBtn').addEventListener('click', () => connect($('sheetInput').value));
+  $('reloadBtn').addEventListener('click', () => connect(state.sheetId));
+  $('copyLinkBtn').addEventListener('click', copyLink);
+  $('pickFileBtn').addEventListener('click', () => $('fileInput').click());
+  $('fileInput').addEventListener('change', e => handleFile(e.target.files[0]));
+  $('resetBtn').addEventListener('click', reset);
+  const dz = $('dropZone');
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over'); handleFile(e.dataTransfer.files[0]); });
+
+  init();
+})();
+</script>
+</body>
+</html>

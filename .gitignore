@@ -1,0 +1,13 @@
+# Generated output: rebuilt on deploy (render.yaml) or with `npm run build`
+dist/
+programs/*/data/sheet-data.json
+
+# Local tool state
+.netlify/
+node_modules/
+.claude/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
