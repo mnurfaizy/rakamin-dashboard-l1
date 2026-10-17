@@ -38,7 +38,7 @@ Pilih bentuk sesuai layout utama, bukan satu bentuk wajib. Jangan mencampur lebi
 | Di atas foto atau gradien | G Glass Callout | ≤130 karakter |
 | Header section atau slide pembuka | H Sticker Stack | ≤6 kata, 3 baris |
 
-Pengalaman program ini: GoTo memakai bubble Spotlight pada gradien lembut dengan maskot; BSI memakai Glass Callout di atas gradien teal karena brand-nya bergradien dan klien menyukai kesan premium. Bila kutipan lebih panjang dari batas, pilih kutipan lain yang lebih ringkas, jangan memotong tengah kalimat.
+**Variasikan bentuk antar dashboard**: sebelum memilih, cek bentuk yang sudah dipakai program lain (BSI = G Glass, IKDD = A/B/C bubble, GoTo PM = C Spotlight, Magang Gojek = F Notch Tab) dan pilih yang berbeda bila layout memungkinkan, dengan tetap mematuhi batas karakter. Pengalaman program ini: GoTo memakai bubble Spotlight pada gradien lembut dengan maskot; BSI memakai Glass Callout di atas gradien teal karena brand-nya bergradien dan klien menyukai kesan premium. Bila kutipan lebih panjang dari batas, pilih kutipan lain yang lebih ringkas, jangan memotong tengah kalimat.
 
 ## Memeriksa tampilan
 
