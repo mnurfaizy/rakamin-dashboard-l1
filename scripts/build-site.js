@@ -18,8 +18,6 @@ const PROGRAMS = [
   { dir: 'goto-driver-kids', slug: 'gojek-magang-driver-kids', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   // L1 Insight Hub: the site root (empty slug). It links every program above and lists all clients, so share it only inside the team.
   { dir: 'insight-hub', slug: '', steps: ['node build.js'] },
-  // Layout test page for clients with more than 3 programs (sample programs, not real feedback).
-  { dir: 'insight-hub', slug: 'uji-tiket', steps: ['node build.js --lab'], file: 'lab.html' },
 ];
 
 const site = path.join(root, 'site');
