@@ -33,5 +33,15 @@ for (const p of PROGRAMS) {
   console.log(`/${p.slug ? `${p.slug}/` : ''}  <-  programs/${p.dir}`);
 }
 
+// Render keeps serving files from earlier deploys when a path disappears from site/, so retired
+// paths get a small page that sends visitors to the hub instead of the stale content.
+const RETIRED = ['insight-hub', 'uji-tiket'];
+for (const slug of RETIRED) {
+  fs.mkdirSync(path.join(site, slug), { recursive: true });
+  fs.writeFileSync(path.join(site, slug, 'index.html'),
+    '<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">'
+    + '<meta http-equiv="refresh" content="0;url=/"><title>Rakamin</title><a href="/">Dashboard Feedback L1</a>\n');
+}
+
 fs.writeFileSync(path.join(site, 'robots.txt'), 'User-agent: *\nDisallow: /\n');
 console.log(`site/ ready (${PROGRAMS.length} programs)`);
