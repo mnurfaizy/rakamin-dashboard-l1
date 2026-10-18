@@ -259,3 +259,8 @@ Standar penamaan yang sama dengan IKDD, berlaku di semua dashboard:
 - Hub di akar situs: lambang Rakamin saja (`assets/favicons/hub.png`). Setiap program: lambang Rakamin yang ditumpuk badge putih berisi logo klien: `goto.png` (GoTo PM dan Driver's Kids), `bsi.png` (tiga program BSI), `dd.png` (kedua batch IKDD, lambang Institut Kemandirian).
 - PNG 128 px dibuat dari lambang Rakamin (bagian "</" pada `programs/insight-hub/brand/logo-rakamin.svg`) dan logo klien di `programs/*/brand/`. Ikon dipasang oleh `scripts/build-site.js` (kolom `favicon` di `PROGRAMS`) sebagai data URI di `<head>`; build per program (`npm run build:<nama>`) tidak memuatnya.
 - Klien baru: buat `assets/favicons/<nama>.png` (lambang Rakamin + badge logo klien) lalu isi `favicon: '<nama>'`.
+
+## Tombol "Dashboard utama" (19 Okt 2026)
+
+- Di setiap dashboard program ada tombol melayang kiri bawah "‹ Dashboard utama" yang menuju hub (`/`). **Hanya untuk tim internal** (keputusan user): tombol muncul bila dashboard dibuka dari kartu hub. Link kartu hub membawa `?dari=hub`; penandanya diingat di `sessionStorage` selama tab terbuka, jadi tetap tampil saat berpindah hari atau batch. Link langsung ke program (yang dibagikan ke klien) tidak menampilkan tombol dan tidak mengungkap adanya hub.
+- Dipasang oleh `scripts/build-site.js` (`BACK_TO_HUB`) ke semua halaman program, bukan ke hub, sehingga template program tidak diubah. Build per program tidak memuatnya. Konsekuensi: bila link program dengan `?dari=hub` ikut terkirim ke klien, tombol akan tampil di tab mereka dan hub terlihat. Bagikan link program tanpa parameter itu.

@@ -449,6 +449,8 @@ const DATA = __DATA__;
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const fmt = (n, d = 2) => n.toFixed(d).replace('.', ',');
   const int = n => n.toLocaleString('id-ID');
+  // Link ke dashboard program membawa ?dari=hub: hanya dengan penanda ini tombol "Dashboard utama" muncul di sana (khusus tim internal).
+  const go = p => p.path === '#' ? '#' : `${p.path}${p.path.includes('?') ? '&' : '?'}dari=hub`;
   const icon = (id, cls = 'i') => `<svg class="${cls}"><use href="#i-${id}"/></svg>`;
   const FLAG_FLOOR = 4.0;
 
@@ -478,7 +480,7 @@ const DATA = __DATA__;
       <div class="ph-tilt"><img src="${h.tilt.img}" alt="${esc(h.tilt.alt)}"></div>
       <div class="ph-pill"><img src="${h.pill.img}" alt="${esc(h.pill.alt)}"></div>
       <div class="sticker" aria-label="Rata-rata kepuasan ${fmt(all.score)} dari 5"><b>${fmt(all.score)}</b><span>rata-rata<br>kepuasan</span></div>
-      <a class="qcard" href="${qp.path}">
+      <a class="qcard" href="${go(qp)}">
         <div class="head"><span class="qchip" style="background:${qp.color};color:${qp.ink}"><svg class="i"><use href="#i-quote"/></svg></span><span class="tiny" style="color:var(--muted-aa)">Suara mayoritas</span></div>
         <p>“${esc(qp.quote.text)}”</p>
         <small>Peserta · ${esc(qp.title)}</small>
@@ -520,7 +522,7 @@ const DATA = __DATA__;
   /* ---------- Program cards ---------- */
   function programCard(p) {
     if (p.status === 'segera') {
-      return `<a class="card soon" href="${p.path}" title="${esc(p.fullName)}">
+      return `<a class="card soon" href="${go(p)}" title="${esc(p.fullName)}">
         <div class="soon-top"><span class="soon-ic">${icon('cal')}</span><span class="soon-tag">${statusLabel.segera}</span></div>
         <div class="clabel">${esc(p.label)}</div>
         <div class="ctitle">${esc(p.title)}</div>
@@ -536,7 +538,7 @@ const DATA = __DATA__;
     const progress = run && p.totalDays
       ? `<div class="prog"><span>Day ${p.daysDone} dari ${p.totalDays}</span><span class="bar"><i style="width:${Math.round(p.daysDone / p.totalDays * 100)}%"></i></span></div>` : '';
     const warn = p.score < FLAG_FLOOR ? ' warn' : '';
-    return `<a class="card" href="${p.path}" style="--c:${p.color};--k:${p.ink}" title="${esc(p.fullName)}" aria-label="${esc(p.fullName)}: kepuasan ${fmt(p.score)} dari 5, ${p.responses} jawaban feedback">
+    return `<a class="card" href="${go(p)}" style="--c:${p.color};--k:${p.ink}" title="${esc(p.fullName)}" aria-label="${esc(p.fullName)}: kepuasan ${fmt(p.score)} dari 5, ${p.responses} jawaban feedback">
       <div class="photo${p.img ? '' : ' empty'}">${photo}
         <div class="ptop"><span class="status${run ? ' run' : ''}"><i></i>${statusLabel[p.status]}</span><span class="date">${esc(p.date)}</span></div>
       </div>
@@ -641,7 +643,7 @@ const DATA = __DATA__;
     const shown = state.allQuotes ? list : list.slice(0, 3);
     $('#quotes').innerHTML = shown.map(p => {
       const light = p.ink !== '#FFFFFF';
-      return `<a class="quote${light ? ' light' : ''}" href="${p.path}" style="--c:${p.color};--k:${p.ink}">
+      return `<a class="quote${light ? ' light' : ''}" href="${go(p)}" style="--c:${p.color};--k:${p.ink}">
         <span class="qchip">${icon('quote')}</span>
         <blockquote>“${esc(p.quote.text)}”</blockquote>
         <div class="qfoot"><span class="tag">${esc(p.quote.tag)}</span><span>${esc(p.title)}</span></div>
