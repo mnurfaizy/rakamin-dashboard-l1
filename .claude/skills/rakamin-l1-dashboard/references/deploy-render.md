@@ -24,7 +24,7 @@ render.yaml                   blueprint (satu static site untuk semua program)
 
 ## Hosting: satu Render Static Site
 
-Satu situs statis menyajikan semua program: `https://<nama>.onrender.com/<slug>/`. Halaman akar sengaja kosong dan `robots.txt` melarang indeks, supaya tiap klien hanya tahu link miliknya. **Bagikan link per sub-path.**
+Satu situs statis menyajikan semua program: `https://<nama>.onrender.com/<slug>/`. Halaman akar adalah L1 Insight Hub (semua klien terlihat), jadi alamat akar hanya untuk tim internal; `robots.txt` dan `noindex` mencegah indeks. **Ke klien bagikan link per sub-path.**
 
 Pengaturan (dibuat user di dashboard Render, tidak bisa dibuat dari sini):
 
