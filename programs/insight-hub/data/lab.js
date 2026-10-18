@@ -24,5 +24,5 @@ module.exports = DATA => {
       });
     });
   }
-  return { ...DATA, programs, lab: true, ticketLayout: 'a' };
+  return { ...DATA, programs, lab: true, ticketLayout: 'auto' };
 };

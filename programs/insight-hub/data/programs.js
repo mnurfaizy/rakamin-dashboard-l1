@@ -5,6 +5,8 @@
 // Program dengan `live` membaca ulang sheet dashboard-nya saat halaman dibuka (jawaban dan kepuasan bertambah harian).
 module.exports = {
   asOf: '18 Okt 2026',
+  // Klien dengan lebih dari 3 program: strip kupon geser (A) di layar lebar, 3 terbaru + tombol 'Tampilkan lainnya' (B) di HP.
+  ticketLayout: 'auto',
   clients: [
     { id: 'goto', name: 'GoTo', sub: 'GoTo Gojek Tokopedia', logo: 'logo-goto.png', color: '#00AA13', tint: '#E7F6E9' },
     { id: 'bsi', name: 'BSI', sub: 'Bank Syariah Indonesia', logo: 'logo-bsi.png', logoView: 'inset(27.8% 3.4% 28% 3.6%)', color: '#00949E', tint: '#E0F4F2' },

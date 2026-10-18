@@ -453,9 +453,10 @@ const DATA = __DATA__;
   const FLAG_FLOOR = 4.0;
 
   const clientById = Object.fromEntries(DATA.clients.map(c => [c.id, c]));
-  const LAYOUTS = { a: ['A · Strip kupon', 'A · Strip'], b: ['B · Tampilkan lainnya', 'B · Lainnya'], c: ['C · Tiket bertumpuk', 'C · Tumpuk'] };
-  const hashLayout = (location.hash.match(/tiket=([abc])/) || [])[1];
-  // Lebih dari 3 program per klien: 'grid' (turun ke baris baru), atau a / b / c di atas.
+  const LAYOUTS = { auto: ['Auto · A di web, B di HP', 'Auto'], a: ['A · Strip kupon', 'A · Strip'], b: ['B · Tampilkan lainnya', 'B · Lainnya'], c: ['C · Tiket bertumpuk', 'C · Tumpuk'] };
+  const hashLayout = (location.hash.match(/tiket=(auto|[abc])/) || [])[1];
+  // Lebih dari 3 program per klien: 'grid' (turun ke baris baru), a / b / c di atas, atau 'auto' = A di layar lebar, B di HP.
+  const phone = matchMedia('(max-width: 640px)');
   const state = { client: 'all', q: '', sort: 'new', allQuotes: false, layout: hashLayout || DATA.ticketLayout || 'grid', open: new Set() };
 
   const counted = () => DATA.programs.filter(p => p.status !== 'segera');
@@ -592,7 +593,7 @@ const DATA = __DATA__;
             <div><dt>Rata-rata kepuasan</dt><dd>${fmt(a.score)} / 5</dd></div>
           </dl>`;
       const many = shown.length > 3;
-      const L = many ? state.layout : 'grid';
+      const L = !many ? 'grid' : state.layout === 'auto' ? (phone.matches ? 'b' : 'a') : state.layout;
 
       if (L === 'a') {
         const nav = `<div class="stub-more"><span>${shown.length} program · geser untuk lainnya</span>
@@ -719,7 +720,13 @@ const DATA = __DATA__;
       track.scrollBy({ left: Number(nav.dataset.strip) * (card.getBoundingClientRect().width + 16), behavior: 'smooth' });
     }
   });
-  window.addEventListener('resize', () => syncStrips());
+  // Mode auto: render ulang hanya saat melewati batas HP (resize juga dicek, karena tidak semua browser mengirim event media query).
+  let wasPhone = phone.matches;
+  const onViewport = () => {
+    if (state.layout === 'auto' && phone.matches !== wasPhone) { wasPhone = phone.matches; renderTickets(); } else syncStrips();
+  };
+  window.addEventListener('resize', onViewport);
+  phone.addEventListener('change', onViewport);
   if (DATA.lab) {
     const bar = document.createElement('div');
     bar.className = 'labbar';
