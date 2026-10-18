@@ -6,9 +6,9 @@
 module.exports = {
   asOf: '18 Okt 2026',
   clients: [
-    { id: 'goto', name: 'GoTo', sub: 'GoTo Gojek Tokopedia', initials: 'GT', color: '#00AA13', tint: '#E7F6E9' },
-    { id: 'bsi', name: 'BSI', sub: 'Bank Syariah Indonesia', initials: 'BSI', color: '#00949E', tint: '#E0F4F2' },
-    { id: 'dd', name: 'Dompet Dhuafa', sub: 'Institut Kemandirian Dompet Dhuafa', initials: 'DD', color: '#0F447A', tint: '#E6EEF7' },
+    { id: 'goto', name: 'GoTo', sub: 'GoTo Gojek Tokopedia', logo: 'logo-goto.png', color: '#00AA13', tint: '#E7F6E9' },
+    { id: 'bsi', name: 'BSI', sub: 'Bank Syariah Indonesia', logo: 'logo-bsi.png', logoView: 'inset(27.8% 3.4% 28% 3.6%)', color: '#00949E', tint: '#E0F4F2' },
+    { id: 'dd', name: 'Dompet Dhuafa', sub: 'Institut Kemandirian Dompet Dhuafa', logo: 'logo-ik.png', color: '#0F447A', tint: '#E6EEF7' },
   ],
   programs: [
     {

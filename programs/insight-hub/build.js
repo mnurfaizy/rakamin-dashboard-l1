@@ -14,8 +14,11 @@ for (const p of DATA.programs) {
   if (p.status !== 'segera' && !(p.responses > 0 && p.score >= 1 && p.score <= 5)) throw new Error(`${p.id}: responses/score missing`);
 }
 
+const png = name => `data:image/png;base64,${fs.readFileSync(path.join(here, 'brand', name)).toString('base64')}`;
+
 const data = {
   ...DATA,
+  clients: DATA.clients.map(({ logo, ...c }) => ({ ...c, logoImg: png(logo) })),
   programs: DATA.programs.map(({ photo: name, ...p }) => ({ ...p, img: name ? photo(name) : null })),
   hero: Object.fromEntries(Object.entries(DATA.hero).map(([k, v]) => [k, v && v.photo ? { alt: v.alt, img: photo(v.photo) } : v])),
 };
