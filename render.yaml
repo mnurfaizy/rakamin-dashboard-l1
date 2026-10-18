@@ -1,5 +1,5 @@
 # Render Blueprint: ONE static site for every program, one sub-path per program.
-#   /goto-pm/   /bsi-bpi-sdp-batch-2-3/   /bsi-bpi-sdp-angkatan-10/
+#   /  (L1 Insight Hub)   /goto-pm/   /bsi-bpi-sdp-batch-2-3/   /bsi-bpi-sdp-angkatan-10/   ...
 # scripts/build-site.js builds all programs and assembles ./site. No server, no env vars.
 # (Blueprints ask for a card on Render. Without a card, create the Static Site by hand with the same three values.)
 services:

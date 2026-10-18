@@ -223,8 +223,8 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 
 ## L1 Insight Hub (18 Okt 2026)
 
-- Halaman internal yang menyatukan semua dashboard program dalam satu pintu: `programs/insight-hub/`, alamat `/insight-hub/`. Desain dari design system user (`Design System of Integrated Dashboard in HTML/`): Fraunces + Rubik, sage dengan aksen oranye/pink/lavender, mode White dan Sage (tombol di kanan atas), kartu klien berbentuk tiket (stub + perforasi + kartu program), kartu program berwarna per program dengan foto dokumentasi, section gelap "Suara terbaru, lintas program".
-- Akar situs (`/`) tetap kosong. Hub memuat semua klien, jadi hanya untuk tim Learning Quality.
+- Halaman internal yang menyatukan semua dashboard program dalam satu pintu: `programs/insight-hub/`, alamat akar situs (`/`). Desain dari design system user (`Design System of Integrated Dashboard in HTML/`): Fraunces + Rubik, sage dengan aksen oranye/pink/lavender, mode White dan Sage (tombol di kanan atas), kartu klien berbentuk tiket (stub + perforasi + kartu program), kartu program berwarna per program dengan foto dokumentasi, section gelap "Suara terbaru, lintas program".
+- Hub dipasang di akar situs atas permintaan user (sebelumnya akar sengaja kosong supaya tiap klien hanya tahu linknya sendiri). Konsekuensinya semua klien terlihat dari satu alamat, jadi alamat akar hanya untuk tim Learning Quality; ke klien tetap bagikan link per sub-path. `robots.txt` dan `noindex` tetap aktif.
 - Isi: 3 klien (GoTo, BSI, Dompet Dhuafa), 7 program + GoTo PM Batch 2 sebagai kartu "Segera hadir" (3 Nov 2026). Angka per kartu = jumlah jawaban dan skor Kepuasan keseluruhan dari Rangkuman/sesi dashboard masing-masing (per 18 Okt 2026). Agregat klien dan hero = rata-rata dibobot jumlah jawaban (4,51 dari 454 jawaban).
 - Nama lengkap program (dari user) dipakai sebagai `title`/`aria-label` kartu dan untuk pencarian; judul kartu memakai nama pendek.
 - IKDD SMS Batch 2 (`berjalan`) membaca sheet live saat halaman dibuka; snapshot: Day 1–3, 55 jawaban, kepuasan 4,22.
