@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Insight L1 · BSI BPI SDP Angkatan 10</title>
+<title>Insight L1 BSI BPI SDP Angkatan 10</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
@@ -312,8 +312,8 @@ dialog::backdrop { background: rgba(0, 60, 58, .45); }
   </header>
   <div class="wrap">
     <div class="hero-body">
-      <span class="pill">Insight Feedback L1 · BSI × Rakamin</span>
-      <h1 id="heroTitle"><b>Business Process Improvement</b> for SDP Angkatan 10</h1>
+      <span class="pill">Insight Feedback L1 · Business Process Improvement SDP Angkatan 10</span>
+      <h1 id="heroTitle"><b>Business Process Improvement</b> SDP Angkatan 10</h1>
       <p class="sub" id="heroSub">–</p>
       <span class="view-chip" id="viewChip"></span>
     </div>
@@ -708,9 +708,7 @@ if (typeof module !== 'undefined') module.exports = Core;
     renderSwitch();
     const people = CONFIG.samePeople && all ? infoFor(CONFIG.batches[0]).total : total;
     const where = all || CONFIG.unitIsSession ? CONFIG.format : `${UNIT.name} ${state.view} dari ${CONFIG.batches.length}`;
-    $('heroSub').textContent = CONFIG.unitIsSession
-      ? `${dateOf(state.view)} · ${where} · ${s ? `${s.n} dari ${total} peserta mengisi feedback` : 'Belum ada jawaban'}`
-      : `${dateOf(state.view)} · ${where} · ${people} peserta · ${s ? `${s.n} jawaban feedback` : 'Belum ada jawaban'}`;
+    $('heroSub').textContent = `${dateOf(state.view)} · ${where} · ${people} peserta · ${s ? `${s.n} jawaban feedback` : 'Belum ada jawaban'}`;
     $('viewChip').innerHTML = `${SPARK(14, 'var(--gold)')} ${all ? `Rangkuman ${joinList(unitNames())}` : `${UNIT.name} ${state.view} · ${esc(infoFor(state.view).tutor || 'Tutor belum diisi')}`}`;
     document.title = `${all ? 'Rangkuman' : `${UNIT.name} ${state.view}`} · Insight L1 ${CONFIG.docTitle}`;
     $('targetNote').textContent = `Rata-rata dari ${s?.n || 0} jawaban${all ? ` gabungan ${allWord} ${unitLow}` : ''}`;

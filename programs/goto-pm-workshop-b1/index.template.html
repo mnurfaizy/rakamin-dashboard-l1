@@ -300,7 +300,7 @@ dialog::backdrop { background: rgba(0, 60, 38, .45); }
 
 <main class="wrap">
   <div class="hero">
-    <span class="pill" id="heroPill">Insight Feedback</span>
+    <span class="pill" id="heroPill">Insight Feedback L1</span>
     <h1 id="heroTitle">Feedback Peserta</h1>
     <p class="sub" id="heroSub">–</p>
     <div class="banner" id="snapshotBanner" hidden><b>Data tersimpan.</b> Halaman ini menampilkan salinan data terakhir karena Google Sheet belum bisa dibaca. Hubungkan lewat tombol <b>Kelola data</b> di bawah untuk data terbaru.</div>
@@ -317,7 +317,7 @@ dialog::backdrop { background: rgba(0, 60, 38, .45); }
   </section>
 
   <section aria-labelledby="sTitle">
-    <div class="sec-head"><div class="sec-title"><span class="no">02</span><h2 id="sTitle">Ringkasan Sesi</h2></div><span class="note" id="targetNote"></span></div>
+    <div class="sec-head"><div class="sec-title"><span class="no">02</span><h2 id="sTitle">Ringkasan</h2></div><span class="note" id="targetNote"></span></div>
     <div class="summary" id="summary"></div>
   </section>
 
@@ -419,6 +419,7 @@ const Core = (() => {
     feedbackTabs: ['00. Daily Feedback Peserta', 'Feedback Peserta'],
     tabs: { info: 'Info Sesi', insight: 'Insight by Claude' },
     program: 'GoTo Project Management',
+    programShort: 'Project Management',   // dipakai di pill (klien sudah terlihat dari logo)
     roles: { tutor: 'Trainer', astor: 'Asisten Trainer' },  // label peran mengikuti istilah program
     // Satu sheet per batch. Batch tanpa sheet atau tanpa jawaban tampil sebagai "belum dimulai".
     // total: dipakai bila kolom "Jumlah Peserta" di Info Sesi kosong.
@@ -807,9 +808,9 @@ const Snapshot = { 1: SnapshotBatch1 };  // per batch id
     const topik = info.topik || b.sessionName;
 
     renderBatchPicker();
-    $('heroPill').textContent = `Insight Feedback · ${CONFIG.program} ${b.label}`;
+    $('heroPill').textContent = `Insight Feedback L1 · ${CONFIG.programShort} ${b.label}`;
     $('heroTitle').innerHTML = `Feedback Peserta <b>${esc(topik)}</b>`;
-    document.title = `Feedback · ${topik} · ${CONFIG.program} ${b.label}`;
+    document.title = `${b.label} · Insight L1 ${CONFIG.program}`;
     $('report').hidden = upcoming;
     $('upcoming').hidden = !upcoming;
     $('snapshotBanner').hidden = upcoming || state.source !== 'snapshot';
@@ -817,7 +818,7 @@ const Snapshot = { 1: SnapshotBatch1 };  // per batch id
     if (upcoming) { $('heroSub').textContent = `${date} · Sesi belum dimulai`; renderUpcoming(b, info); return; }
 
     const stats = Core.sessionStats(state.data.responses);
-    $('heroSub').textContent = `${date} · ${stats.n} peserta mengisi feedback`;
+    $('heroSub').textContent = `${date} · ${totalPeserta() ? `${totalPeserta()} peserta · ` : ''}${stats.n} jawaban feedback`;
     $('targetNote').textContent = 'Persentase = peserta yang memberi skor 4–5';
 
     renderQuotes(stats);
@@ -892,7 +893,7 @@ const Snapshot = { 1: SnapshotBatch1 };  // per batch id
     </div>`;
   }
 
-  /* ---------------- Ringkasan Sesi ---------------- */
+  /* ---------------- Ringkasan ---------------- */
   function tile({ k, v, unit = '', d = '', below, cls = '' }) {
     return `<div class="card tile ${cls} ${below ? 'below' : ''}"><span class="k">${k}</span><span class="v num">${v}${unit ? ` <small>${unit}</small>` : ''}</span><span class="d num">${d || '&nbsp;'}</span></div>`;
   }

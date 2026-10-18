@@ -241,3 +241,15 @@ Dua dashboard Dompet Dhuafa disamakan; **Batch 1 adalah standar** karena membawa
 - Tanpa keterangan warna: keterangan "Oranye bila di bawah ..." dan legend "Oranye = perlu perhatian" dihapus. Aturan peringatan disamakan: skor < 4,0 dan NPS < 60% (sebelumnya aturan dinamis rata-rata − 1 SD dan NPS < 30).
 - NPS dalam persen dengan rincian promotor, pasif, detraktor (sebelumnya "+100" dengan selisih Δ).
 - Kutipan Quotes of the Day: keterangan hanya tema (tanpa avatar "P Peserta"), ditambah catatan "Kutipan diambil apa adanya ...". Catatan "Dirangkum dari N jawaban" dihapus. Chip "N dari M responden" milik Batch 1 belum ada di Batch 2 karena tab Quotes of the Day tidak memuat jumlah.
+
+## Konsistensi BSI dan GoTo (19 Okt 2026)
+
+Standar penamaan yang sama dengan IKDD, berlaku di semua dashboard:
+
+- Pill: "Insight Feedback L1 · <nama program tanpa nama klien>" (klien sudah terlihat dari logo). BSI: "Business Process Improvement SDP Angkatan 10 / SDP Batch 2 & 3 / Mastery"; GoTo PM: "Project Management Batch N" (`CONFIG.programShort`).
+- Judul tab: "<tampilan> · Insight L1 <docTitle>"; judul statis tanpa titik tengah ("Insight L1 BSI ..."). GoTo PM memakai "Batch N · Insight L1 GoTo Project Management".
+- Judul hero BSI memakai nama resmi program (tanpa "for" dan tanpa "Intermediate"): "Business Process Improvement SDP Batch 2 & 3". "Batch 2 & 3" memakai spasi tak terputus supaya tidak yatim di baris kedua.
+- Sub judul hero: "<tanggal> · <format> · N peserta · M jawaban feedback". BSI Batch 2 & 3 dan GoTo PM sebelumnya "N dari M peserta mengisi feedback".
+- "Ringkasan" (bukan "Ringkasan Sesi") di GoTo PM. Sumber BSI Batch 2 & 3: "Feedback Peserta Batch 2 & 3" (sebelumnya "Post-Training Evaluation").
+- GoTo Driver's Kids: tampilan Netlify tetap, hanya "Insight Feedback Peserta" menjadi "Insight Feedback L1".
+- Belum diseragamkan (sengaja): catatan "Persentase = peserta yang memberi skor 4–5" di GoTo PM (definisi metrik), dan bentuk keterangan Suara Mayoritas di GoTo PM (satu kutipan dengan keterangan di atas kanan).
