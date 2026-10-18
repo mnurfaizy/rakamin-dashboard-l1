@@ -21,18 +21,6 @@ const PROGRAMS = [
   { dir: 'insight-hub', slug: '', favicon: 'hub', steps: ['node build.js'] },
 ];
 
-// Internal shortcut back to the hub. Shown only when the program was opened from the hub (?dari=hub, remembered for the tab
-// via sessionStorage), so clients who receive a direct program link never see it or learn that the hub exists.
-const BACK_TO_HUB = '<script>(function(){var on=false;try{on=new URLSearchParams(location.search).get("dari")==="hub";'
-  + 'if(on)sessionStorage.setItem("l1hub","1");else on=sessionStorage.getItem("l1hub")==="1"}catch(e){}'
-  + 'if(!on)return;var s=document.createElement("style");'
-  + 's.textContent=".hub-back{position:fixed;left:16px;bottom:16px;z-index:2147483000;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 12px;border-radius:999px;'
-  + 'background:#2F403B;color:#fff;font:500 13px/1 Rubik,system-ui,-apple-system,Segoe UI,sans-serif;text-decoration:none;box-shadow:0 4px 14px #2F403B33;outline:1px solid #FFFFFF8C;outline-offset:-1px;transition:transform .2s,box-shadow .2s}'
-  + '.hub-back:hover{transform:translateY(-2px);box-shadow:0 14px 36px #2F403B4D}.hub-back:focus-visible{outline:2px solid #fff;outline-offset:2px}'
-  + '.hub-back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}@media print{.hub-back{display:none}}";'
-  + 'document.head.appendChild(s);var a=document.createElement("a");a.className="hub-back";a.href="/";a.title="Kembali ke dashboard utama (internal)";'
-  + 'a.innerHTML=\'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Dashboard utama\';document.body.appendChild(a)})()</script>';
-
 const site = path.join(root, 'site');
 fs.rmSync(site, { recursive: true, force: true });
 fs.mkdirSync(site, { recursive: true });
@@ -48,10 +36,6 @@ for (const p of PROGRAMS) {
     const tag = `<link rel="icon" type="image/png" href="data:image/png;base64,${png}"><link rel="apple-touch-icon" href="data:image/png;base64,${png}">`;
     if (!html.includes('</head>')) throw new Error(`${p.slug}: no </head> to add the favicon to`);
     html = html.replace('</head>', () => tag + '</head>');
-  }
-  if (p.slug) {
-    if (!html.includes('</body>')) throw new Error(`${p.slug}: no </body> to add the hub button to`);
-    html = html.replace(/<\/body>(?![\s\S]*<\/body>)/, () => BACK_TO_HUB + '</body>');
   }
   fs.writeFileSync(path.join(out, 'index.html'), html);
   console.log(`/${p.slug ? `${p.slug}/` : ''}  <-  programs/${p.dir}`);
