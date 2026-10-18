@@ -14,7 +14,7 @@ module.exports = {
   ],
   programs: [
     {
-      id: 'goto-pm', client: 'goto', status: 'selesai', path: '/goto-pm/', photo: 'goto-pm',
+      id: 'goto-pm', client: 'goto', status: 'selesai', path: '/goto-pm/?batch=1', photo: 'goto-pm',
       fullName: 'GoTo - Project Management Capability Program (Batch 1 - Basic)',
       label: 'GoTo · Capability Program', title: 'Project Management Batch 1', meta: 'Basic · 1 hari · 23 peserta',
       date: '17 Sep 2026', sortDate: '2026-09-17',
@@ -23,7 +23,7 @@ module.exports = {
       quote: { text: 'the activity create some canvas project is helpful', tag: '17 Sep', theme: 'Aktivitas hands-on, game, dan presentasi antar tim' },
     },
     {
-      id: 'goto-pm-b2', client: 'goto', status: 'segera', path: '/goto-pm/',
+      id: 'goto-pm-b2', client: 'goto', status: 'segera', path: '/goto-pm/?batch=2',
       fullName: 'GoTo - Project Management Capability Program (Batch 2)',
       label: 'GoTo · Capability Program', title: 'Project Management Batch 2',
       note: 'Basic Project Management Training mulai 3 Nov 2026. Angka muncul di sini setelah feedback pertama masuk.',
