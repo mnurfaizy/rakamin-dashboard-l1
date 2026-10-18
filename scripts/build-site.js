@@ -18,6 +18,8 @@ const PROGRAMS = [
   { dir: 'goto-driver-kids', slug: 'gojek-magang-driver-kids', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   // L1 Insight Hub: the site root (empty slug). It links every program above and lists all clients, so share it only inside the team.
   { dir: 'insight-hub', slug: '', steps: ['node build.js'] },
+  // Layout test page for clients with more than 3 programs (sample programs, not real feedback).
+  { dir: 'insight-hub', slug: 'uji-tiket', steps: ['node build.js --lab'], file: 'lab.html' },
 ];
 
 const site = path.join(root, 'site');
@@ -29,7 +31,7 @@ for (const p of PROGRAMS) {
   for (const step of p.steps) execSync(step, { cwd, stdio: ['ignore', 'ignore', 'inherit'] });
   const out = path.join(site, p.slug);
   fs.mkdirSync(out, { recursive: true });
-  fs.copyFileSync(path.join(cwd, 'dist', 'index.html'), path.join(out, 'index.html'));
+  fs.copyFileSync(path.join(cwd, 'dist', p.file || 'index.html'), path.join(out, 'index.html'));
   console.log(`/${p.slug ? `${p.slug}/` : ''}  <-  programs/${p.dir}`);
 }
 

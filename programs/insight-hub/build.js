@@ -1,10 +1,12 @@
 // Embeds the Rakamin logo, documentation photos and program data, then writes dist/index.html.
-// Usage (from this folder): node build.js
+// Usage (from this folder): node build.js           -> dist/index.html (the hub)
+//                            node build.js --lab     -> dist/lab.html (layout test page with sample programs)
 const fs = require('fs');
 const path = require('path');
 
 const here = __dirname;
-const DATA = require('./data/programs');
+const LAB = process.argv.includes('--lab');
+const DATA = LAB ? require('./data/lab')(require('./data/programs')) : require('./data/programs');
 const photo = name => `data:image/jpeg;base64,${fs.readFileSync(path.join(here, 'photos', `${name}.jpg`)).toString('base64')}`;
 
 // Sanity checks: every program points at a known client and has the numbers its card needs.
@@ -32,5 +34,6 @@ html = html.split('__LOGO_SVG__').join(logo);
 html = html.replace('__DATA__', () => JSON.stringify(data).replace(/<\//g, '<\\/'));
 
 fs.mkdirSync(path.join(here, 'dist'), { recursive: true });
-fs.writeFileSync(path.join(here, 'dist', 'index.html'), html);
-console.log(`dist/index.html written (${Math.round(html.length / 1024)} KB)`);
+const out = LAB ? 'lab.html' : 'index.html';
+fs.writeFileSync(path.join(here, 'dist', out), html);
+console.log(`dist/${out} written (${Math.round(html.length / 1024)} KB)`);
