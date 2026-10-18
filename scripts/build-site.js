@@ -2,22 +2,23 @@
 //   site/goto-pm/  site/bsi-bpi-sdp-batch-2-3/  site/bsi-bpi-sdp-angkatan-10/  site/bsi-bpi-mastery/  site/ikdd-sms-batch-1/  site/ikdd-sms-batch-2/  site/gojek-magang-driver-kids/
 // and the L1 Insight Hub (programs/insight-hub) at the site root, site/index.html.
 // Used by a single Render static site (Build Command: node scripts/build-site.js, Publish Directory: site).
-// To add a program: append it to PROGRAMS below.
+// To add a program: append it to PROGRAMS below (favicon = a name in assets/favicons/: hub, goto, bsi, dd).
+// Favicons: the hub uses the Rakamin mark; every program uses the Rakamin mark overlapped by its client logo.
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
 const PROGRAMS = [
-  { dir: 'goto-pm-workshop-b1', slug: 'goto-pm', steps: ['node build.js'] },
-  { dir: 'bsi-bpi-sdp-b2-b3', slug: 'bsi-bpi-sdp-batch-2-3', steps: ['node data/build-sheet-data.js', 'node build.js'] },
-  { dir: 'bsi-bpi-sdp-a10', slug: 'bsi-bpi-sdp-angkatan-10', steps: ['node data/build-sheet-data.js', 'node build.js'] },
-  { dir: 'bsi-bpi-mastery', slug: 'bsi-bpi-mastery', steps: ['node data/build-sheet-data.js', 'node build.js'] },
-  { dir: 'ikdd-sms-b1', slug: 'ikdd-sms-batch-1', steps: ['node data/build-sheet-data.js', 'node build.js'] },
-  { dir: 'ikdd-sms-b2', slug: 'ikdd-sms-batch-2', steps: ['node build.js'] },
-  { dir: 'goto-driver-kids', slug: 'gojek-magang-driver-kids', steps: ['node data/build-sheet-data.js', 'node build.js'] },
+  { dir: 'goto-pm-workshop-b1', slug: 'goto-pm', favicon: 'goto', steps: ['node build.js'] },
+  { dir: 'bsi-bpi-sdp-b2-b3', slug: 'bsi-bpi-sdp-batch-2-3', favicon: 'bsi', steps: ['node data/build-sheet-data.js', 'node build.js'] },
+  { dir: 'bsi-bpi-sdp-a10', slug: 'bsi-bpi-sdp-angkatan-10', favicon: 'bsi', steps: ['node data/build-sheet-data.js', 'node build.js'] },
+  { dir: 'bsi-bpi-mastery', slug: 'bsi-bpi-mastery', favicon: 'bsi', steps: ['node data/build-sheet-data.js', 'node build.js'] },
+  { dir: 'ikdd-sms-b1', slug: 'ikdd-sms-batch-1', favicon: 'dd', steps: ['node data/build-sheet-data.js', 'node build.js'] },
+  { dir: 'ikdd-sms-b2', slug: 'ikdd-sms-batch-2', favicon: 'dd', steps: ['node build.js'] },
+  { dir: 'goto-driver-kids', slug: 'gojek-magang-driver-kids', favicon: 'goto', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   // L1 Insight Hub: the site root (empty slug). It links every program above and lists all clients, so share it only inside the team.
-  { dir: 'insight-hub', slug: '', steps: ['node build.js'] },
+  { dir: 'insight-hub', slug: '', favicon: 'hub', steps: ['node build.js'] },
 ];
 
 const site = path.join(root, 'site');
@@ -29,7 +30,14 @@ for (const p of PROGRAMS) {
   for (const step of p.steps) execSync(step, { cwd, stdio: ['ignore', 'ignore', 'inherit'] });
   const out = path.join(site, p.slug);
   fs.mkdirSync(out, { recursive: true });
-  fs.copyFileSync(path.join(cwd, 'dist', p.file || 'index.html'), path.join(out, 'index.html'));
+  let html = fs.readFileSync(path.join(cwd, 'dist', p.file || 'index.html'), 'utf8');
+  if (p.favicon) {
+    const png = fs.readFileSync(path.join(root, 'assets', 'favicons', p.favicon + '.png')).toString('base64');
+    const tag = `<link rel="icon" type="image/png" href="data:image/png;base64,${png}"><link rel="apple-touch-icon" href="data:image/png;base64,${png}">`;
+    if (!html.includes('</head>')) throw new Error(`${p.slug}: no </head> to add the favicon to`);
+    html = html.replace('</head>', () => tag + '</head>');
+  }
+  fs.writeFileSync(path.join(out, 'index.html'), html);
   console.log(`/${p.slug ? `${p.slug}/` : ''}  <-  programs/${p.dir}`);
 }
 

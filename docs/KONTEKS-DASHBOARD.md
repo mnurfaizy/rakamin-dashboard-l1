@@ -253,3 +253,9 @@ Standar penamaan yang sama dengan IKDD, berlaku di semua dashboard:
 - "Ringkasan" (bukan "Ringkasan Sesi") di GoTo PM. Sumber BSI Batch 2 & 3: "Feedback Peserta Batch 2 & 3" (sebelumnya "Post-Training Evaluation").
 - GoTo Driver's Kids: tampilan Netlify tetap, hanya "Insight Feedback Peserta" menjadi "Insight Feedback L1".
 - Belum diseragamkan (sengaja): catatan "Persentase = peserta yang memberi skor 4–5" di GoTo PM (definisi metrik), dan bentuk keterangan Suara Mayoritas di GoTo PM (satu kutipan dengan keterangan di atas kanan).
+
+## Favicon (19 Okt 2026)
+
+- Hub di akar situs: lambang Rakamin saja (`assets/favicons/hub.png`). Setiap program: lambang Rakamin yang ditumpuk badge putih berisi logo klien: `goto.png` (GoTo PM dan Driver's Kids), `bsi.png` (tiga program BSI), `dd.png` (kedua batch IKDD, lambang Institut Kemandirian).
+- PNG 128 px dibuat dari lambang Rakamin (bagian "</" pada `programs/insight-hub/brand/logo-rakamin.svg`) dan logo klien di `programs/*/brand/`. Ikon dipasang oleh `scripts/build-site.js` (kolom `favicon` di `PROGRAMS`) sebagai data URI di `<head>`; build per program (`npm run build:<nama>`) tidak memuatnya.
+- Klien baru: buat `assets/favicons/<nama>.png` (lambang Rakamin + badge logo klien) lalu isi `favicon: '<nama>'`.
