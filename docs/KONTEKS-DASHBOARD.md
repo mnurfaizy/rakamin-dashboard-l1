@@ -230,3 +230,14 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 - IKDD SMS Batch 2 (`berjalan`) membaca sheet live saat halaman dibuka; snapshot: Day 1–3, 55 jawaban, kepuasan 4,22.
 - Foto dari folder dokumentasi Drive yang diberikan user (termasuk SDP Angkatan 10, folder `1WdjB3ByYBLKP-vZ5L3TGEvFWLCF9HvKO`). Program tanpa foto menampilkan "Foto dokumentasi menyusul".
 - Kutipan: satu Suara Mayoritas per program (kutipan teratas di dashboard-nya, persis). Tiga terbaru tampil, tombol "Lihat semua kutipan" membuka semuanya.
+
+## Konsistensi IKDD Batch 1 dan Batch 2 (19 Okt 2026)
+
+Dua dashboard Dompet Dhuafa disamakan; **Batch 1 adalah standar** karena membawa aturan terbaru. Yang disamakan di `ikdd-sms-b2`:
+
+- Logo: tinggi Rakamin 22 px (sebelumnya 26), IK 40 px, kotak logo identik.
+- Pill: "Insight Feedback L1 · Social Media Specialist Batch N" (sebelumnya "Daily Insight · ..."). Label dropdown "Lihat". Judul tab `<Tampilan> · Insight L1 IKDD SMS Batch N`.
+- Judul bagian: "Ringkasan" (bukan "Ringkasan Sesi"); keterangan Jawaban Peserta "Komentar ditampilkan apa adanya, nama peserta tidak ditampilkan"; footer "Sumber: Daily Feedback Peserta Day 1–10".
+- Tanpa keterangan warna: keterangan "Oranye bila di bawah ..." dan legend "Oranye = perlu perhatian" dihapus. Aturan peringatan disamakan: skor < 4,0 dan NPS < 60% (sebelumnya aturan dinamis rata-rata − 1 SD dan NPS < 30).
+- NPS dalam persen dengan rincian promotor, pasif, detraktor (sebelumnya "+100" dengan selisih Δ).
+- Kutipan Quotes of the Day: keterangan hanya tema (tanpa avatar "P Peserta"), ditambah catatan "Kutipan diambil apa adanya ...". Catatan "Dirangkum dari N jawaban" dihapus. Chip "N dari M responden" milik Batch 1 belum ada di Batch 2 karena tab Quotes of the Day tidak memuat jumlah.

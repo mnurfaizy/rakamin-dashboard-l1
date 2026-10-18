@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Feedback Harian IKDD SMS Batch 2</title>
+<title>Insight L1 IKDD SMS Batch 2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -54,7 +54,7 @@ button, input, select { font: inherit; color: inherit; }
 .top-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 18px; padding-bottom: 6px; }
 .logo-box { display: inline-flex; align-items: center; gap: 12px; background: var(--logo-box); border-radius: 14px; padding: 8px 16px; min-height: 52px; }
 .logo-box img { width: auto; display: block; }
-.logo-box img.ik { height: 40px; } .logo-box img.rk { height: 26px; }
+.logo-box img.ik { height: 40px; } .logo-box img.rk { height: 22px; }
 .logo-box .word { font-weight: 700; font-size: 14px; color: var(--navy); }
 .logo-box .word.rk { color: var(--blue); }
 .logo-box .sep { width: 1px; height: 26px; background: #d4d9de; }
@@ -107,11 +107,10 @@ section { margin-top: 30px; }
 .q.center .bubble::after { left: calc(50% - 10px); bottom: -10px; clip-path: polygon(0 0, 100% 0, 50% 100%); }
 .q.center .bubble::before { content: "\201C"; position: absolute; top: -26px; left: 22px; font: 800 72px/1 Georgia, serif; color: var(--yellow); }
 .q.alt .bubble { background: var(--yellow-soft); color: var(--navy-deep); }
-.q-meta { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); padding: 4px 6px 0; }
-.q-meta .ava { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff; background: var(--blue); }
-.q.left .q-meta .ava { background: var(--navy); }
-.q.center .q-meta .ava { background: var(--yellow); color: var(--navy-deep); }
+.q-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); padding: 4px 6px 0; }
+.q.right .q-meta { justify-content: flex-end; } .q.center .q-meta { justify-content: center; }
 .q-meta .tema { font-weight: 600; color: var(--navy); }
+.q-foot { text-align: center; margin: 22px 0 0; font-size: 13px; color: var(--ink-3); }
 
 .q-wait { text-align: center; max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .typing { display: inline-flex; gap: 6px; padding: 16px 22px; background: var(--surface); border-radius: 22px; border-bottom-left-radius: 6px; box-shadow: 0 10px 28px rgba(15,68,122,.12); }
@@ -274,33 +273,33 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
 
 <header class="wrap top-inner">
   <!-- Logo dan background diambil dari deck onboarding, ditanam sebagai data URI di ASSETS. -->
-  <div class="logo-box" id="logoBox" aria-label="Institut Kemandirian x Rakamin"></div>
+  <div class="logo-box" id="logoBox" aria-label="Institut Kemandirian dan Rakamin"></div>
   <div class="day-picker">
-    <label for="daySelect">Lihat hari</label>
+    <label for="daySelect">Lihat</label>
     <select id="daySelect" class="select" aria-label="Pilih hari"></select>
   </div>
 </header>
 
 <main class="wrap">
   <div class="hero">
-    <span class="pill">Daily Insight · Social Media Specialist Batch 2</span>
+    <span class="pill">Insight Feedback L1 · Social Media Specialist Batch 2</span>
     <h1>Feedback Peserta <b id="heroDay">Day –</b></h1>
     <p class="sub" id="heroSub">–</p>
     <div class="banner" id="sampleBanner" hidden><b>Data contoh.</b> Angka dan komentar di halaman ini masih dummy untuk tampilan awal. Hubungkan Google Sheet lewat tombol <b>Kelola data</b> di bawah.</div>
   </div>
 
   <section aria-labelledby="qTitle">
-    <div class="sec-head"><div class="sec-title"><span class="no">01</span><h2 id="qTitle">Quotes of the Day</h2></div><span class="note" id="qNote"></span></div>
+    <div class="sec-head"><div class="sec-title"><span class="no">01</span><h2 id="qTitle">Quotes of the Day</h2></div></div>
     <div class="card quotes" id="quotesBox"></div>
   </section>
 
   <section aria-labelledby="sTitle">
-    <div class="sec-head"><div class="sec-title"><span class="no">02</span><h2 id="sTitle">Ringkasan Sesi</h2></div><span class="note" id="targetNote"></span></div>
+    <div class="sec-head"><div class="sec-title"><span class="no">02</span><h2 id="sTitle">Ringkasan</h2></div><span class="note" id="targetNote"></span></div>
     <div class="summary" id="summary"></div>
   </section>
 
   <section aria-labelledby="iTitle">
-    <div class="sec-head"><div class="sec-title"><span class="no">03</span><h2 id="iTitle">Insight Sesi</h2></div><span class="legend-note" title="Oranye bila skor di bawah 4,0, atau tertinggal lebih dari 1 SD dari rata-rata aspek lain di hari yang sama (skor 4,5 ke atas tidak pernah ditandai)."><i></i>Oranye = perlu perhatian</span></div>
+    <div class="sec-head"><div class="sec-title"><span class="no">03</span><h2 id="iTitle">Insight Sesi</h2></div></div>
     <div class="insight">
       <div class="card card-pad g-info"><p class="card-title">Identitas sesi hari ini</p><div id="sessionInfo"></div></div>
       <div class="card card-pad g-aspek"><p class="card-title">Evaluasi per aspek</p><div id="aspek"></div></div>
@@ -314,7 +313,7 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
   </section>
 
   <section aria-labelledby="aTitle" id="answersSection">
-    <div class="sec-head"><div class="sec-title"><span class="no">05</span><h2 id="aTitle">Jawaban Peserta</h2></div><span class="note">Nama peserta tidak ditampilkan</span></div>
+    <div class="sec-head"><div class="sec-title"><span class="no">05</span><h2 id="aTitle">Jawaban Peserta</h2></div><span class="note">Komentar ditampilkan apa adanya, nama peserta tidak ditampilkan</span></div>
     <div class="card">
       <div class="codes" id="codes"></div>
       <div class="toolbar">
@@ -334,7 +333,7 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
       Kelola data
     </button>
-    <div>Sumber: Daily Feedback Peserta · Learning Quality Rakamin · <span id="sourcePill" class="source-pill"><i></i><span></span></span></div>
+    <div>Sumber: Daily Feedback Peserta Day 1–10 · Learning Quality Rakamin · <span id="sourcePill" class="source-pill"><i></i><span></span></span></div>
   </footer>
 </main>
 
@@ -405,10 +404,8 @@ const Core = (() => {
     totalDays: 10,
     defaultTotalPeserta: 20,   // dipakai bila kolom "Jumlah Peserta" di Info Sesi kosong
     quoteThreshold: 10,        // minimal responden sebelum Quotes of the Day tampil (50% dari 20 peserta)
-    // Penanda oranye (dinamis): skor < floor, ATAU skor < rata-rata 9 aspek hari itu − sdFactor × SD
-    // dan belum mencapai safe. Jadi hanya aspek yang jelas tertinggal yang ditandai.
-    flag: { floor: 4.0, sdFactor: 1, safe: 4.5 },
-    npsFloor: 30,              // NPS di bawah ini ditandai oranye
+    flag: { floor: 4.0 },      // skor di bawah ini diberi warna peringatan
+    npsFloor: 60,              // NPS (persen) di bawah ini diberi warna peringatan
     maxQuotes: 5,
   };
 
@@ -579,20 +576,9 @@ const Core = (() => {
     return terms.some(t => hay.includes(t));
   }
 
-  /** Mean and population SD of a day's item averages: the yardstick for the dynamic flag. */
-  function dayBaseline(items) {
-    const v = items.filter(x => x != null);
-    if (!v.length) return null;
-    const m = v.reduce((a, b) => a + b, 0) / v.length;
-    const sd = Math.sqrt(v.reduce((a, b) => a + (b - m) ** 2, 0) / v.length);
-    return { mean: m, sd, cutoff: m - CONFIG.flag.sdFactor * sd };
-  }
-
-  /** Orange flag: clearly weak in absolute terms, or clearly behind the other aspects of the same day. */
-  function isFlagged(score, baseline) {
-    if (score == null) return false;
-    if (score < CONFIG.flag.floor) return true;
-    return !!baseline && score < baseline.cutoff && score < CONFIG.flag.safe;
+  /** Warning colour: a score below the floor (4.0). */
+  function isFlagged(score) {
+    return score != null && score < CONFIG.flag.floor;
   }
 
   const mean = arr => { const v = arr.filter(x => x != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
@@ -601,7 +587,7 @@ const Core = (() => {
     const v = values.filter(x => x != null);
     if (!v.length) return null;
     const pro = v.filter(x => x >= 9).length; const det = v.filter(x => x <= 6).length;
-    return Math.round(((pro - det) / v.length) * 100);
+    return { score: Math.round(((pro - det) / v.length) * 100), pro, pas: v.length - pro - det, det };
   }
 
   /** Aggregates for one day: per-item means, group means, NPS and respondent count. */
@@ -641,7 +627,7 @@ const Core = (() => {
     return { text: (diff > 0 ? '+' : '−') + fmt(Math.abs(diff), d), cls: diff > 0 ? 'up' : 'down' };
   }
 
-  return { CONFIG, ITEMS, GROUPS, TEXTS, isFeedbackTable, dayBaseline, isFlagged, parseCSV, parseSheetId, parseDay, parseDateLabel, toScore, normalizeFeedback, normalizeInfo, normalizeInsight, normalizeQuotes, normText, themeTerms, matchesTheme, mean, npsScore, dayStats, quoteState, quoteLayout, fmt, fmtDelta };
+  return { CONFIG, ITEMS, GROUPS, TEXTS, isFeedbackTable, isFlagged, parseCSV, parseSheetId, parseDay, parseDateLabel, toScore, normalizeFeedback, normalizeInfo, normalizeInsight, normalizeQuotes, normText, themeTerms, matchesTheme, mean, npsScore, dayStats, quoteState, quoteLayout, fmt, fmtDelta };
 })();
 if (typeof module !== 'undefined') module.exports = Core;
 </script>
@@ -809,9 +795,8 @@ const Sample = (() => {
     $('heroDay').textContent = `Day ${day}`;
     $('heroSub').textContent = [stats?.dateLabel || (CONFIG.dayDates[day - 1] ? `${CONFIG.dayDates[day - 1].replace('Okt', 'Oktober')} 2026` : ''), info.topik].filter(Boolean).join(' · ') || 'Belum ada data untuk hari ini';
     $('sampleBanner').hidden = state.source !== 'sample';
-    const base = stats ? Core.dayBaseline(stats.items) : null;
-    $('targetNote').textContent = `Oranye bila di bawah ${Core.fmt(CONFIG.flag.floor, 1)} atau di bawah ${base ? Core.fmt(base.cutoff) : '–'} (rata-rata − 1 SD hari ini) · Δ dibandingkan Day ${prevDay ?? '–'}`;
-    document.title = `Feedback Day ${day} · IKDD SMS Batch 2`;
+    $('targetNote').textContent = prevDay != null ? `Δ dibandingkan Day ${prevDay}` : '';
+    document.title = `Day ${day} · Insight L1 IKDD SMS Batch 2`;
 
     renderQuotes(day, stats);
     renderSummary(stats, prev, day);
@@ -836,7 +821,6 @@ const Sample = (() => {
     const quotes = state.data.quotes.filter(q => q.day === day).slice(0, CONFIG.maxQuotes);
     const qs = Core.quoteState(n, total, quotes);
     const box = $('quotesBox');
-    $('qNote').textContent = qs.mode === 'ready' ? `Dirangkum dari ${n} jawaban peserta` : '';
 
     if (qs.mode === 'ready') {
       let alt = 0;
@@ -844,11 +828,12 @@ const Sample = (() => {
         const isAlt = side !== 'center' && (alt++ % 3 === 2);   // every third side bubble gets the soft-yellow variant
         return `<figure class="q ${side} ${isAlt ? 'alt' : ''}" style="margin:0">
           <blockquote class="bubble" style="margin:0">${esc(q.text)}</blockquote>
-          <figcaption class="q-meta"><span class="ava" aria-hidden="true">P</span>Peserta${q.tema ? ` · <span class="tema">${esc(q.tema)}</span>` : ''}</figcaption>
+          <figcaption class="q-meta">${q.tema ? `<span class="tema">${esc(q.tema)}</span>` : ''}</figcaption>
         </figure>`;
       };
       box.innerHTML = `<div class="qwall">${Core.quoteLayout(quotes.length).map((row, r) =>
-        `<div class="qrow ${row.length === 2 ? 'pair' : ''} ${r % 2 ? 'flip' : ''}">${row.map(c => bubble(quotes[c.idx], c.side)).join('')}</div>`).join('')}</div>`;
+        `<div class="qrow ${row.length === 2 ? 'pair' : ''} ${r % 2 ? 'flip' : ''}">${row.map(c => bubble(quotes[c.idx], c.side)).join('')}</div>`).join('')}</div>
+        <p class="q-foot">Kutipan diambil apa adanya dari jawaban peserta. Satu kutipan paling mewakili per tema.</p>`;
       return;
     }
 
@@ -863,28 +848,28 @@ const Sample = (() => {
     </div>`;
   }
 
-  /* ---------------- Ringkasan Sesi ---------------- */
-  function tile({ k, v, unit = '', delta, below, cls = '' }) {
-    return `<div class="card tile ${cls} ${below ? 'below' : ''}"><span class="k">${k}</span><span class="v num">${v}${unit ? ` <small>${unit}</small>` : ''}</span><span class="d num ${delta?.cls || ''}">${delta?.text ? `${delta.text} vs ${delta.ref}` : '&nbsp;'}</span></div>`;
+  /* ---------------- Ringkasan ---------------- */
+  function tile({ k, v, unit = '', delta, d, below, cls = '' }) {
+    return `<div class="card tile ${cls} ${below ? 'below' : ''}"><span class="k">${k}</span><span class="v num">${v}${unit ? ` <small>${unit}</small>` : ''}</span><span class="d num ${delta?.cls || ''}">${d ?? (delta?.text ? `${delta.text} vs ${delta.ref}` : '&nbsp;')}</span></div>`;
   }
 
   function renderSummary(s, p, day) {
     const total = totalFor(day); const n = s?.n || 0;
     const pct = Math.round((n / total) * 100);
-    const part = `<div class="card tile part"><span class="k">Peserta yang sudah mengisi</span>
+    const part = `<div class="card tile part"><span class="k">Peserta yang mengisi</span>
       <span class="v num">${n} <small>dari ${total} peserta</small></span>
       <div class="bar"><i style="width:${Math.min(100, pct)}%"></i></div>
       <span class="d num">${pct}% partisipasi${n < CONFIG.quoteThreshold ? ` · ${CONFIG.quoteThreshold - n} lagi untuk Quotes of the Day` : ''}</span></div>`;
     const ref = p ? `Day ${p.day}` : '';
     const withRef = dl => ({ ...dl, ref });
     const g = k => s?.groups[k] ?? null; const pg = k => p?.groups[k] ?? null;
-    const scoreTile = (k, key) => tile({ k, v: Core.fmt(g(key)), unit: '/ 5', delta: withRef(Core.fmtDelta(g(key), pg(key))), below: Core.isFlagged(g(key), s ? Core.dayBaseline(s.items) : null) });
+    const scoreTile = (k, key) => tile({ k, v: Core.fmt(g(key)), unit: '/ 5', delta: withRef(Core.fmtDelta(g(key), pg(key))), below: Core.isFlagged(g(key)) });
     $('summary').innerHTML = part
       + scoreTile('Kepuasan keseluruhan', 'overall')
       + scoreTile('Materi', 'materi')
       + scoreTile('Tutor', 'tutor')
       + scoreTile('Asisten Tutor', 'astor')
-      + tile({ k: 'NPS', v: s?.nps == null ? '–' : (s.nps > 0 ? '+' : '') + s.nps, delta: withRef(Core.fmtDelta(s?.nps ?? null, p?.nps ?? null, 0)), below: s?.nps != null && s.nps < CONFIG.npsFloor });
+      + tile({ k: 'NPS', v: s?.nps == null ? '–' : `${s.nps.score}%`, d: s?.nps ? `${s.nps.pro} promotor · ${s.nps.pas} pasif · ${s.nps.det} detraktor` : '', below: s?.nps != null && s.nps.score < CONFIG.npsFloor });
   }
 
   /* ---------------- Insight Sesi ---------------- */
@@ -897,11 +882,10 @@ const Sample = (() => {
 
   function renderAspek(s, p) {
     if (!s) { $('aspek').innerHTML = '<div class="empty">Belum ada jawaban untuk hari ini.</div>'; return; }
-    const base = Core.dayBaseline(s.items);
     $('aspek').innerHTML = GROUPS.map(g => {
       const rows = ITEMS.map((it, i) => ({ it, i })).filter(x => x.it.group === g.key).map(({ it, i }) => {
         const v = s.items[i]; const d = Core.fmtDelta(v, p?.items[i] ?? null);
-        const below = Core.isFlagged(v, base);
+        const below = Core.isFlagged(v);
         return `<div class="aspek-row ${below ? 'below' : ''}"><span class="code">${it.code}</span><span class="stmt">${esc(it.label)}</span><span class="score num">${Core.fmt(v)} <small>/ 5</small></span><span class="delta num ${d.cls}">${d.text || '–'}</span></div>`;
       }).join('');
       return `<div class="aspek-group"><h4>${g.label}</h4>${rows}</div>`;
