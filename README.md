@@ -49,7 +49,7 @@ Semua program disajikan oleh **satu** situs statis, masing-masing di sub-path se
 | `ikdd-sms-b1` | `/ikdd-sms-batch-1/` | Rangkuman Day 1–10, Day 1 … Day 10 (dropdown) |
 | `ikdd-sms-b2` | `/ikdd-sms-batch-2/` | Daily (Day 1–10, berjalan), dimigrasi apa adanya dari Netlify |
 | `goto-driver-kids` | `/gojek-magang-driver-kids/` | Rangkuman, Day 2, Day 3 (Magang di Kantor Gojek, Driver's Kids) |
-| `insight-hub` | `/` (akar situs) | **L1 Insight Hub** (internal): satu halaman yang menautkan semua program, per klien |
+| `insight-hub` | `/` (akar situs) dan `/client-view/` | **L1 Insight Hub** (internal): satu halaman yang menautkan semua program, per klien |
 
 Halaman akar (`/`) adalah L1 Insight Hub yang memuat semua klien dan program, jadi **jangan membagikan alamat akar ke klien**: bagikan link per sub-path (mis. `/goto-pm/`). `robots.txt` dan `noindex` mencegah pengindeksan mesin pencari, tetapi siapa pun yang tahu alamat akar bisa melihat semua klien.
 

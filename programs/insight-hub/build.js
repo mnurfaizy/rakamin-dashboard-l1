@@ -37,3 +37,20 @@ fs.mkdirSync(path.join(here, 'dist'), { recursive: true });
 const out = LAB ? 'lab.html' : 'index.html';
 fs.writeFileSync(path.join(here, 'dist', out), html);
 console.log(`dist/${out} written (${Math.round(html.length / 1024)} KB)`);
+
+// Client view (/client-view/): link per program untuk dibagikan ke PIC klien. Hanya field yang dibutuhkan
+// halaman itu yang ditanam (tanpa skor, kutipan, foto, atau catatan internal).
+if (!LAB) {
+  for (const p of DATA.programs) if (!p.clientLink) throw new Error(`${p.id}: clientLink missing`);
+  const clientData = {
+    asOf: DATA.asOf,
+    clients: DATA.clients.map(({ id, name, sub, initials, accent }) => ({ id, name, sub, initials, accent })),
+    programs: DATA.programs.map(({ id, client, status, title, fullName, date, sortDate, path: href, clientLink }) =>
+      ({ id, client, status, title, fullName, date, sortDate, path: href, clientLink })),
+  };
+  let client = fs.readFileSync(path.join(here, 'client.template.html'), 'utf8');
+  client = client.split('__LOGO_SVG__').join(logo);
+  client = client.replace('__DATA__', () => JSON.stringify(clientData).replace(/<\//g, '<\\/'));
+  fs.writeFileSync(path.join(here, 'dist', 'client.html'), client);
+  console.log(`dist/client.html written (${Math.round(client.length / 1024)} KB)`);
+}

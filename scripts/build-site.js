@@ -19,6 +19,8 @@ const PROGRAMS = [
   { dir: 'goto-driver-kids', slug: 'gojek-magang-driver-kids', favicon: 'goto', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   // L1 Insight Hub: the site root (empty slug). It links every program above and lists all clients, so share it only inside the team.
   { dir: 'insight-hub', slug: '', favicon: 'hub', steps: ['node build.js'] },
+  // Client view: daftar link per program untuk PIC klien, dibuat oleh build hub di atas (dist/client.html).
+  { dir: 'insight-hub', slug: 'client-view', file: 'client.html', favicon: 'hub', steps: [] },
 ];
 
 const site = path.join(root, 'site');

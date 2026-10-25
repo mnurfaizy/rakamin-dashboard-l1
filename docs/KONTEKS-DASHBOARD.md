@@ -259,3 +259,9 @@ Standar penamaan yang sama dengan IKDD, berlaku di semua dashboard:
 - Hub di akar situs: lambang Rakamin saja (`assets/favicons/hub.png`). Setiap program: lambang Rakamin yang ditumpuk badge putih berisi logo klien: `goto.png` (GoTo PM dan Driver's Kids), `bsi.png` (tiga program BSI), `dd.png` (kedua batch IKDD, lambang Institut Kemandirian).
 - PNG 128 px dibuat dari lambang Rakamin (bagian "</" pada `programs/insight-hub/brand/logo-rakamin.svg`) dan logo klien di `programs/*/brand/`. Ikon dipasang oleh `scripts/build-site.js` (kolom `favicon` di `PROGRAMS`) sebagai data URI di `<head>`; build per program (`npm run build:<nama>`) tidak memuatnya.
 - Klien baru: buat `assets/favicons/<nama>.png` (lambang Rakamin + badge logo klien) lalu isi `favicon: '<nama>'`.
+
+## Client view (26 Okt 2026)
+
+- Switcher "Tampilan internal / Client view" di atas judul hub (`/`), menggantikan eyebrow. Client view ada di `/client-view/`, dibuat oleh build hub dari `programs/insight-hub/client.template.html` (`dist/client.html`), desain gelap dari design system user (kartu klien + baris link: Salin, Buka).
+- Daftar klien dan program sama persis dengan hub (`data/programs.js`). Link per program (`clientLink`) **masih dummy** (`l1.rakamin.com/<klien>/<program>`) karena data client view belum diolah; ganti di `data/programs.js` setelah link asli siap. Tombol Buka sementara membuka dashboard program yang sudah ada (`path`).
+- Status baris: Berjalan dan Selesai = Salin & Buka aktif; Menunggu data = Salin nonaktif; Segera hadir = teks "Link aktif setelah hari pertama", keduanya nonaktif; Diarsipkan = baris pudar, URL dicoret. Halaman hanya memuat nama program, tanggal, status, dan link (tanpa skor, kutipan, foto).

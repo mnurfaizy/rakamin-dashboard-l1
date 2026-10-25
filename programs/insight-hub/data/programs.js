@@ -3,18 +3,20 @@
 // Kepuasan = skor "Kepuasan keseluruhan" (skala 1-5) di dashboard program, rata-rata dari semua jawaban gabungan.
 // Kutipan = Suara Mayoritas / Quotes of the Day yang tampil di dashboard program, persis seperti jawaban peserta.
 // Program dengan `live` membaca ulang sheet dashboard-nya saat halaman dibuka (jawaban dan kepuasan bertambah harian).
+// clientLink: link client view per program (DUMMY, belum aktif; ganti dengan link asli setelah data diolah).
+// initials + accent: lencana klien di halaman Client view (/client-view/).
 module.exports = {
   asOf: '18 Okt 2026',
   // Klien dengan lebih dari 3 program: strip kupon geser (A) di layar lebar, 3 terbaru + tombol 'Tampilkan lainnya' (B) di HP.
   ticketLayout: 'auto',
   clients: [
-    { id: 'goto', name: 'GoTo', sub: 'GoTo Gojek Tokopedia', logo: 'logo-goto.png', color: '#00AA13', tint: '#E7F6E9' },
-    { id: 'bsi', name: 'BSI', sub: 'Bank Syariah Indonesia', logo: 'logo-bsi.png', logoView: 'inset(27.8% 3.4% 28% 3.6%)', color: '#00949E', tint: '#E0F4F2' },
-    { id: 'dd', name: 'Dompet Dhuafa', sub: 'Institut Kemandirian Dompet Dhuafa', logo: 'logo-ik.png', color: '#0F447A', tint: '#E6EEF7' },
+    { id: 'goto', initials: 'GT', accent: '#6F8C83', name: 'GoTo', sub: 'GoTo Gojek Tokopedia', logo: 'logo-goto.png', color: '#00AA13', tint: '#E7F6E9' },
+    { id: 'bsi', initials: 'BSI', accent: '#B3A3E0', name: 'BSI', sub: 'Bank Syariah Indonesia', logo: 'logo-bsi.png', logoView: 'inset(27.8% 3.4% 28% 3.6%)', color: '#00949E', tint: '#E0F4F2' },
+    { id: 'dd', initials: 'DD', accent: '#EE9A5B', name: 'Dompet Dhuafa', sub: 'Institut Kemandirian Dompet Dhuafa', logo: 'logo-ik.png', color: '#0F447A', tint: '#E6EEF7' },
   ],
   programs: [
     {
-      id: 'goto-pm', client: 'goto', status: 'selesai', path: '/goto-pm/?batch=1', photo: 'goto-pm',
+      id: 'goto-pm', clientLink: 'l1.rakamin.com/goto/pm-batch-1', client: 'goto', status: 'selesai', path: '/goto-pm/?batch=1', photo: 'goto-pm',
       fullName: 'GoTo - Project Management Capability Program (Batch 1 - Basic)',
       label: 'GoTo · Capability Program', title: 'Project Management Batch 1', meta: 'Basic · 1 hari · 23 peserta',
       date: '17 Sep 2026', sortDate: '2026-09-17',
@@ -23,7 +25,7 @@ module.exports = {
       quote: { text: 'the activity create some canvas project is helpful', tag: '17 Sep', theme: 'Aktivitas hands-on, game, dan presentasi antar tim' },
     },
     {
-      id: 'goto-pm-b2', client: 'goto', status: 'segera', path: '/goto-pm/?batch=2',
+      id: 'goto-pm-b2', clientLink: 'l1.rakamin.com/goto/pm-batch-2', client: 'goto', status: 'segera', path: '/goto-pm/?batch=2',
       fullName: 'GoTo - Project Management Capability Program (Batch 2)',
       label: 'GoTo · Capability Program', title: 'Project Management Batch 2',
       note: 'Basic Project Management Training mulai 3 Nov 2026. Angka muncul di sini setelah feedback pertama masuk.',
@@ -31,7 +33,7 @@ module.exports = {
       color: '#ECE7FA', ink: '#3B2F75',
     },
     {
-      id: 'gojek-dk', client: 'goto', status: 'selesai', path: '/gojek-magang-driver-kids/', photo: 'goto-driver-kids',
+      id: 'gojek-dk', clientLink: 'l1.rakamin.com/goto/magang-driver-kids', client: 'goto', status: 'selesai', path: '/gojek-magang-driver-kids/', photo: 'goto-driver-kids',
       fullName: "GoTo - Driver's Kids Job Acceleration Program : Magang di Kantor Gojek",
       label: "GoTo · Driver's Kids", title: 'Magang di Kantor Gojek', meta: 'Job Acceleration · 2 hari · 27 peserta',
       date: '29–30 Sep 2026', sortDate: '2026-09-30',
@@ -40,7 +42,7 @@ module.exports = {
       quote: { text: 'mentor yang sangat bagus dan cara berbicara yang mudah dipahami', tag: 'Day 3', theme: 'Penyampaian jelas, terstruktur, dan interaktif' },
     },
     {
-      id: 'bsi-b2-b3', client: 'bsi', status: 'selesai', path: '/bsi-bpi-sdp-batch-2-3/', photo: 'bsi-bpi-sdp-b2-b3',
+      id: 'bsi-b2-b3', clientLink: 'l1.rakamin.com/bsi/bpi-sdp-batch-2-3', client: 'bsi', status: 'selesai', path: '/bsi-bpi-sdp-batch-2-3/', photo: 'bsi-bpi-sdp-b2-b3',
       fullName: 'BSI - Business Process Improvement SDP Batch 2 dan 3',
       label: 'BSI · SDP', title: 'Business Process Improvement SDP Batch 2 & 3', meta: '2 batch · 1 hari · 60 peserta',
       date: '22 Jul 2026', sortDate: '2026-07-22',
@@ -49,7 +51,7 @@ module.exports = {
       quote: { text: 'Materi disampaikan dengan jelas, sistematis, dan mudah dipahami.', tag: 'Batch 3', theme: 'Penyampaian materi jelas dan mudah dipahami' },
     },
     {
-      id: 'bsi-a10', client: 'bsi', status: 'selesai', path: '/bsi-bpi-sdp-angkatan-10/', photo: 'bsi-bpi-sdp-a10',
+      id: 'bsi-a10', clientLink: 'l1.rakamin.com/bsi/bpi-sdp-angkatan-10', client: 'bsi', status: 'selesai', path: '/bsi-bpi-sdp-angkatan-10/', photo: 'bsi-bpi-sdp-a10',
       fullName: 'BSI - Business Process Improvement SDP Angkatan 10',
       label: 'BSI · SDP', title: 'Business Process Improvement SDP Angkatan 10', meta: 'Workshop 2 hari · 29 peserta',
       date: '14–15 Sep 2026', sortDate: '2026-09-15',
@@ -58,7 +60,7 @@ module.exports = {
       quote: { text: 'menjelaskan dengan baik, detail dan mudah dimengerti', tag: 'Hari 1', theme: 'Penyampaian jelas dan tutor menguasai materi' },
     },
     {
-      id: 'bsi-mastery', client: 'bsi', status: 'selesai', path: '/bsi-bpi-mastery/', photo: 'bsi-bpi-mastery',
+      id: 'bsi-mastery', clientLink: 'l1.rakamin.com/bsi/bpi-mastery', client: 'bsi', status: 'selesai', path: '/bsi-bpi-mastery/', photo: 'bsi-bpi-mastery',
       fullName: 'BSI - Business Process Improvement Mastery',
       label: 'BSI · Mastery', title: 'Business Process Improvement Mastery', meta: 'Workshop 2 hari · 30 peserta',
       date: '7–8 Sep 2026', sortDate: '2026-09-08',
@@ -67,7 +69,7 @@ module.exports = {
       quote: { text: 'Materi sesuai kebutuhan BSI saat ini', tag: 'Hari 2', theme: 'Materi bagus, sesuai, dan relevan dengan pekerjaan' },
     },
     {
-      id: 'ikdd-b1', client: 'dd', status: 'selesai', path: '/ikdd-sms-batch-1/', photo: 'ikdd-sms-b1',
+      id: 'ikdd-b1', clientLink: 'l1.rakamin.com/dompet-dhuafa/sms-batch-1', client: 'dd', status: 'selesai', path: '/ikdd-sms-batch-1/', photo: 'ikdd-sms-b1',
       fullName: 'Dompet Dhuafa - Digital Workforce Acceleration Program Batch 1: Social Media Specialist',
       label: 'DD · Digital Workforce', title: 'Social Media Specialist Batch 1', meta: 'Bootcamp 10 hari · 19 peserta',
       date: '15–28 Jul 2026', sortDate: '2026-07-28',
@@ -76,7 +78,7 @@ module.exports = {
       quote: { text: 'Pembahasan materi kali ini sangat seru karena membahas strategi pembuatan konten dari tahap awal hingga akhir.', tag: 'Day 3', theme: 'Materi bermanfaat dan menambah wawasan' },
     },
     {
-      id: 'ikdd-b2', client: 'dd', status: 'berjalan', path: '/ikdd-sms-batch-2/', photo: 'ikdd-sms-b2',
+      id: 'ikdd-b2', clientLink: 'l1.rakamin.com/dompet-dhuafa/sms-batch-2', client: 'dd', status: 'berjalan', path: '/ikdd-sms-batch-2/', photo: 'ikdd-sms-b2',
       fullName: 'Dompet Dhuafa - Digital Workforce Acceleration Program Batch 2: Social Media Specialist',
       label: 'DD · Digital Workforce', title: 'Social Media Specialist Batch 2', meta: 'Bootcamp 10 hari · 20 peserta',
       date: '14–27 Okt 2026', sortDate: '2026-10-27',
