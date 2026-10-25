@@ -43,6 +43,10 @@
     --gutter: 80px;
   }
 
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; }
+  @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
+
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.55 var(--body); -webkit-font-smoothing: antialiased; transition: background .25s; }
@@ -73,10 +77,13 @@
   .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--card); border-radius: 999px; box-shadow: var(--shadow-1); font-size: 12px; font-weight: 500; }
   .eyebrow svg { width: 14px; height: 14px; color: var(--ink); }
   /* Switcher tampilan: internal (halaman ini) dan client view (/client-view/) */
-  .viewsw { display: inline-flex; gap: 4px; padding: 5px; background: var(--card); border-radius: 999px; box-shadow: var(--shadow-1); outline: 1px solid #FFFFFF8C; outline-offset: -.5px; }
-  .viewsw a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; transition: background .2s; }
-  .viewsw a:hover { background: var(--sage-100); }
-  .viewsw a[aria-current="page"] { background: var(--ink); color: #fff; }
+  /* Dua tampilan sama lebar; thumb geser ke tampilan aktif. Saat pindah halaman, thumb dan kapsul ikut bergeser lewat View Transitions. */
+  .viewsw { position: relative; isolation: isolate; display: inline-grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 5px; background: var(--card); border-radius: 999px; box-shadow: var(--shadow-1); outline: 1px solid #FFFFFF8C; outline-offset: -.5px; view-transition-name: viewsw; }
+  .viewsw .thumb { position: absolute; top: 5px; bottom: 5px; left: 5px; width: calc(50% - 7px); border-radius: 999px; background: var(--ink); z-index: 0; transition: left .45s cubic-bezier(.22, .8, .24, 1); view-transition-name: viewsw-thumb; }
+  .viewsw[data-active="client"] .thumb { left: calc(50% + 2px); }
+  .viewsw a { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; transition: color .35s, background .2s; }
+  .viewsw a:hover:not([aria-current]) { background: var(--sage-100); }
+  .viewsw a[aria-current="page"] { color: #fff; }
   .viewsw svg { width: 15px; height: 15px; }
   .viewsw .ext { width: 13px; height: 13px; margin-left: 2px; }
   h1 { font: 800 clamp(44px, 5.6vw, 76px)/1.02 var(--display); letter-spacing: -.02em; margin: 22px 0 22px; }
@@ -381,7 +388,7 @@
 <main>
   <section class="wrap hero" id="beranda">
     <div>
-      <nav class="viewsw" aria-label="Pilih tampilan"><a href="/" aria-current="page"><svg class="i"><use href="#i-grid"/></svg>Tampilan internal</a><a href="/client-view/"><svg class="i"><use href="#i-link"/></svg>Client view<svg class="i ext"><use href="#i-arrow"/></svg></a></nav>
+      <nav class="viewsw" data-active="internal" aria-label="Pilih tampilan"><span class="thumb" aria-hidden="true"></span><a href="/" aria-current="page"><svg class="i"><use href="#i-grid"/></svg>Tampilan internal</a><a href="/client-view/"><svg class="i"><use href="#i-link"/></svg>Client view<svg class="i ext"><use href="#i-arrow"/></svg></a></nav>
       <p class="sr" id="eyebrow"></p>
       <h1>Semua suara peserta, dalam <span class="pill">satu pintu.</span><svg class="spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 14 10l7.5 2-7.5 2-2 7.5-2-7.5-7.5-2 7.5-2z"/><path d="M19 2v4M17 4h4"/></svg></h1>
       <p class="lead">Pilih klien, buka programnya, dan baca insight feedback L1 tanpa harus mengingat banyak link dashboard. Setiap kartu membawa warna dan dokumentasi programnya sendiri.</p>
