@@ -89,7 +89,8 @@
   .client { display: flex; align-items: stretch; padding: 8px; border-radius: 28px; background: var(--glass); outline: 1px solid var(--line-2); outline-offset: -.5px; box-shadow: 0 18px 40px #00000033; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
   .cinfo { width: 300px; flex: none; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; padding: 24px; border-radius: 22px;
     background: linear-gradient(157deg, color-mix(in srgb, var(--acc) 20%, transparent) 13%, color-mix(in srgb, var(--acc) 3%, transparent) 87%); }
-  .badge { width: 52px; height: 52px; border-radius: 16px; background: var(--acc); color: var(--ink); display: grid; place-items: center; font: 700 18px/1 var(--display); margin-bottom: 16px; }
+  .badge { display: inline-grid; place-items: center; padding: 12px; border-radius: 14px; background: #fff; box-shadow: 0 4px 14px #00000033; margin-bottom: 16px; }
+  .badge img { display: block; height: 36px; width: auto; max-width: 128px; object-fit: contain; }
   .cname { font: 600 26px/1.2 var(--display); }
   .csub { margin-top: 4px; font-size: 13px; color: var(--sage-300); }
   .ccount { font-size: 13px; font-weight: 500; }
@@ -181,10 +182,9 @@
 <div class="glows" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
 <header class="wrap nav">
-  <a class="brand" href="/" aria-label="Rakamin L1 Insight Hub">
+  <a class="brand" href="/" aria-label="Rakamin Client view">
     <span class="logo">__LOGO_SVG__</span>
-    <span class="div" aria-hidden="true"></span>
-    <span><span class="pn" style="display:block">L1 Insight Hub</span><span class="ps">Client view · untuk PM &amp; PIC program</span></span>
+    <span class="ps">Client view · untuk PM &amp; PIC program</span>
   </a>
   <span class="sync"><i></i><span id="sync"></span></span>
 </header>
@@ -276,7 +276,7 @@ const DATA = __DATA__;
       const ready = DATA.programs.filter(p => p.client === c.id && STATUS[p.status].copy).length;
       return `<article class="client" style="--acc:${c.accent}">
         <div class="cinfo">
-          <div><div class="badge">${esc(c.initials)}</div><div class="cname">${esc(c.name)}</div><div class="csub">${esc(c.sub)}</div></div>
+          <div><div class="badge"><img src="${c.logoImg}" alt="Logo ${esc(c.name)}" style="${c.logoView ? `object-view-box:${c.logoView}` : ''}"></div><div class="cname">${esc(c.name)}</div><div class="csub">${esc(c.sub)}</div></div>
           <div class="ccount">${ready} link siap dibagikan</div>
         </div>
         <div class="links">${list.map(row).join('')}</div>

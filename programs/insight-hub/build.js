@@ -44,7 +44,7 @@ if (!LAB) {
   for (const p of DATA.programs) if (!p.clientLink) throw new Error(`${p.id}: clientLink missing`);
   const clientData = {
     asOf: DATA.asOf,
-    clients: DATA.clients.map(({ id, name, sub, initials, accent }) => ({ id, name, sub, initials, accent })),
+    clients: DATA.clients.map(({ id, name, sub, accent, logoView }) => ({ id, name, sub, accent, logoView, logoImg: png(DATA.clients.find(c => c.id === id).logo) })),
     programs: DATA.programs.map(({ id, client, status, title, fullName, date, sortDate, path: href, clientLink }) =>
       ({ id, client, status, title, fullName, date, sortDate, path: href, clientLink })),
   };
