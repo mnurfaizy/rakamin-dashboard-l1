@@ -92,7 +92,6 @@
   .badge img { display: block; height: 36px; width: auto; max-width: 128px; object-fit: contain; }
   .cname { font: 600 26px/1.2 var(--display); }
   .csub { margin-top: 4px; font-size: 13px; color: var(--sage-300); }
-  .ccount { font-size: 13px; font-weight: 500; }
   .links { flex: 1; min-width: 0; padding: 4px 16px; }
   .row { display: flex; align-items: center; gap: 20px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
   .row:last-child { border-bottom: 0; }
@@ -270,11 +269,9 @@ const DATA = __DATA__;
       const list = DATA.programs.filter(p => p.client === c.id && hit(p))
         .sort((a, b) => ORDER[a.status] - ORDER[b.status] || b.sortDate.localeCompare(a.sortDate));
       if (!list.length) return '';
-      const ready = DATA.programs.filter(p => p.client === c.id && STATUS[p.status].copy).length;
       return `<article class="client" style="--acc:${c.accent}">
         <div class="cinfo">
           <div><div class="badge"><img src="${c.logoImg}" alt="Logo ${esc(c.name)}" style="${c.logoView ? `object-view-box:${c.logoView}` : ''}"></div><div class="cname">${esc(c.name)}</div><div class="csub">${esc(c.sub)}</div></div>
-          <div class="ccount">${ready} link siap dibagikan</div>
         </div>
         <div class="links">${list.map(row).join('')}</div>
       </article>`;
