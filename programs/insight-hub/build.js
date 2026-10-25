@@ -39,12 +39,20 @@ fs.writeFileSync(path.join(here, 'dist', out), html);
 console.log(`dist/${out} written (${Math.round(html.length / 1024)} KB)`);
 
 // Client view (/client-view/): link per program untuk dibagikan ke PIC klien. Hanya field yang dibutuhkan
-// halaman itu yang ditanam (tanpa skor, kutipan, foto, atau catatan internal).
+// halaman itu yang ditanam (tanpa skor per program, kutipan, foto, atau catatan internal; hanya ringkasan per klien).
 if (!LAB) {
   for (const p of DATA.programs) if (!p.clientLink) throw new Error(`${p.id}: clientLink missing`);
   const clientData = {
     asOf: DATA.asOf,
-    clients: DATA.clients.map(({ id, name, sub, color, logoView }) => ({ id, name, sub, accent: color, logoView, logoImg: png(DATA.clients.find(c => c.id === id).logo) })),
+    clients: DATA.clients.map(c => {
+      // Ringkasan per klien (tanpa angka per program): jumlah program per status, jawaban, dan rata-rata kepuasan berbobot.
+      const list = DATA.programs.filter(p => p.client === c.id && p.status !== "segera");
+      const resp = list.reduce((s, p) => s + p.responses, 0);
+      const score = resp ? list.reduce((s, p) => s + p.score * p.responses, 0) / resp : null;
+      const count = {};
+      for (const p of list) count[p.status] = (count[p.status] || 0) + 1;
+      return { id: c.id, name: c.name, sub: c.sub, accent: c.color, logoView: c.logoView, logoImg: png(c.logo), summary: { count, resp, score } };
+    }),
     programs: DATA.programs.map(({ id, client, status, title, fullName, date, sortDate, path: href, clientLink }) =>
       ({ id, client, status, title, fullName, date, sortDate, path: href, clientLink })),
   };

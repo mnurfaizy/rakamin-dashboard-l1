@@ -90,6 +90,11 @@
     background: linear-gradient(157deg, color-mix(in srgb, var(--acc) 20%, transparent) 13%, color-mix(in srgb, var(--acc) 3%, transparent) 87%); }
   .badge { display: inline-grid; place-items: center; padding: 12px; border-radius: 14px; background: #fff; box-shadow: 0 4px 14px #00000033; margin-bottom: 16px; }
   .badge img { display: block; height: 36px; width: auto; max-width: 128px; object-fit: contain; }
+  .csum { margin: 0; min-width: 0; }
+  .csum div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px dashed var(--line-2); font-size: 13px; }
+  .csum div:last-child { border-bottom: 0; }
+  .csum dt { color: var(--sage-300); }
+  .csum dd { margin: 0; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
   .cname { font: 600 26px/1.2 var(--display); }
   .csub { margin-top: 4px; font-size: 13px; color: var(--sage-300); }
   .links { flex: 1; min-width: 0; padding: 4px 16px; }
@@ -244,6 +249,12 @@ const DATA = __DATA__;
       `<button class="chip" type="button" data-c="${c.id}" aria-pressed="${state.client === c.id}">${esc(c.name)}<span class="ct">${n(c.id)}</span></button>`).join('');
   }
 
+  function summary(s) {
+    const parts = ["selesai", "berjalan"].filter(k => s.count[k]).map(k => `${s.count[k]} ${STATUS[k].label.toLowerCase()}`).join(" • ");
+    const score = s.score === null ? "–" : `${s.score.toFixed(2).replace(".", ",")} / 5`;
+    return `<dl class="csum"><div><dt>Program</dt><dd>${esc(parts)}</dd></div><div><dt>Jawaban feedback</dt><dd>${s.resp.toLocaleString("id-ID")}</dd></div><div><dt>Rata-rata kepuasan</dt><dd>${score}</dd></div></dl>`;
+  }
+
   function row(p) {
     const s = STATUS[p.status];
     const urlText = p.status === 'segera'
@@ -271,7 +282,7 @@ const DATA = __DATA__;
       if (!list.length) return '';
       return `<article class="client" style="--acc:${c.accent}">
         <div class="cinfo">
-          <div><div class="badge"><img src="${c.logoImg}" alt="Logo ${esc(c.name)}" style="${c.logoView ? `object-view-box:${c.logoView}` : ''}"></div><div class="cname">${esc(c.name)}</div><div class="csub">${esc(c.sub)}</div></div>
+          <div><div class="badge"><img src="${c.logoImg}" alt="Logo ${esc(c.name)}" style="${c.logoView ? `object-view-box:${c.logoView}` : ''}"></div><div class="cname">${esc(c.name)}</div><div class="csub">${esc(c.sub)}</div></div>${summary(c.summary)}
         </div>
         <div class="links">${list.map(row).join('')}</div>
       </article>`;
