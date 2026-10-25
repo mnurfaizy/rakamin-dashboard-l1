@@ -4,15 +4,15 @@
 // Kutipan = Suara Mayoritas / Quotes of the Day yang tampil di dashboard program, persis seperti jawaban peserta.
 // Program dengan `live` membaca ulang sheet dashboard-nya saat halaman dibuka (jawaban dan kepuasan bertambah harian).
 // clientLink: link client view per program (DUMMY, belum aktif; ganti dengan link asli setelah data diolah).
-// accent: warna aksen kartu klien di halaman Client view (/client-view/); logo diambil dari brand/.
+// color: warna brand klien, dipakai sebagai aksen gradient kartu di halaman Client view (/client-view/).
 module.exports = {
   asOf: '18 Okt 2026',
   // Klien dengan lebih dari 3 program: strip kupon geser (A) di layar lebar, 3 terbaru + tombol 'Tampilkan lainnya' (B) di HP.
   ticketLayout: 'auto',
   clients: [
-    { id: 'goto', accent: '#6F8C83', name: 'GoTo', sub: 'GoTo Gojek Tokopedia', logo: 'logo-goto.png', color: '#00AA13', tint: '#E7F6E9' },
-    { id: 'bsi', accent: '#B3A3E0', name: 'BSI', sub: 'Bank Syariah Indonesia', logo: 'logo-bsi.png', logoView: 'inset(27.8% 3.4% 28% 3.6%)', color: '#00949E', tint: '#E0F4F2' },
-    { id: 'dd', accent: '#EE9A5B', name: 'Dompet Dhuafa', sub: 'Institut Kemandirian Dompet Dhuafa', logo: 'logo-ik.png', color: '#0F447A', tint: '#E6EEF7' },
+    { id: 'goto', name: 'GoTo', sub: 'GoTo Gojek Tokopedia', logo: 'logo-goto.png', color: '#00AA13', tint: '#E7F6E9' },
+    { id: 'bsi', name: 'BSI', sub: 'Bank Syariah Indonesia', logo: 'logo-bsi.png', logoView: 'inset(27.8% 3.4% 28% 3.6%)', color: '#00949E', tint: '#E0F4F2' },
+    { id: 'dd', name: 'Dompet Dhuafa', sub: 'Institut Kemandirian Dompet Dhuafa', logo: 'logo-ik.png', color: '#0F447A', tint: '#E6EEF7' },
   ],
   programs: [
     {
