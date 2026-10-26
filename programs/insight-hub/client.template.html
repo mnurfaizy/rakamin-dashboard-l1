@@ -61,7 +61,7 @@
   .sync i { width: 8px; height: 8px; border-radius: 50%; background: #7FD3A8; }
 
   /* ---------- Header ---------- */
-  .header { display: flex; align-items: flex-end; gap: 48px; padding-top: 62px; padding-bottom: 40px; }
+  .header { display: flex; align-items: flex-end; gap: 48px; padding-top: 32px; padding-bottom: 40px; }
   .hl { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
   .viewsw { position: relative; isolation: isolate; display: inline-grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 5px; background: var(--glass); outline: 1px solid var(--line-2); outline-offset: -.5px; border-radius: 999px; -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px); view-transition-name: viewsw; }
   .viewsw .thumb { position: absolute; top: 5px; bottom: 5px; left: calc(50% + 2px); width: calc(50% - 7px); border-radius: 999px; background: var(--text); z-index: 0; transition: left .45s cubic-bezier(.22, .8, .24, 1); view-transition-name: viewsw-thumb; }
@@ -94,7 +94,7 @@
   .client { display: flex; align-items: stretch; padding: 8px; border-radius: 28px; background: var(--glass); outline: 1px solid var(--line-2); outline-offset: -.5px; box-shadow: 0 18px 40px #00000033; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
   .cinfo { width: 300px; flex: none; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; padding: 24px; border-radius: 22px;
     background: linear-gradient(157deg, color-mix(in srgb, var(--acc) 20%, transparent) 13%, color-mix(in srgb, var(--acc) 3%, transparent) 87%); }
-  .badge { display: inline-grid; place-items: center; padding: 12px; border-radius: 14px; background: #fff; box-shadow: 0 4px 14px #00000033; margin-bottom: 16px; }
+  .badge { display: inline-grid; place-items: center; padding: 12px; border-radius: 14px; background: #fff; box-shadow: 0 4px 14px #00000033; margin-bottom: 12px; }
   .badge img { display: block; height: 36px; width: auto; max-width: 128px; object-fit: contain; }
   .csum { margin: 0; min-width: 0; }
   .csum div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px dashed var(--line-2); font-size: 13px; }
@@ -146,7 +146,7 @@
     .url { flex: 1; width: auto; }
   }
   @media (max-width: 960px) {
-    .header { flex-direction: column; align-items: stretch; padding-top: 36px; }
+    .header { flex-direction: column; align-items: stretch; padding-top: 20px; }
     .guide { width: auto; }
     .client { flex-direction: column; }
     .cinfo { width: auto; min-height: 0; flex-direction: row; align-items: flex-end; }
@@ -158,14 +158,15 @@
     .brand .logo { width: 118px; }
     .brand { gap: 10px; }
     .sync { padding: 6px 12px; font-size: 12px; }
-    .header { padding-top: 20px; padding-bottom: 28px; gap: 28px; }
+    .header { padding-top: 8px; padding-bottom: 28px; gap: 28px; }
     h1 { letter-spacing: -1px; }
     .lead { font-size: 15.5px; line-height: 1.6; }
     .chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 calc(-1 * var(--gutter)); padding: 2px var(--gutter); scrollbar-width: none; width: calc(100% + 2 * var(--gutter)); }
     .chip { flex: none; }
     .client { border-radius: 22px; }
     .cinfo { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px; border-radius: 16px; }
-    .badge { width: 44px; height: 44px; font-size: 16px; border-radius: 13px; margin-bottom: 12px; }
+    .badge { padding: 10px; border-radius: 12px; margin-bottom: 10px; }
+    .badge img { height: 30px; max-width: 108px; }
     .cname { font-size: 22px; }
     .links { padding: 0 6px; }
     .row { gap: 12px; padding: 16px 6px; }
