@@ -16,6 +16,8 @@ const PROGRAMS = [
   { dir: 'bsi-bpi-mastery', slug: 'bsi-bpi-mastery', favicon: 'bsi', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   { dir: 'ikdd-sms-b1', slug: 'ikdd-sms-batch-1', favicon: 'dd', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   { dir: 'ikdd-sms-b2', slug: 'ikdd-sms-batch-2', favicon: 'dd', steps: ['node build.js'] },
+  // Same page; on this path it shows Kelola data (sheet, upload, salin link). Share only inside the team.
+  { dir: 'ikdd-sms-b2', slug: 'ikdd-sms-batch-2/admin-view', favicon: 'dd', steps: [] },
   { dir: 'goto-driver-kids', slug: 'gojek-magang-driver-kids', favicon: 'goto', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   // L1 Insight Hub: the site root (empty slug). It links every program above and lists all clients, so share it only inside the team.
   { dir: 'insight-hub', slug: '', favicon: 'hub', steps: ['node build.js'] },

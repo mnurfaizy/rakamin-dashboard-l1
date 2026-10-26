@@ -285,7 +285,7 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
     <span class="pill">Insight Feedback L1 · Social Media Specialist Batch 2</span>
     <h1>Feedback Peserta <b id="heroDay">Day –</b></h1>
     <p class="sub" id="heroSub">–</p>
-    <div class="banner" id="sampleBanner" hidden><b>Data contoh.</b> Angka dan komentar di halaman ini masih dummy untuk tampilan awal. Hubungkan Google Sheet lewat tombol <b>Kelola data</b> di bawah.</div>
+    <div class="banner" id="sampleBanner" hidden><b>Data contoh.</b> Angka dan komentar di halaman ini masih dummy untuk tampilan awal. <span data-admin-only>Hubungkan Google Sheet lewat tombol <b>Kelola data</b> di bawah.</span></div>
   </div>
 
   <section aria-labelledby="qTitle">
@@ -329,7 +329,7 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
   </section>
 
   <footer>
-    <button class="btn primary" id="openManage" type="button">
+    <button class="btn primary" id="openManage" type="button" data-admin-only>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
       Kelola data
     </button>
@@ -395,7 +395,7 @@ document.documentElement.style.setProperty('--bg-bl', 'url(data:image/jpeg;base6
    ====================================================================== */
 const Core = (() => {
   const CONFIG = {
-    defaultSheetId: '1ASi1XhjGn7wb-JKlzkFuQmVJ3YHQZpsoPax_1x8o2wY',  // [Daily Dashboard] IKDD SMS Batch 2: dipakai di semua browser
+    defaultSheetId: '1QHb30w16ROdTzMOqtq9CNVU7ugpBp5ldFZ3xJ9IDh4c',  // sheet acuan IKDD SMS Batch 2: dipakai di semua browser
     // Feedback tab: the first name that exists AND has the daily-feedback layout (column A = Day) wins.
     feedbackTabs: ['Feedback Peserta', '00. Daily Feedback Peserta'],
     tabs: { info: 'Info Sesi', insight: 'Insight by Claude', quotes: 'Quotes of the Day' },
@@ -699,6 +699,11 @@ const Sample = (() => {
     del(k) { try { localStorage.removeItem(k); } catch { /* storage unavailable */ } },
   };
   const KEY_SHEET = 'ikdd2.sheetId';
+  // Kelola data only opens on <slug>/admin-view/. The public page always reads ?sheet= or the default sheet,
+  // never a sheet or file saved in this browser, so every viewer sees the same data.
+  const ADMIN = /\/admin-view\/?$/.test(location.pathname);
+  const publicPath = location.pathname.replace(/admin-view\/?$/, '');
+  if (!ADMIN) document.querySelectorAll('[data-admin-only]').forEach(el => el.remove());
   const KEY_UPLOAD = 'ikdd2.upload';
 
   const SERIES = [
@@ -752,8 +757,8 @@ const Sample = (() => {
     renderLogos();
     const params = new URLSearchParams(location.search);
     const urlSheet = Core.parseSheetId(params.get('sheet'));
-    const upload = store.get(KEY_UPLOAD);
-    const savedSheet = store.get(KEY_SHEET);
+    const upload = ADMIN ? store.get(KEY_UPLOAD) : null;
+    const savedSheet = ADMIN ? store.get(KEY_SHEET) : null;
     state.sheetId = urlSheet || savedSheet || CONFIG.defaultSheetId;
 
     if (!urlSheet && upload) {
@@ -1062,7 +1067,7 @@ const Sample = (() => {
 
   async function copyLink() {
     if (!state.sheetId) { status('copyStatus', 'Hubungkan Google Sheet dulu.', false); return; }
-    const url = `${location.origin}${location.pathname}?sheet=${state.sheetId}`;
+    const url = `${location.origin}${publicPath}?sheet=${state.sheetId}`;
     try { await navigator.clipboard.writeText(url); status('copyStatus', 'Link tersalin. Tempel di grup talent.', true); }
     catch { status('copyStatus', url, true); }
   }
@@ -1101,7 +1106,7 @@ const Sample = (() => {
   $('daySelect').addEventListener('change', e => setDay(Number(e.target.value)));
   $('searchInput').addEventListener('input', e => { state.search = e.target.value; renderAnswers(state.day); });
   $('themeFilter').querySelector('button').addEventListener('click', () => setTheme(null, false));
-  $('openManage').addEventListener('click', openManage);
+  if (ADMIN) $('openManage').addEventListener('click', openManage);
   $('closeManage').addEventListener('click', () => $('manage').close());
   $('connectBtn').addEventListener('click', () => connect($('sheetInput').value));
   $('reloadBtn').addEventListener('click', () => connect(state.sheetId));
