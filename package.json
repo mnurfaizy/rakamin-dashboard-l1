@@ -11,8 +11,9 @@
     "build:bsi-mastery": "cd programs/bsi-bpi-mastery && node data/build-sheet-data.js && node build.js",
     "build:ikdd-b1": "cd programs/ikdd-sms-b1 && node data/build-sheet-data.js && node build.js",
     "build:ikdd-b2": "cd programs/ikdd-sms-b2 && node build.js",
+    "build:ikdd-b2-mentor": "cd programs/ikdd-sms-b2-mentor && node build.js",
     "build:gojek-dk": "cd programs/goto-driver-kids && node data/build-sheet-data.js && node build.js",
-    "build:each": "npm run build:goto-pm && npm run build:bsi-b2-b3 && npm run build:bsi-a10 && npm run build:bsi-mastery && npm run build:ikdd-b1 && npm run build:ikdd-b2 && npm run build:gojek-dk && npm run build:hub",
+    "build:each": "npm run build:goto-pm && npm run build:bsi-b2-b3 && npm run build:bsi-a10 && npm run build:bsi-mastery && npm run build:ikdd-b1 && npm run build:ikdd-b2 && npm run build:ikdd-b2-mentor && npm run build:gojek-dk && npm run build:hub",
     "build:hub": "cd programs/insight-hub && node build.js"
   },
   "engines": {

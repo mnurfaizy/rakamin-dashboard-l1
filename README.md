@@ -48,6 +48,7 @@ Semua program disajikan oleh **satu** situs statis, masing-masing di sub-path se
 | `bsi-bpi-mastery` | `/bsi-bpi-mastery/` | Rangkuman, Hari 1, Hari 2 |
 | `ikdd-sms-b1` | `/ikdd-sms-batch-1/` | Rangkuman Day 1–10, Day 1 … Day 10 (dropdown) |
 | `ikdd-sms-b2` | `/ikdd-sms-batch-2/` | Daily (Day 1–10, berjalan), dimigrasi apa adanya dari Netlify |
+| `ikdd-sms-b2-mentor` | `/ikdd-sms-batch-2-mentoring/` (+ `/admin-view/`) | Mentoring Final Project: Rangkuman, Mentoring 1–4, Perbandingan Mentor (3 kelompok), Catatan untuk Mentor |
 | `goto-driver-kids` | `/gojek-magang-driver-kids/` | Rangkuman, Day 2, Day 3 (Magang di Kantor Gojek, Driver's Kids) |
 | `insight-hub` | `/` (akar situs) dan `/client-view/` | **L1 Insight Hub** (internal): satu halaman yang menautkan semua program, per klien |
 
@@ -72,6 +73,7 @@ npm run build:bsi-a10
 npm run build:bsi-mastery
 npm run build:ikdd-b1
 npm run build:ikdd-b2
+npm run build:ikdd-b2-mentor
 npm run build:gojek-dk
 npm run build:hub
 ```

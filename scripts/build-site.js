@@ -1,5 +1,5 @@
 // Builds every program and assembles ONE static site in site/, one sub-path per program:
-//   site/goto-pm/  site/bsi-bpi-sdp-batch-2-3/  site/bsi-bpi-sdp-angkatan-10/  site/bsi-bpi-mastery/  site/ikdd-sms-batch-1/  site/ikdd-sms-batch-2/  site/gojek-magang-driver-kids/
+//   site/goto-pm/  site/bsi-bpi-sdp-batch-2-3/  site/bsi-bpi-sdp-angkatan-10/  site/bsi-bpi-mastery/  site/ikdd-sms-batch-1/  site/ikdd-sms-batch-2/  site/ikdd-sms-batch-2-mentoring/  site/gojek-magang-driver-kids/
 // and the L1 Insight Hub (programs/insight-hub) at the site root, site/index.html.
 // Used by a single Render static site (Build Command: node scripts/build-site.js, Publish Directory: site).
 // To add a program: append it to PROGRAMS below (favicon = a name in assets/favicons/: hub, goto, bsi, dd).
@@ -18,6 +18,9 @@ const PROGRAMS = [
   { dir: 'ikdd-sms-b2', slug: 'ikdd-sms-batch-2', favicon: 'dd', steps: ['node build.js'] },
   // Same page; on this path it shows Kelola data (sheet, upload, salin link). Share only inside the team.
   { dir: 'ikdd-sms-b2', slug: 'ikdd-sms-batch-2/admin-view', favicon: 'dd', steps: [] },
+  // Mentoring Final Project Batch 2 (dibaca live dari sheet mentoring). Publik untuk tim + mentor; Kelola data hanya di admin-view.
+  { dir: 'ikdd-sms-b2-mentor', slug: 'ikdd-sms-batch-2-mentoring', favicon: 'dd', steps: ['node build.js'] },
+  { dir: 'ikdd-sms-b2-mentor', slug: 'ikdd-sms-batch-2-mentoring/admin-view', favicon: 'dd', steps: [] },
   { dir: 'goto-driver-kids', slug: 'gojek-magang-driver-kids', favicon: 'goto', steps: ['node data/build-sheet-data.js', 'node build.js'] },
   // L1 Insight Hub: the site root (empty slug). It links every program above and lists all clients, so share it only inside the team.
   { dir: 'insight-hub', slug: '', favicon: 'hub', steps: ['node build.js'] },
