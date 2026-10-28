@@ -88,41 +88,28 @@ section[hidden] { display: none; }
 .card-pad { padding: 20px; }
 .card-title { font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 14px; }
 
-/* ---------- Quotes (chat bubbles) ---------- */
+/* ---------- Quotes: one fixed slot per mentor, same size and colour (no ranking between kelompok) ---------- */
 .quotes { padding: 32px 20px 28px; background: linear-gradient(160deg, var(--blue-soft), var(--surface) 55%, var(--yellow-soft)); overflow: hidden; position: relative; }
-.qwall { display: flex; flex-direction: column; align-items: center; gap: 22px; max-width: 980px; margin: 0 auto; }
-.qrow { display: flex; justify-content: center; align-items: flex-start; gap: 28px; width: 100%; }
-.qrow.pair > .q:first-child { transform: rotate(-1.6deg); margin-top: 0; }
-.qrow.pair > .q:last-child { transform: rotate(1.4deg); margin-top: 26px; }
-.qrow.pair.flip > .q:first-child { margin-top: 26px; }
-.qrow.pair.flip > .q:last-child { margin-top: 0; }
-.q { display: flex; flex-direction: column; gap: 8px; max-width: 440px; flex: 1 1 0; }
-.q.left { align-items: flex-start; } .q.right { align-items: flex-end; } .q.center { align-items: center; max-width: 640px; }
-.bubble { position: relative; padding: 18px 22px; border-radius: 24px; font-size: 19px; line-height: 1.45; font-weight: 500; box-shadow: 0 10px 28px rgba(15,68,122,.12); }
-.bubble::after { content: ""; position: absolute; bottom: -9px; width: 20px; height: 20px; background: inherit; }
-.q.left .bubble { background: var(--surface); color: var(--navy); border-bottom-left-radius: 6px; }
-.q.left .bubble::after { left: 0; clip-path: polygon(0 0, 100% 0, 0 100%); }
-.q.right .bubble { background: var(--blue); color: #fff; border-bottom-right-radius: 6px; }
-.q.right .bubble::after { right: 0; clip-path: polygon(0 0, 100% 0, 100% 100%); }
-.q.center .bubble { background: var(--navy); color: #fff; font-size: clamp(20px, 2.6vw, 26px); font-weight: 600; padding: 26px 34px; text-align: center; border-radius: 28px; }
-.q.center .bubble::after { left: calc(50% - 10px); bottom: -10px; clip-path: polygon(0 0, 100% 0, 50% 100%); }
-.q.center .bubble::before { content: "\201C"; position: absolute; top: -26px; left: 22px; font: 800 72px/1 Georgia, serif; color: var(--yellow); }
-.q.alt .bubble { background: var(--yellow-soft); color: var(--navy-deep); }
-.q-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); padding: 4px 6px 0; }
-.q.right .q-meta { justify-content: flex-end; } .q.center .q-meta { justify-content: center; }
-.q-meta .tema { font-weight: 600; color: var(--navy); }
+.qgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; max-width: 1060px; margin: 0 auto; }
+.qslot { display: flex; flex-direction: column; gap: 16px; min-width: 0; margin: 0; }
+.bubble { position: relative; flex: 1; margin: 22px 0 0; padding: 30px 22px 22px; border-radius: 24px; border-bottom-left-radius: 6px; background: var(--navy); color: #fff; font-size: 18px; line-height: 1.45; font-weight: 600; box-shadow: 0 10px 28px rgba(15,68,122,.16); }
+.bubble::before { content: "\201C"; position: absolute; top: -24px; left: 18px; font: 800 64px/1 Georgia, serif; color: var(--yellow); }
+.bubble::after { content: ""; position: absolute; left: 0; bottom: -9px; width: 20px; height: 20px; background: inherit; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.qslot.wait .bubble { background: rgba(255,255,255,.7); color: var(--ink-2); border: 1.5px dashed #c9d6e4; box-shadow: none; font-weight: 500; font-size: 15px; display: flex; flex-direction: column; gap: 6px; padding-top: 22px; }
+.qslot.wait .bubble::before, .qslot.wait .bubble::after { display: none; }
+.qslot.wait .bubble b { color: var(--navy); font-size: 16px; }
+.qslot.wait .typing { align-self: flex-start; padding: 0; background: none; box-shadow: none; margin-bottom: 4px; }
+.qwho { display: flex; align-items: center; gap: 10px; padding-left: 2px; min-width: 0; }
+.qwho .role { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+.qwho .name { font-weight: 700; color: var(--navy); }
+.qwho .tema { font-size: 13px; color: var(--ink-2); }
 .q-foot { text-align: center; margin: 22px 0 0; font-size: 13px; color: var(--ink-3); }
 
-.q-wait { text-align: center; max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .typing { display: inline-flex; gap: 6px; padding: 16px 22px; background: var(--surface); border-radius: 22px; border-bottom-left-radius: 6px; box-shadow: 0 10px 28px rgba(15,68,122,.12); }
 .typing i { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); opacity: .35; animation: blink 1.2s infinite; }
 .typing i:nth-child(2) { animation-delay: .2s; } .typing i:nth-child(3) { animation-delay: .4s; }
 @keyframes blink { 0%, 80%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
 @media (prefers-reduced-motion: reduce) { .typing i { animation: none; opacity: .7; } }
-.q-wait h3 { margin: 0; font-size: clamp(22px, 3vw, 30px); color: var(--navy); font-weight: 700; line-height: 1.25; }
-.q-wait p { margin: 0; font-size: 17px; color: var(--ink-2); }
-.q-wait .count { font-size: clamp(40px, 6vw, 56px); font-weight: 800; color: var(--blue); line-height: 1; }
-.q-wait .count small { font-size: 20px; color: var(--ink-2); font-weight: 600; }
 
 /* ---------- Ringkasan ---------- */
 .summary { display: grid; grid-template-columns: minmax(220px, 1.3fr) repeat(5, minmax(0, 1fr)); gap: 12px; }
@@ -299,11 +286,7 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
 }
 @media (max-width: 820px) {
   .insight { grid-template-columns: 1fr; grid-template-areas: "info" "aspek" "tren"; }
-  .voices, .notes { grid-template-columns: 1fr; }
-  .qrow { flex-direction: column; align-items: stretch; gap: 18px; }
-  .qrow.pair > .q { transform: none !important; margin-top: 0 !important; max-width: 88%; }
-  .qrow.pair > .q.right { align-self: flex-end; }
-  .q.center { max-width: 100%; }
+  .voices, .notes, .qgrid { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
   .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -316,7 +299,6 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
   .sess .n { display: none; }
   .sess .sv { grid-column: 2; }
   .bubble { font-size: 17px; }
-  .q-wait .count small { display: block; margin-top: 6px; font-size: 16px; }
 }
 </style>
 </head>
@@ -456,10 +438,9 @@ const Core = (() => {
     sessionDates: ['Rabu, 28 Oktober 2026', 'Jumat, 30 Oktober 2026', 'Rabu, 4 November 2026', 'Selasa, 10 November 2026'],
     sessionShort: ['28 Okt', '30 Okt', '4 Nov', '10 Nov'],
     defaultTotalPeserta: 20,   // dipakai bila kolom "Jumlah Peserta" di Info Sesi kosong
-    quoteMinShare: 0.5,        // Quotes of the Session tampil setelah >= 50% peserta mengisi sesi itu
+    quoteMinShare: 0.5,        // kutipan satu kelompok tampil setelah >= 50% anggotanya mengisi sesi itu
     flag: { floor: 4.0 },      // skor di bawah ini diberi warna peringatan
     npsFloor: 60,              // NPS (persen) di bawah ini diberi warna peringatan
-    maxQuotes: 5,
   };
   // Dipakai bila tab Info Kelompok belum terbaca.
   const DEFAULT_KELOMPOK = { 1: { mentor: 'Panji Pratama Lifianto', anggota: null }, 2: { mentor: 'Himmatul Ulya', anggota: null }, 3: { mentor: 'Enggartiasto Faudi R.', anggota: null } };
@@ -670,22 +651,14 @@ const Core = (() => {
     return { n: rows.length, items, groups, nps: npsScore(rows.map(r => r.nps)) };
   }
 
-  /** Quotes gate: only shown once at least half of the participants answered that session. */
-  function quoteState(n, total, quotes, share = CONFIG.quoteMinShare) {
-    const need = Math.ceil(total * share);
-    if (n < need) return { mode: 'waiting', need: need - n, threshold: need };
-    return quotes.length ? { mode: 'ready' } : { mode: 'pending' };
-  }
-
-  /** Symmetric layout for the quote wall: pairs flank a centred featured quote. */
-  function quoteLayout(count) {
-    if (count <= 0) return [];
-    if (count === 1) return [[{ idx: 0, side: 'center' }]];
-    if (count === 2) return [[{ idx: 0, side: 'left' }, { idx: 1, side: 'right' }]];
-    const rows = [[{ idx: 1, side: 'left' }, { idx: 2, side: 'right' }], [{ idx: 0, side: 'center' }]];
-    if (count === 4) rows.push([{ idx: 3, side: 'center' }]);
-    if (count >= 5) rows.push([{ idx: 3, side: 'left' }, { idx: 4, side: 'right' }]);
-    return rows;
+  /**
+   * Gate for one kelompok's quote slot: shown once at least half of that kelompok answered.
+   * `members` is the kelompok size (Info Kelompok); without it the slot is never held back.
+   */
+  function quoteState(n, members, quote, share = CONFIG.quoteMinShare) {
+    const threshold = members ? Math.ceil(members * share) : 1;
+    if (n < threshold) return { mode: 'waiting', need: threshold - n, threshold };
+    return quote ? { mode: 'ready' } : { mode: 'pending' };
   }
 
   const fmt = (v, d = 2) => (v == null ? '–' : v.toLocaleString('id-ID', { minimumFractionDigits: d, maximumFractionDigits: d }));
@@ -696,7 +669,7 @@ const Core = (() => {
     return { text: (diff > 0 ? '+' : '−') + fmt(Math.abs(diff), d), cls: diff > 0 ? 'up' : 'down' };
   }
 
-  return { CONFIG, DEFAULT_KELOMPOK, ITEMS, GROUPS, TEXTS, isFeedbackTable, isFlagged, parseCSV, parseSheetId, parseSesi, parseKelompok, toScore, normalizeFeedback, normalizeInfo, normalizeKelompok, normalizeInsight, normalizeQuotes, normalizeNotes, normText, themeTerms, matchesTheme, mean, npsScore, stats, quoteState, quoteLayout, fmt, fmtDelta };
+  return { CONFIG, DEFAULT_KELOMPOK, ITEMS, GROUPS, TEXTS, isFeedbackTable, isFlagged, parseCSV, parseSheetId, parseSesi, parseKelompok, toScore, normalizeFeedback, normalizeInfo, normalizeKelompok, normalizeInsight, normalizeQuotes, normalizeNotes, normText, themeTerms, matchesTheme, mean, npsScore, stats, quoteState, fmt, fmtDelta };
 })();
 if (typeof module !== 'undefined') module.exports = Core;
 </script>
@@ -712,7 +685,7 @@ const Sample = (() => {
   const pengalaman = ['Mentor langsung kasih contoh slide yang lebih rapi, jadi kebayang revisinya', 'Feedbacknya detail per bagian deck, sangat membantu', 'Seru, mentor banyak cerita pengalaman di agency', 'Diskusinya interaktif, semua anggota diajak bicara', 'Arahan KPI-nya jelas, tapi waktunya terasa singkat', 'Mentor cepat balas di grup walaupun di luar jadwal', ''];
   const perbaikan = ['Durasi diskusi ditambah', 'Jadwal mentoring dikabari lebih awal', 'Koneksi Zoom sempat putus', 'Template deck dibagikan sebelum sesi', 'Sudah baik', ''];
   const mentors = { 1: 'Panji Pratama Lifianto', 2: 'Himmatul Ulya', 3: 'Enggartiasto Faudi R.' };
-  const counts = { 1: { 1: 7, 2: 6, 3: 6 }, 2: { 1: 6, 2: 5, 3: 4 } };
+  const counts = { 1: { 1: 7, 2: 6, 3: 6 }, 2: { 1: 6, 2: 5, 3: 2 } };
   const bias = { 1: 0.2, 2: 0, 3: -0.35 };
   const header = ['Sesi', 'Kelompok', 'Mentor', 'Sebarapa membantu feedback/arahan/saran yang diberikan mentormu dalam pengerjaan Final Project?', 'Seberapa tepat waktu mentor dalam melaksanakan sesi mentoring?', 'Seberapa interaktif mentormu dalam melaksanakan sesi mentoring?', 'Seberapa responsif mentormu dalam menjawab pertanyaan/memberikan feedback di luar sesi live mentoring?', 'Seberapa luas pengetahuan mentormu pada materi bootcamp?', 'Seberapa membantu mentormu dalam keseluruhan proses belajarmu di Final Project ini?', 'Seberapa puaskah kamu dengan sesi mentoring ini secara keseluruhan', 'Dari skala 0 hingga 10, seberapa besar kamu akan merekomendasikan sesi mentoring ini?', 'Bagaimana pengalamanmu selama sesi mentoring bersama mentor? Ceritakan hal yang paling berkesan, serta masukan yang ingin kamu sampaikan untuk mentor.', 'Bagian pada sesi mentoring yang perlu diperbaiki, boleh dari segi pelaksanaan, technicalities, atau lainnya...', 'Timestamp', 'ID Responden'];
   const feedback = [header];
@@ -732,15 +705,18 @@ const Sample = (() => {
     ['Mentoring 1', 'Kelompok 2', 'Diapresiasi', 'Diskusi interaktif, semua anggota diajak bicara', '3', 'M1-K2-02|M1-K2-04|M1-K2-06', 'Diskusinya interaktif, semua anggota diajak bicara', 'interaktif|diajak'],
     ['Mentoring 1', 'Semua', 'Masukan untuk mentor', 'Waktu diskusi terasa singkat', '4', 'M1-K1-03|M1-K2-02|M1-K3-01|M1-K3-04', 'Arahan KPI-nya jelas, tapi waktunya terasa singkat', 'singkat|durasi'],
     ['Mentoring 1', 'Semua', 'Perbaikan pelaksanaan', 'Jadwal mentoring dikabari lebih awal', '3', 'M1-K1-05|M1-K3-02|M1-K3-05', 'Jadwal mentoring dikabari lebih awal', 'jadwal'],
-    ['Mentoring 2', 'Semua', 'Diapresiasi', 'Mentor responsif di grup', '6', 'M2-K1-01|M2-K1-03|M2-K2-02|M2-K2-04|M2-K3-01|M2-K3-03', 'Mentor cepat balas di grup walaupun di luar jadwal', 'balas|grup|responsif'],
-    ['Mentoring 2', 'Kelompok 3', 'Perbaikan pelaksanaan', 'Koneksi Zoom tidak stabil', '2', 'M2-K3-02|M2-K3-04', 'Koneksi Zoom sempat putus', 'zoom|koneksi'],
+    ['Mentoring 2', 'Semua', 'Diapresiasi', 'Mentor responsif di grup', '6', 'M2-K1-01|M2-K1-03|M2-K1-05|M2-K2-02|M2-K2-04|M2-K3-01', 'Mentor cepat balas di grup walaupun di luar jadwal', 'balas|grup|responsif'],
+    ['Mentoring 2', 'Kelompok 3', 'Perbaikan pelaksanaan', 'Koneksi Zoom tidak stabil', '2', 'M2-K3-01|M2-K3-02', 'Koneksi Zoom sempat putus', 'zoom|koneksi'],
     ['Rangkuman', 'Semua', 'Diapresiasi', 'Feedback detail per bagian deck', '13', '', 'Feedbacknya detail per bagian deck, sangat membantu', 'detail|deck'],
     ['Rangkuman', 'Semua', 'Masukan untuk mentor', 'Waktu diskusi terasa singkat', '6', '', 'Arahan KPI-nya jelas, tapi waktunya terasa singkat', 'singkat']];
   const quotes = [['Sesi', 'Kelompok', 'Kutipan', 'Tema', 'ID Responden'],
     ['Mentoring 1', 'Kelompok 1', 'Mentor langsung kasih contoh slide yang lebih rapi, jadi kebayang revisinya', 'Feedback detail per bagian deck', 'M1-K1-02'],
     ['Mentoring 1', 'Kelompok 2', 'Diskusinya interaktif, semua anggota diajak bicara', 'Diskusi interaktif', 'M1-K2-04'],
     ['Mentoring 2', 'Kelompok 1', 'Mentor cepat balas di grup walaupun di luar jadwal', 'Mentor responsif', 'M2-K1-03'],
-    ['Rangkuman', 'Semua', 'Feedbacknya detail per bagian deck, sangat membantu', 'Feedback detail per bagian deck', '']];
+    ['Mentoring 1', 'Kelompok 3', 'Arahan KPI-nya jelas, jadi tahu target yang realistis', 'Arahan KPI jelas', 'M1-K3-02'],
+    ['Rangkuman', 'Kelompok 1', 'Mentor langsung kasih contoh slide yang lebih rapi, jadi kebayang revisinya', 'Feedback detail per bagian deck', 'M1-K1-02'],
+    ['Rangkuman', 'Kelompok 2', 'Diskusinya interaktif, semua anggota diajak bicara', 'Diskusi interaktif', 'M1-K2-04'],
+    ['Rangkuman', 'Kelompok 3', 'Arahan KPI-nya jelas, jadi tahu target yang realistis', 'Arahan KPI jelas', 'M1-K3-02']];
   const notes = [['Sesi', 'Kelompok', 'Mentor', 'Pertahankan', 'Sesuaikan', 'ID Responden'],
     ['Mentoring 1', 'Kelompok 1', mentors[1], 'Contoh revisi slide yang konkret', 'Sisakan waktu tanya jawab di akhir sesi', ''],
     ['Mentoring 1', 'Kelompok 2', mentors[2], 'Mengajak semua anggota bicara', 'Kirim ringkasan arahan setelah sesi', ''],
@@ -867,7 +843,7 @@ const Sample = (() => {
     $('targetNote').textContent = prevSesi != null ? `Δ dibandingkan ${sesiLabel(prevSesi)}` : '';
     document.title = `${all ? 'Rangkuman' : sesiLabel(v)} · Insight L1 IKDD SMS Batch 2 Mentoring`;
 
-    renderQuotes(st);
+    renderQuotes();
     renderSummary(st, prev, prevSesi);
     renderCompare();
     renderInfo(info);
@@ -888,45 +864,29 @@ const Sample = (() => {
       + Array.from({ length: CONFIG.totalSessions }, (_, i) => i + 1).map(s => opt(s, `${sesiLabel(s)}, ${CONFIG.sessionShort[s - 1]}`, have.has(s))).join('');
   }
 
-  /* ---------------- Quotes of the Session / Suara Mayoritas ---------------- */
-  function renderQuotes(st) {
+  /* ---------------- Quotes of the Session / Suara Mayoritas ----------------
+     One fixed slot per kelompok, always in kelompok order and in the same style, so no mentor looks ranked.
+     Each quote comes from its own kelompok's answers; a slot waits until half of that kelompok answered. */
+  function renderQuotes() {
     const all = state.view === 'all';
     $('qTitle').textContent = all ? 'Suara Mayoritas' : 'Quotes of the Session';
-    const quotes = state.data.quotes.filter(q => q.sesi === state.view).slice(0, CONFIG.maxQuotes);
-    const n = st?.n || 0; const total = capacity();
-    const qs = all ? (quotes.length ? { mode: 'ready' } : { mode: 'pending' }) : Core.quoteState(n, total, quotes);
-    const box = $('quotesBox');
-
-    if (qs.mode === 'ready') {
-      let alt = 0;
-      const bubble = (q, side) => {
-        const isAlt = side !== 'center' && (alt++ % 3 === 2);   // every third side bubble gets the soft-yellow variant
-        const meta = [q.tema ? `<span class="tema">${esc(q.tema)}</span>` : '', q.kelompok !== 'all' ? `<span>Kelompok ${q.kelompok}</span>` : ''].filter(Boolean).join('<span aria-hidden="true">·</span>');
-        return `<figure class="q ${side} ${isAlt ? 'alt' : ''}" style="margin:0">
-          <blockquote class="bubble" style="margin:0">${esc(q.text)}</blockquote>
-          <figcaption class="q-meta">${meta}</figcaption>
-        </figure>`;
-      };
-      box.innerHTML = `<div class="qwall">${Core.quoteLayout(quotes.length).map((row, r) =>
-        `<div class="qrow ${row.length === 2 ? 'pair' : ''} ${r % 2 ? 'flip' : ''}">${row.map(c => bubble(quotes[c.idx], c.side)).join('')}</div>`).join('')}</div>
-        <p class="q-foot">Kutipan diambil apa adanya dari jawaban peserta. Satu kutipan paling mewakili per tema.</p>`;
-      return;
-    }
-
-    if (all) {
-      box.innerHTML = `<div class="q-wait"><div class="typing" aria-hidden="true"><i></i><i></i><i></i></div>
-        <h3>Suara mayoritas sedang dirangkum</h3><p>Kutipan dari tema yang paling banyak disuarakan di semua sesi akan tampil di sini.</p></div>`;
-      return;
-    }
-    const waiting = qs.mode === 'waiting';
-    box.innerHTML = `<div class="q-wait">
-      <div class="typing" aria-hidden="true"><i></i><i></i><i></i></div>
-      <h3>${waiting ? 'Sebentar ya, suara peserta sedang dikumpulkan' : 'Kutipan pilihan sedang dirangkum'}</h3>
-      <div class="count num">${n} <small>dari ${total} peserta sudah mengisi</small></div>
-      <p>${waiting
-        ? `Quotes of the Session muncul setelah minimal ${qs.threshold} peserta mengisi, supaya kutipannya mewakili kelas. Tinggal <b>${qs.need} jawaban lagi</b>.`
-        : 'Jawaban sudah cukup. Kutipan pilihan sesi ini akan segera tampil di sini.'}</p>
-    </div>`;
+    const rows = viewRows();
+    const sessions = all ? sessionsWithData().length : 1;
+    const slot = k => {
+      const quote = state.data.quotes.find(q => q.sesi === state.view && q.kelompok === k) || null;
+      const n = rows.filter(r => r.kelompok === k).length;
+      const members = state.data.kelompok[k]?.anggota;
+      const qs = all ? { mode: quote ? 'ready' : 'pending' } : Core.quoteState(n, members, quote);
+      const who = `<div class="qwho"><span class="avatar k${k}" aria-hidden="true">${esc(initials(mentorOf(k)))}</span><div style="min-width:0"><div class="role">Kelompok ${k} · ${esc(mentorOf(k) || 'Belum diisi')}</div>${qs.mode === 'ready' && quote.tema ? `<div class="tema">${esc(quote.tema)}</div>` : ''}</div></div>`;
+      if (qs.mode === 'ready') return `<figure class="qslot"><blockquote class="bubble">${esc(quote.text)}</blockquote><figcaption>${who}</figcaption></figure>`;
+      const base = members ? ` dari ${members * sessions}` : '';
+      const body = qs.mode === 'waiting'
+        ? `<div class="typing" aria-hidden="true"><i></i><i></i><i></i></div><b>Menunggu jawaban Kelompok ${k}</b><span class="num">${n}${base} anggota sudah mengisi · butuh ${qs.need} lagi</span>`
+        : `<b>Kutipan sedang dirangkum</b><span class="num">${n}${base} ${all ? 'pengisian' : 'anggota sudah mengisi'}</span>`;
+      return `<div class="qslot wait"><div class="bubble">${body}</div>${who}</div>`;
+    };
+    $('quotesBox').innerHTML = `<div class="qgrid">${kelompokList().map(slot).join('')}</div>
+      <p class="q-foot">Satu kutipan per kelompok, diambil apa adanya dari jawaban anggota kelompok itu.</p>`;
   }
 
   /* ---------------- Ringkasan ---------------- */
@@ -938,11 +898,10 @@ const Sample = (() => {
     const all = state.view === 'all';
     const total = capacity(); const n = s?.n || 0;
     const pct = total ? Math.round((n / total) * 100) : 0;
-    const need = all ? 0 : Math.max(0, Math.ceil(total * CONFIG.quoteMinShare) - n);
     const part = `<div class="card tile part"><span class="k">${all ? 'Pengisian feedback' : 'Peserta yang mengisi'}</span>
       <span class="v num">${n} <small>dari ${total} ${all ? 'pengisian' : 'peserta'}</small></span>
       <div class="bar"><i style="width:${Math.min(100, pct)}%"></i></div>
-      <span class="d num">${pct}% partisipasi${need ? ` · ${need} lagi untuk Quotes of the Session` : ''}</span></div>`;
+      <span class="d num">${pct}% partisipasi</span></div>`;
     const ref = p ? sesiLabel(prevSesi) : '';
     const g = k => s?.groups[k] ?? null; const pg = k => p?.groups[k] ?? null;
     const scoreTile = (k, key) => tile({ k, v: Core.fmt(g(key)), unit: '/ 5', delta: { ...Core.fmtDelta(g(key), pg(key)), ref }, below: Core.isFlagged(g(key)) });
