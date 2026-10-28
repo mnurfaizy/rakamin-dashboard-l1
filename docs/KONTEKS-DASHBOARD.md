@@ -202,7 +202,7 @@ Sheet dibagikan "Anyone with the link: Viewer". Tab yang dibaca:
 
 ### Project 6b: IKDD SMS Batch 2, Mentoring Final Project (kondisi A, berjalan)
 
-- Program `programs/ikdd-sms-b2-mentor/`, alamat `/ikdd-sms-batch-2-mentoring/` dan `/ikdd-sms-batch-2-mentoring/admin-view/` (Kelola data). Satu template HTML yang membaca sheet live (gviz); aset brand diambil dari `ikdd-sms-b2` ke `brand/assets.html` dan ditanam oleh `build.js`. Selama sheet belum dibagikan publik atau belum ada jawaban, halaman menampilkan data contoh dengan banner.
+- Program `programs/ikdd-sms-b2-mentor/`, alamat `/ikdd-sms-batch-2-mentoring/` dan `/ikdd-sms-batch-2-mentoring/admin-view/` (Kelola data). Satu template HTML yang membaca sheet live (gviz); aset brand diambil dari `ikdd-sms-b2` ke `brand/assets.html` dan ditanam oleh `build.js`. Tanpa data contoh (keputusan user 28 Okt 2026): sebelum ada jawaban, semua bagian tampil kosong ("–", status menunggu); bila sheet tidak terbaca, muncul banner "Data belum bisa dimuat".
 - Section: Quotes of the Session (Rangkuman: Suara Mayoritas), Ringkasan (partisipasi + 4 kategori + NPS), Perbandingan Mentor (baris per kelompok, klik = filter Jawaban Peserta), Insight Sesi (identitas sesi / Rangkuman: Perbandingan per sesi dengan pil tint nilai tertinggi; evaluasi per aspek P1–P7; tren Kepuasan per kelompok), Catatan untuk Mentor, Suara Peserta, Jawaban Peserta (filter kelompok, tema dirujuk lewat ID).
 - Kolom Sesi dan Kelompok di tab Insight by Claude, Quotes of the Session, dan Catatan untuk Mentor berupa teks ("Mentoring 2", "Kelompok 1", "Rangkuman", "Semua") karena gviz mengosongkan nilai minoritas pada kolom campuran angka dan teks.
 

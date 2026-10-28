@@ -277,7 +277,7 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
 .source-pill { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
 .source-pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
 .source-pill.live i { background: var(--good); }
-.source-pill.sample i { background: var(--yellow); }
+.source-pill.error i { background: var(--warn); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1000px) {
@@ -317,7 +317,7 @@ dialog::backdrop { background: rgba(18, 42, 66, .45); }
     <span class="pill">Insight Feedback L1 · Mentoring Final Project SMS Batch 2</span>
     <h1>Feedback Peserta <b id="heroView">Mentoring –</b></h1>
     <p class="sub" id="heroSub">–</p>
-    <div class="banner" id="sampleBanner" hidden><b>Data contoh.</b> Angka dan komentar di halaman ini masih dummy untuk tampilan awal, sampai peserta mulai mengisi form evaluasi mentoring. <span data-admin-only>Hubungkan Google Sheet lewat tombol <b>Kelola data</b> di bawah.</span></div>
+    <div class="banner" id="errorBanner" hidden><b>Data belum bisa dimuat.</b> Google Sheet sumber dashboard tidak terbaca, coba muat ulang halaman beberapa saat lagi. <span data-admin-only>Cek akses sheet lewat tombol <b>Kelola data</b> di bawah.</span></div>
   </div>
 
   <section aria-labelledby="qTitle">
@@ -676,58 +676,6 @@ if (typeof module !== 'undefined') module.exports = Core;
 
 <script>
 /* ======================================================================
-   Sample data (dummy) shown until the sheet has answers.
-   ====================================================================== */
-const Sample = (() => {
-  let seed = 11;
-  const rand = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
-  const pick = a => a[Math.floor(rand() * a.length)];
-  const pengalaman = ['Mentor langsung kasih contoh slide yang lebih rapi, jadi kebayang revisinya', 'Feedbacknya detail per bagian deck, sangat membantu', 'Seru, mentor banyak cerita pengalaman di agency', 'Diskusinya interaktif, semua anggota diajak bicara', 'Arahan KPI-nya jelas, tapi waktunya terasa singkat', 'Mentor cepat balas di grup walaupun di luar jadwal', ''];
-  const perbaikan = ['Durasi diskusi ditambah', 'Jadwal mentoring dikabari lebih awal', 'Koneksi Zoom sempat putus', 'Template deck dibagikan sebelum sesi', 'Sudah baik', ''];
-  const mentors = { 1: 'Panji Pratama Lifianto', 2: 'Himmatul Ulya', 3: 'Enggartiasto Faudi R.' };
-  const counts = { 1: { 1: 7, 2: 6, 3: 6 }, 2: { 1: 6, 2: 5, 3: 2 } };
-  const bias = { 1: 0.2, 2: 0, 3: -0.35 };
-  const header = ['Sesi', 'Kelompok', 'Mentor', 'Sebarapa membantu feedback/arahan/saran yang diberikan mentormu dalam pengerjaan Final Project?', 'Seberapa tepat waktu mentor dalam melaksanakan sesi mentoring?', 'Seberapa interaktif mentormu dalam melaksanakan sesi mentoring?', 'Seberapa responsif mentormu dalam menjawab pertanyaan/memberikan feedback di luar sesi live mentoring?', 'Seberapa luas pengetahuan mentormu pada materi bootcamp?', 'Seberapa membantu mentormu dalam keseluruhan proses belajarmu di Final Project ini?', 'Seberapa puaskah kamu dengan sesi mentoring ini secara keseluruhan', 'Dari skala 0 hingga 10, seberapa besar kamu akan merekomendasikan sesi mentoring ini?', 'Bagaimana pengalamanmu selama sesi mentoring bersama mentor? Ceritakan hal yang paling berkesan, serta masukan yang ingin kamu sampaikan untuk mentor.', 'Bagian pada sesi mentoring yang perlu diperbaiki, boleh dari segi pelaksanaan, technicalities, atau lainnya...', 'Timestamp', 'ID Responden'];
-  const feedback = [header];
-  for (const s of [1, 2]) for (const k of [1, 2, 3]) for (let i = 0; i < counts[s][k]; i++) {
-    const b = bias[k] + (s === 2 ? 0.1 : 0);
-    const sc = d => String(Math.max(1, Math.min(5, Math.round(4.4 + b + d + (rand() - 0.5) * 1.3))));
-    feedback.push([String(s), String(k), mentors[k], sc(0.1), sc(-0.2), sc(0), sc(-0.4), sc(0.3), sc(0.1), sc(0), String(Math.min(10, Math.round(7.5 + b * 3 + rand() * 2.8))), pick(pengalaman), pick(perbaikan), '', `M${s}-K${k}-${String(i + 1).padStart(2, '0')}`]);
-  }
-  const info = [['Sesi', 'Tanggal', 'Stage', 'Fokus Mentoring', 'Output Kelompok', 'Jumlah Peserta'],
-    ['1', 'Rabu, 28 Oktober 2026', 'Stage 1: Project Preparation', 'Project Preparation', 'Project Plan Deck', '20'],
-    ['2', 'Jumat, 30 Oktober 2026', 'Stage 2: Execution', 'Review Project Plan', 'Produksi dan publikasi konten, profile optimization, community management, eksekusi iklan', '20'],
-    ['3', 'Rabu, 4 November 2026', 'Stage 3: Evaluation & Iteration', 'Evaluation & Strategy Adjustment', 'Evaluation Report', '20'],
-    ['4', 'Selasa, 10 November 2026', 'Stage 4: Project Reporting', 'Final Deck & Presentation Preparation', 'Final Comprehensive Deck', '20']];
-  const kelompok = [['Kelompok', 'Mentor', 'Jumlah Anggota'], ['1', mentors[1], '7'], ['2', mentors[2], '7'], ['3', mentors[3], '6']];
-  const insight = [['Sesi', 'Kelompok', 'Panel', 'Tema', 'Jumlah', 'ID Responden', 'Kutipan', 'Kata Kunci'],
-    ['Mentoring 1', 'Semua', 'Diapresiasi', 'Feedback detail per bagian deck', '9', 'M1-K1-01|M1-K1-02|M1-K1-04|M1-K2-01|M1-K2-03|M1-K2-05|M1-K3-02|M1-K3-03|M1-K3-06', 'Feedbacknya detail per bagian deck, sangat membantu', 'detail|deck|slide'],
-    ['Mentoring 1', 'Kelompok 2', 'Diapresiasi', 'Diskusi interaktif, semua anggota diajak bicara', '3', 'M1-K2-02|M1-K2-04|M1-K2-06', 'Diskusinya interaktif, semua anggota diajak bicara', 'interaktif|diajak'],
-    ['Mentoring 1', 'Semua', 'Masukan untuk mentor', 'Waktu diskusi terasa singkat', '4', 'M1-K1-03|M1-K2-02|M1-K3-01|M1-K3-04', 'Arahan KPI-nya jelas, tapi waktunya terasa singkat', 'singkat|durasi'],
-    ['Mentoring 1', 'Semua', 'Perbaikan pelaksanaan', 'Jadwal mentoring dikabari lebih awal', '3', 'M1-K1-05|M1-K3-02|M1-K3-05', 'Jadwal mentoring dikabari lebih awal', 'jadwal'],
-    ['Mentoring 2', 'Semua', 'Diapresiasi', 'Mentor responsif di grup', '6', 'M2-K1-01|M2-K1-03|M2-K1-05|M2-K2-02|M2-K2-04|M2-K3-01', 'Mentor cepat balas di grup walaupun di luar jadwal', 'balas|grup|responsif'],
-    ['Mentoring 2', 'Kelompok 3', 'Perbaikan pelaksanaan', 'Koneksi Zoom tidak stabil', '2', 'M2-K3-01|M2-K3-02', 'Koneksi Zoom sempat putus', 'zoom|koneksi'],
-    ['Rangkuman', 'Semua', 'Diapresiasi', 'Feedback detail per bagian deck', '13', '', 'Feedbacknya detail per bagian deck, sangat membantu', 'detail|deck'],
-    ['Rangkuman', 'Semua', 'Masukan untuk mentor', 'Waktu diskusi terasa singkat', '6', '', 'Arahan KPI-nya jelas, tapi waktunya terasa singkat', 'singkat']];
-  const quotes = [['Sesi', 'Kelompok', 'Kutipan', 'Tema', 'ID Responden'],
-    ['Mentoring 1', 'Kelompok 1', 'Mentor langsung kasih contoh slide yang lebih rapi, jadi kebayang revisinya', 'Feedback detail per bagian deck', 'M1-K1-02'],
-    ['Mentoring 1', 'Kelompok 2', 'Diskusinya interaktif, semua anggota diajak bicara', 'Diskusi interaktif', 'M1-K2-04'],
-    ['Mentoring 2', 'Kelompok 1', 'Mentor cepat balas di grup walaupun di luar jadwal', 'Mentor responsif', 'M2-K1-03'],
-    ['Mentoring 1', 'Kelompok 3', 'Arahan KPI-nya jelas, jadi tahu target yang realistis', 'Arahan KPI jelas', 'M1-K3-02'],
-    ['Rangkuman', 'Kelompok 1', 'Mentor langsung kasih contoh slide yang lebih rapi, jadi kebayang revisinya', 'Feedback detail per bagian deck', 'M1-K1-02'],
-    ['Rangkuman', 'Kelompok 2', 'Diskusinya interaktif, semua anggota diajak bicara', 'Diskusi interaktif', 'M1-K2-04'],
-    ['Rangkuman', 'Kelompok 3', 'Arahan KPI-nya jelas, jadi tahu target yang realistis', 'Arahan KPI jelas', 'M1-K3-02']];
-  const notes = [['Sesi', 'Kelompok', 'Mentor', 'Pertahankan', 'Sesuaikan', 'ID Responden'],
-    ['Mentoring 1', 'Kelompok 1', mentors[1], 'Contoh revisi slide yang konkret', 'Sisakan waktu tanya jawab di akhir sesi', ''],
-    ['Mentoring 1', 'Kelompok 2', mentors[2], 'Mengajak semua anggota bicara', 'Kirim ringkasan arahan setelah sesi', ''],
-    ['Mentoring 1', 'Kelompok 3', mentors[3], 'Arahan KPI yang jelas', 'Mulai sesi tepat waktu', ''],
-    ['Mentoring 2', 'Kelompok 1', mentors[1], 'Cepat membalas di grup', 'Bahas budget iklan lebih rinci', '']];
-  return { feedback, info, kelompok, insight, quotes, notes };
-})();
-</script>
-
-<script>
-/* ======================================================================
    App: data loading, state and rendering.
    ====================================================================== */
 (() => {
@@ -747,7 +695,7 @@ const Sample = (() => {
   const publicPath = location.pathname.replace(/admin-view\/?$/, '');
   if (!ADMIN) document.querySelectorAll('[data-admin-only]').forEach(el => el.remove());
 
-  const state = { data: null, source: 'sample', sheetId: null, view: null, search: '', theme: null, kel: 'all', focus: 'all' };
+  const state = { data: null, source: 'error', sheetId: null, view: null, search: '', theme: null, kel: 'all', focus: 'all' };
 
   /* ---------------- Loading ---------------- */
   async function fetchTab(id, name) {
@@ -795,10 +743,10 @@ const Sample = (() => {
     if (!state.data) {
       try {
         const d = await loadFromSheet(state.sheetId);
-        if (d.responses.length) { state.data = d; state.source = 'sheet'; }
+        state.data = d; state.source = 'sheet';
       } catch (e) { console.warn('Gagal memuat sheet:', e.message); }
     }
-    if (!state.data) { state.data = buildData(Sample); state.source = 'sample'; }
+    if (!state.data) { state.data = buildData({}); state.source = 'error'; }
 
     const hash = location.hash;
     const hashSesi = Number((hash.match(/sesi=(\d+)/) || [])[1]);
@@ -839,7 +787,7 @@ const Sample = (() => {
     $('heroSub').textContent = all
       ? `${held.length ? `Mentoring ${held[0]}${held.length > 1 ? `–${held[held.length - 1]}` : ''}` : 'Belum ada sesi'} · ${totalFor(held[0])} peserta · ${rows.length} jawaban feedback`
       : [info.tanggal || CONFIG.sessionDates[v - 1], info.stage].filter(Boolean).join(' · ');
-    $('sampleBanner').hidden = state.source !== 'sample';
+    $('errorBanner').hidden = state.source !== 'error';
     $('targetNote').textContent = prevSesi != null ? `Δ dibandingkan ${sesiLabel(prevSesi)}` : '';
     document.title = `${all ? 'Rangkuman' : sesiLabel(v)} · Insight L1 IKDD SMS Batch 2 Mentoring`;
 
@@ -1148,8 +1096,8 @@ const Sample = (() => {
 
   function renderSource() {
     const pill = $('sourcePill');
-    const label = { sheet: 'Google Sheet', upload: 'File upload (browser ini)', sample: 'Data contoh' }[state.source];
-    pill.className = `source-pill ${state.source === 'sheet' ? 'live' : state.source === 'sample' ? 'sample' : ''}`;
+    const label = { sheet: 'Google Sheet', upload: 'File upload (browser ini)', error: 'Sheet tidak terbaca' }[state.source];
+    pill.className = `source-pill ${state.source === 'sheet' ? 'live' : state.source === 'error' ? 'error' : ''}`;
     pill.querySelector('span').textContent = label;
   }
 
@@ -1178,10 +1126,9 @@ const Sample = (() => {
       const d = await loadFromSheet(id);
       state.sheetId = id; store.set(KEY_SHEET, id); store.del(KEY_UPLOAD);
       $('openSheetBtn').href = sheetUrl(id);
-      if (!d.responses.length) { status('sheetStatus', 'Terhubung, tetapi belum ada jawaban di tab 00. Feedback Mentoring Peserta. Dashboard tetap menampilkan data contoh.', true); return; }
       state.data = d; state.source = 'sheet';
       state.view = latestSesi(); state.theme = null; state.kel = 'all'; render();
-      status('sheetStatus', `Terhubung. ${d.responses.length} jawaban dari ${sessionsWithData().length} sesi dimuat.`, true);
+      status('sheetStatus', d.responses.length ? `Terhubung. ${d.responses.length} jawaban dari ${sessionsWithData().length} sesi dimuat.` : 'Terhubung, belum ada jawaban di tab 00. Feedback Mentoring Peserta.', true);
     } catch (e) {
       status('sheetStatus', `Gagal memuat: ${e.message}. Pastikan sheet dibagikan "Anyone with the link: Viewer".`, false);
     }
@@ -1222,8 +1169,7 @@ const Sample = (() => {
   async function reset() {
     store.del(KEY_SHEET); store.del(KEY_UPLOAD);
     state.sheetId = CONFIG.defaultSheetId; state.data = null;
-    try { const d = await loadFromSheet(state.sheetId); if (d.responses.length) { state.data = d; state.source = 'sheet'; } } catch { /* falls back to sample */ }
-    if (!state.data) { state.data = buildData(Sample); state.source = 'sample'; }
+    try { state.data = await loadFromSheet(state.sheetId); state.source = 'sheet'; } catch { state.data = buildData({}); state.source = 'error'; }
     state.view = latestSesi(); state.theme = null; state.kel = 'all'; render(); $('manage').close();
   }
 
